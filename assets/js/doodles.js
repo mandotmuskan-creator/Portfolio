@@ -39,6 +39,51 @@ const DOODLE = {
 
 
 
+  /* ---------- arrows ----------
+     Each head is two symmetric legs meeting exactly at the tip, angled
+     off the shaft's tangent there. Drawn as one smooth curve through the
+     tip instead, the V comes out lopsided. ---------- */
+
+  arrowRight: `<svg viewBox="0 0 100 40" class="doodle" aria-hidden="true">
+    <path class="stroke" d="M6 20 C28 15 56 25 88 19"/>
+    <path class="stroke" d="M76.5 15.4 L88.0 19.0 L78.6 26.5"/>
+  </svg>`,
+
+  arrowDown: `<svg viewBox="0 0 40 92" class="doodle" aria-hidden="true">
+    <path class="stroke" d="M20 6 C16 26 24 48 20 78"/>
+    <path class="stroke" d="M27.6 67.4 L20.0 78.0 L15.5 65.8"/>
+  </svg>`,
+
+  arrowTiny: `<svg viewBox="0 0 40 26" class="doodle" aria-hidden="true">
+    <path class="stroke stroke-thin" d="M4 13 C14 10 24 15 34 12"/>
+    <path class="stroke stroke-thin" d="M26.1 10.6 L34.0 12.0 L28.2 17.5"/>
+  </svg>`,
+
+  arrowCurveR: `<svg viewBox="0 0 124 68" class="doodle" aria-hidden="true">
+    <path class="stroke" d="M6 14 C34 2 74 6 100 34"/>
+    <path class="stroke" d="M96.9 20.4 L100.0 34.0 L86.6 29.9"/>
+  </svg>`,
+
+  arrowCurveL: `<svg viewBox="0 0 124 68" class="doodle" aria-hidden="true">
+    <path class="stroke" d="M118 14 C90 2 50 6 24 34"/>
+    <path class="stroke" d="M37.4 29.9 L24.0 34.0 L27.1 20.4"/>
+  </svg>`,
+
+  arrowCurl: `<svg viewBox="0 0 110 78" class="doodle" aria-hidden="true">
+    <path class="stroke" d="M6 10 C34 4 44 22 54 38 C62 51 76 60 96 62"/>
+    <path class="stroke" d="M84.6 53.8 L96.0 62.0 L83.2 67.8"/>
+  </svg>`,
+
+  arrowLoop: `<svg viewBox="0 0 72 108" class="doodle" aria-hidden="true">
+    <path class="stroke" d="M14 6 C34 22 20 44 30 60 C38 73 52 78 56 92"/>
+    <path class="stroke" d="M59.2 79.4 L56.0 92.0 L46.7 83.0"/>
+  </svg>`,
+
+  arrowElbow: `<svg viewBox="0 0 72 72" class="doodle" aria-hidden="true">
+    <path class="stroke stroke-thin" d="M8 8 C10 32 18 50 44 56"/>
+    <path class="stroke stroke-thin" d="M35.7 48.8 L44.0 56.0 L33.4 58.8"/>
+  </svg>`,
+
   /* ---------- clumsy things ---------- */
 
   cup: `<svg viewBox="0 0 108 104" class="doodle" aria-hidden="true">

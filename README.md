@@ -11,7 +11,7 @@ Store screens are rebuilt in markup rather than exported as images.
 
 | File           | What it is                                                        |
 | -------------- | ----------------------------------------------------------------- |
-| `index.html`   | Home — hero, approach, the two projects, about, closing            |
+| `index.html`   | Home — hero, the two projects, about, how I work, closing          |
 | `work.html`    | All projects, filterable                                           |
 | `project.html` | Case study template · `project.html?p=<slug>`                      |
 | `about.html`   | About me                                                           |
@@ -42,7 +42,7 @@ array in the order you want it shown.
   tools:    ['Figma'],
   platform: 'Responsive web',        // say "Mobile" and the page uses phone frames
   tags:     ['UX/UI', 'Web'],        // these become the filters on work.html
-  accent:   'navy',                  // navy · blue · cream · red
+  accent:   'navy',                  // navy · blue · cream
   cover:    'assets/img/projects/my-project-01.jpg',
   coverFit: 'top',                   // 'top' for tall screenshots, 'cover' otherwise
   focus:    ['Three short lines', 'shown on the', 'home page card'],
@@ -118,7 +118,7 @@ Both are set as variables at the top of `assets/css/base.css`.
 | `--paper`   | `#FCFAF5` | the deck's light pages             |
 | `--blue`    | `#3F6F97` | the deck's doodle and label blue    |
 | `--sky`     | `#D6F1FF` | doodle ink on navy                 |
-| `--red`     | `#FF3B2A` | the accent                          |
+| `--accent`  | `#1B74B8` | the accent (`--accent-lt` on navy)  |
 
 Type is **Instrument Serif** (display moments — put `.display` on the element),
 **Inter** (everything else, including plain `h1`–`h4`) and **Caveat** (used only
@@ -142,7 +142,7 @@ bandaid bananaPeel tangle paperPlane stickyNote clip bulb cloudThink eyes
 footprints check laptop phone palette ruler coffee compass plant book globe
 camera frameTape mascotTrip mascotPull mascotWave mascotPeek`.
 
-They inherit `color`, so `style="color: var(--red)"` recolours one. To draw a new
+They inherit `color`, so `style="color: var(--accent)"` recolours one. To draw a new
 one, add another entry to the `DOODLE` object using `class="stroke"` on the paths.
 
 Doodles are used generously on the home page, the About page and the closing
@@ -152,7 +152,7 @@ panel. Case study pages deliberately stay quiet — arrows only.
 
 ## How the home page works
 
-Straight vertical scroll, in five acts: hero, approach, work, about, closing.
+Straight vertical scroll, in five acts: hero, work, about, how I work, closing.
 `assets/js/home.js` builds the project cards from `data.js` and runs the mascot.
 
 The mascot hauls her rope along in a **fixed slot pinned to the left gutter**
@@ -179,3 +179,11 @@ python3 -m http.server 8000
 It's plain files, so anything static will host it — GitHub Pages, Netlify,
 Vercel, Cloudflare Pages. For **GitHub Pages**: repo → Settings → Pages → deploy
 from a branch → pick the branch and `/ (root)`.
+
+### Arrowheads
+
+Every arrow's head is two symmetric legs meeting exactly at the tip, angled off
+the shaft's tangent at that point. Drawn instead as one smooth curve bending
+through the tip — the earlier approach — the V comes out lopsided and can vanish
+at small sizes. `scripts/arrows.py` regenerates them from a shaft and a tip if
+you ever need a new one.

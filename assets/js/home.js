@@ -32,10 +32,10 @@
           <p class="card__line">${escapeHtml(p.tagline)}</p>
           <ul class="card__focus">
             ${(p.focus || []).map((f) => `
-              <li><span>${escapeHtml(f)}</span></li>`).join('')}
+              <li><span class="doodle" data-doodle="arrowTiny"></span><span>${escapeHtml(f)}</span></li>`).join('')}
           </ul>
           <div class="card__foot">
-            <span class="card__go">Read the case study</span>
+            <span class="card__go">Read the case study <span class="doodle" data-doodle="arrowRight"></span></span>
             <span class="card__meta">${escapeHtml(p.year)} · ${escapeHtml(p.client)}</span>
           </div>
         </div>
