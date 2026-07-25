@@ -31,49 +31,13 @@ const DOODLE = {
     <path class="stroke" d="M4 30 C14 6 20 40 30 16 C38 -2 42 38 52 20 C60 5 64 36 74 22 C80 14 84 22 87 18"/>
   </svg>`,
 
-  /* ---------- arrows ---------- */
 
-  arrowCurveR: `<svg viewBox="0 0 120 64" class="doodle" aria-hidden="true">
-    <path class="stroke" d="M6 14 C34 2 74 6 100 34"/>
-    <path class="stroke" d="M86 26 C94 30 99 33 101 36 C97 39 92 44 90 51"/>
-  </svg>`,
 
-  arrowCurveL: `<svg viewBox="0 0 120 64" class="doodle" aria-hidden="true">
-    <path class="stroke" d="M114 14 C86 2 46 6 20 34"/>
-    <path class="stroke" d="M34 26 C26 30 21 33 19 36 C23 39 28 44 30 51"/>
-  </svg>`,
 
-  /* a curl then a flick — the one that points at things */
-  arrowCurl: `<svg viewBox="0 0 116 82" class="doodle" aria-hidden="true">
-    <path class="stroke" d="M6 12 C32 2 52 14 46 30 C41 43 24 43 25 31 C26 20 45 18 60 30 C74 41 88 50 104 54"/>
-    <path class="stroke" d="M90 44 C96 48 101 52 105 55 C99 58 93 63 90 70"/>
-  </svg>`,
 
-  arrowLoop: `<svg viewBox="0 0 90 120" class="doodle" aria-hidden="true">
-    <path class="stroke" d="M18 6 C40 20 22 40 34 54 C44 66 62 62 66 82 C68 94 60 104 50 110"/>
-    <path class="stroke" d="M60 100 C56 106 52 110 50 112 C46 108 40 104 33 102"/>
-  </svg>`,
 
-  arrowDown: `<svg viewBox="0 0 44 90" class="doodle" aria-hidden="true">
-    <path class="stroke" d="M22 6 C18 26 26 46 21 76"/>
-    <path class="stroke" d="M10 62 C14 68 19 74 21 80 C24 73 30 67 35 63"/>
-  </svg>`,
 
-  arrowRight: `<svg viewBox="0 0 96 40" class="doodle" aria-hidden="true">
-    <path class="stroke" d="M6 20 C28 16 56 24 86 19"/>
-    <path class="stroke" d="M70 8 C76 12 82 17 88 19 C81 22 75 28 71 33"/>
-  </svg>`,
 
-  /* the restrained one — case study pages use this instead of a doodle pile */
-  arrowTiny: `<svg viewBox="0 0 40 24" class="doodle" aria-hidden="true">
-    <path class="stroke stroke-thin" d="M4 12 C14 10 24 14 35 12"/>
-    <path class="stroke stroke-thin" d="M28 5 C31 8 34 11 36 12 C33 14 30 17 28 20"/>
-  </svg>`,
-
-  arrowElbow: `<svg viewBox="0 0 70 70" class="doodle" aria-hidden="true">
-    <path class="stroke stroke-thin" d="M8 8 C10 30 16 46 40 52"/>
-    <path class="stroke stroke-thin" d="M32 42 C36 47 40 50 44 53 C38 56 34 60 32 66"/>
-  </svg>`,
 
   /* ---------- clumsy things ---------- */
 

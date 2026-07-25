@@ -82,7 +82,7 @@
         ${heading(b.title)}
         <ul class="points reveal" data-delay="1">
           ${b.items.map((t) => `
-            <li><span class="doodle" data-doodle="arrowTiny"></span><span>${escapeHtml(t)}</span></li>`).join('')}
+            <li><span>${escapeHtml(t)}</span></li>`).join('')}
         </ul>
       </div>`,
 
@@ -135,7 +135,7 @@
         ${note(b.note)}
         <div class="flow reveal" data-delay="2">
           ${b.steps.map((s, i) => `
-            ${i ? `<span class="flow__arrow doodle" data-doodle="arrowTiny"></span>` : ''}
+            ${i ? `<span class="flow__link" aria-hidden="true"></span>` : ''}
             <div class="flow__step${s.optional ? ' is-optional' : ''}">
               <strong>${escapeHtml(s.label)}</strong>
               <span>${escapeHtml(s.sub)}</span>
@@ -246,7 +246,6 @@
             <h2 class="display nextup__title reveal" data-delay="1">${escapeHtml(next.title)}</h2>
             <span class="nextup__row reveal" data-delay="2">
               <span class="nextup__cat">${escapeHtml(next.category)}</span>
-              <span class="doodle" data-doodle="arrowRight"></span>
             </span>
           </a>
         </div>

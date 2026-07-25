@@ -57,35 +57,6 @@ function mountChrome() {
   }
 }
 
-/* ---------- cursor companion ----------
-   The native cursor stays put — this just tags along. */
-
-function mountCursor() {
-  if (REDUCED || COARSE) return;
-
-  const dot = document.createElement('div');
-  dot.className = 'cursor-dot';
-  document.body.appendChild(dot);
-
-  let tx = innerWidth / 2, ty = innerHeight / 2, x = tx, y = ty, on = false;
-
-  addEventListener('pointermove', (e) => {
-    tx = e.clientX; ty = e.clientY;
-    if (!on) { on = true; dot.classList.add('is-on'); x = tx; y = ty; }
-    const hot = e.target.closest('a, button, [data-hot]');
-    dot.classList.toggle('is-big', !!hot);
-  }, { passive: true });
-
-  addEventListener('pointerleave', () => { on = false; dot.classList.remove('is-on'); });
-
-  (function loop() {
-    x = lerp(x, tx, 0.18);
-    y = lerp(y, ty, 0.18);
-    dot.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-    requestAnimationFrame(loop);
-  })();
-}
-
 /* ---------- scroll reveals ---------- */
 
 function mountReveals(root = document) {
@@ -137,6 +108,5 @@ function escapeHtml(s) {
 
 document.addEventListener('DOMContentLoaded', () => {
   mountChrome();
-  mountCursor();
   mountReveals();
 });

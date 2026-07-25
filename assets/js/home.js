@@ -32,10 +32,10 @@
           <p class="card__line">${escapeHtml(p.tagline)}</p>
           <ul class="card__focus">
             ${(p.focus || []).map((f) => `
-              <li><span class="doodle" data-doodle="arrowTiny"></span><span>${escapeHtml(f)}</span></li>`).join('')}
+              <li><span>${escapeHtml(f)}</span></li>`).join('')}
           </ul>
           <div class="card__foot">
-            <span class="card__go">Read the case study <span class="doodle" data-doodle="arrowRight"></span></span>
+            <span class="card__go">Read the case study</span>
             <span class="card__meta">${escapeHtml(p.year)} · ${escapeHtml(p.client)}</span>
           </div>
         </div>
@@ -167,11 +167,52 @@
   }
 
   /* ---------------------------------------------------------
+     5 · both mascots follow the pointer with their eyes
+     --------------------------------------------------------- */
+
+  function mountEyes() {
+    if (REDUCE || window.matchMedia('(pointer: coarse)').matches) return;
+
+    const rigs = [
+      { host: document.getElementById('heroMascot'), sel: '.mk-eyes', reach: 3.4 },
+      { host: comp, sel: '.mkp-eyes', reach: 2.6 }
+    ]
+      .filter((r) => r.host)
+      .map((r) => ({ ...r, eyes: r.host.querySelector(r.sel) }))
+      .filter((r) => r.eyes);
+
+    if (!rigs.length) return;
+
+    let px = innerWidth / 2, py = innerHeight / 2, queued = 0;
+
+    const paint = () => {
+      queued = 0;
+      rigs.forEach((r) => {
+        const b = r.host.getBoundingClientRect();
+        if (!b.width) return;
+        // measured from the head, which sits in the upper part of each figure
+        const dx = clamp((px - (b.left + b.width * 0.5)) / (innerWidth * 0.45), -1, 1);
+        const dy = clamp((py - (b.top + b.height * 0.38)) / (innerHeight * 0.45), -1, 1);
+        r.eyes.setAttribute('transform',
+          `translate(${(dx * r.reach).toFixed(2)} ${(dy * r.reach * 0.75).toFixed(2)})`);
+      });
+    };
+
+    addEventListener('pointermove', (e) => {
+      px = e.clientX; py = e.clientY;
+      if (!queued) queued = requestAnimationFrame(paint);
+    }, { passive: true });
+
+    paint();
+  }
+
+  /* ---------------------------------------------------------
      start
      --------------------------------------------------------- */
 
   document.addEventListener('DOMContentLoaded', () => {
     findRig();
+    mountEyes();
     paintNav();
     if (REDUCE) {
       // no animation loop — just let her stand where she belongs
