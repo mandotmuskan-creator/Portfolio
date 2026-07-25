@@ -160,8 +160,9 @@ The mascot hauls her rope along in a **fixed slot pinned to the left gutter**
 rail and it clips, so neither she nor the rope can ever paint over a project
 card — the rope just runs out of sight underneath it. She leans into the pull
 when the page is moving, stands up when it stops, and says something if you
-hover or click her. Below 1440 px the gutter is too thin to hold her and she
-is hidden.
+hover or click her — the bubble is anchored above her figure's top edge, not
+to its top-left corner, which is where her head is. Below 1440 px the gutter is
+too thin to hold her and she is hidden.
 
 ---
 

@@ -505,7 +505,7 @@
   z-index: 45;
   width: calc(50vw - 590px);   /* 590px = half the 1180px content rail */
   max-width: 210px;
-  height: 190px;
+  height: 260px;               /* room for her, plus the bubble above her */
   overflow: hidden;
   color: var(--blue);
   opacity: 0;
@@ -545,12 +545,14 @@
   opacity: .45;
 }
 
-/* sits above her head and inside the clip, so it wraps rather than
-   getting sliced off at the gutter edge */
+/* Anchored to the TOP of her figure and pushed clear of it, not to the
+   figure's top-left corner — that corner is her head, which is what put
+   the bubble over her face. Stays inside the clip so it wraps at the
+   gutter edge instead of being sliced off. */
 .companion__say {
   position: absolute;
-  left: 0;
-  top: 0;
+  left: -4px;
+  bottom: calc(100% - 1px);    /* just clear of her bun, never over it */
   max-width: 106px;
   padding: .3em .6em;
   font-family: var(--f-hand);
@@ -564,7 +566,7 @@
   border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
   opacity: 0;
   transform: scale(.7) rotate(-6deg);
-  transform-origin: 0 100%;
+  transform-origin: 14% 100%;   /* pops up out of her head */
   transition: opacity .3s, transform .35s var(--e-back);
   pointer-events: none;
   z-index: 2;
