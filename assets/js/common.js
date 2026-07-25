@@ -49,6 +49,12 @@ function mountChrome() {
   }
 
   paintDoodles();
+
+  if (navHost) {
+    const stick = () => navHost.classList.toggle('is-stuck', scrollY > 40);
+    addEventListener('scroll', stick, { passive: true });
+    stick();
+  }
 }
 
 /* ---------- cursor companion ----------

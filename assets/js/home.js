@@ -166,10 +166,10 @@
 
   /* ---------- the mascot's effort ---------- */
 
-  const legF = () => document.getElementById('mkp-legF');
-  const legB = () => document.getElementById('mkp-legB');
-  const arm  = () => document.getElementById('mkp-arm');
-  const head = () => document.getElementById('mkp-head');
+  const legF = () => puller.querySelector('#mkp-legF');
+  const legB = () => puller.querySelector('#mkp-legB');
+  const arm  = () => puller.querySelector('#mkp-arm');
+  const head = () => puller.querySelector('#mkp-head');
 
   function animatePuller(effort) {
     armPhase += 0.03 + effort * 0.09;
@@ -215,9 +215,11 @@
     document.body.classList.toggle('on-dark-left', !!(atLeft && atLeft.dark));
     rail.classList.toggle('on-dark', !!(atLeft && atLeft.dark));
 
-    /* --- rope + cards, only while the projects are in play --- */
+    /* --- rope + cards, only while the projects are actually in play.
+           She arrives once the first card is well into frame and leaves
+           as the last one clears her, so she never stands on the copy. --- */
     const first = cards[0], last = cards[cards.length - 1];
-    const ropeOn = first && current > first.cx - viewW * 1.15 && current < last.cx + viewW * 0.55;
+    const ropeOn = first && current > first.cx - viewW * 0.58 && current < last.cx - viewW * 0.02;
 
     ropeSvg.classList.toggle('is-on', !!ropeOn);
     puller.classList.toggle('is-on', !!ropeOn);
@@ -235,11 +237,11 @@
         c.av *= 0.88;
         c.a += c.av;
         c.a = clamp(c.a, -9, 9);
+        // written every frame, on screen or not, so an off-screen card never
+        // snaps back into view holding a stale angle
         const x = c.cx - current;
-        if (x > -320 && x < viewW + 320) {
-          c.el.style.transformOrigin = `50% ${(ropeY(x, level, sag, whip) - c.top).toFixed(1)}px`;
-          c.el.style.transform = `rotate(${c.a.toFixed(2)}deg)`;
-        }
+        c.el.style.transformOrigin = `50% ${(ropeY(x, level, sag, whip) - c.top).toFixed(1)}px`;
+        c.el.style.transform = `rotate(${c.a.toFixed(2)}deg)`;
       });
 
       drawRope(level, sag, whip);
@@ -329,17 +331,33 @@
       track.style.transform = '';
       spacer.style.height = '';
       ropeSvg.innerHTML = '';
-      document.body.classList.remove('on-dark-left');
+      current = 0;
       cards.forEach((c) => { c.el.style.transform = ''; c.el.style.transformOrigin = ''; });
+      document.querySelectorAll('.dood, .hero__oops, .hero__mascot').forEach((el) => { el.style.translate = ''; });
     }
   }
 
   /* ---------- boot ---------- */
 
+  /* in the vertical layout the nav sits on the navy hero and needs to go light */
+  function watchHeroForNav() {
+    const hero = track.querySelector('.panel--hero');
+    const tick = () => {
+      if (enabled) return;
+      document.body.classList.toggle('on-dark-left', scrollY < hero.offsetHeight - 74);
+    };
+    addEventListener('scroll', tick, { passive: true });
+    addEventListener('resize', tick);
+    tick();
+  }
+
   function boot() {
     buildCards();
+    // the standing copy of the mascot is decorative — keep the rig IDs unique
+    document.querySelectorAll('.handoff__mascot [id]').forEach((n) => n.removeAttribute('id'));
     setupHero();
     setupInput();
+    watchHeroForNav();
     decideMode();
     measure();
     mountReveals(track);

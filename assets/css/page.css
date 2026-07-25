@@ -222,10 +222,12 @@
   color: var(--paper);
   background: var(--navy);
   border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
-  transition: transform .3s var(--e-back), box-shadow .3s;
+  transition: transform .3s var(--e-back), box-shadow .3s, opacity .3s;
 }
 .cs-back .doodle { width: 26px; transform: scaleX(-1); }
 .cs-back:hover { transform: translateY(-3px); box-shadow: 4px 5px 0 var(--red); }
+/* stands down once you reach the footer, which has its own way out */
+.cs-back.is-away { opacity: 0; pointer-events: none; transform: translateY(12px); }
 
 /* reading progress, drawn as a pencil line */
 .cs-progress {

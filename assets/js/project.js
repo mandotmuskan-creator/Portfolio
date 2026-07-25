@@ -197,8 +197,13 @@
   /* reading progress, and a nav that flips to light over the navy hero */
   const bar = document.getElementById('csProgress');
   const hero = main.querySelector('.cs-hero');
+  const back = document.querySelector('.cs-back');
+  const foot = document.querySelector('[data-foot]');   // class is set later, by common.js
 
   const tick = () => {
+    if (back && foot) {
+      back.classList.toggle('is-away', foot.getBoundingClientRect().top < innerHeight - 120);
+    }
     if (bar) {
       const h = document.documentElement.scrollHeight - innerHeight;
       bar.style.width = (clamp(scrollY / Math.max(1, h), 0, 1) * 100).toFixed(2) + '%';
