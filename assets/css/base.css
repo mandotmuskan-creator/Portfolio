@@ -46,9 +46,10 @@ a { color: inherit; text-decoration: none; }
   --ink:         var(--navy);
   --bg:          var(--paper);
 
-  /* type */
-  --f-display: "Fraunces", "Iowan Old Style", Georgia, serif;
-  --f-body:    "Nunito", "Avenir Next", system-ui, -apple-system, sans-serif;
+  /* type — serif for display moments, Inter for the actual reading,
+     Caveat kept strictly for hand-written annotations */
+  --f-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --f-body:    "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --f-hand:    "Caveat", "Bradley Hand", cursive;
 
   /* rhythm */
@@ -89,22 +90,33 @@ body.is-navy { background: var(--navy); color: var(--paper); }
 
 ::selection { background: var(--red); color: #fff; }
 
-/* ---------- type scale ---------- */
-.display,
-h1, h2, h3 {
+/* ---------- type scale ----------
+   Only .display reaches for the serif. Plain headings stay in Inter so
+   card titles and UI labels read as interface, not as decoration. */
+.display {
   font-family: var(--f-display);
   font-weight: 400;
-  font-variation-settings: "SOFT" 0, "WONK" 0, "opsz" 96;
-  line-height: 1.02;
-  letter-spacing: -.018em;
+  line-height: 1.04;
+  letter-spacing: -.021em;
   text-wrap: balance;
 }
 
-.d-xxl { font-size: clamp(3.2rem, 11vw, 10.5rem); }
-.d-xl  { font-size: clamp(2.6rem, 6.6vw, 6rem); }
-.d-lg  { font-size: clamp(2.1rem, 4.4vw, 3.9rem); }
-.d-md  { font-size: clamp(1.6rem, 2.8vw, 2.5rem); }
-.d-sm  { font-size: clamp(1.25rem, 1.7vw, 1.6rem); }
+h1, h2, h3, h4 {
+  font-family: var(--f-body);
+  font-weight: 600;
+  line-height: 1.18;
+  letter-spacing: -.017em;
+  text-wrap: balance;
+}
+
+.d-xxl { font-size: clamp(3.6rem, 12.5vw, 11.5rem); }
+.d-xl  { font-size: clamp(2.9rem, 7.4vw, 6.8rem); }
+.d-lg  { font-size: clamp(2.3rem, 5vw, 4.3rem); }
+.d-md  { font-size: clamp(1.8rem, 3.1vw, 2.8rem); }
+.d-sm  { font-size: clamp(1.35rem, 1.9vw, 1.8rem); }
+
+/* an italic-ish emphasis inside display lines, without a second font file */
+.display em { font-style: italic; }
 
 .hand {
   font-family: var(--f-hand);
@@ -116,15 +128,26 @@ h1, h2, h3 {
 .hand-md { font-size: clamp(1.15rem, 1.5vw, 1.5rem); }
 .hand-sm { font-size: clamp(1rem, 1.1vw, 1.2rem); }
 
+/* the quiet, professional section label */
 .eyebrow {
-  font-family: var(--f-hand);
-  font-weight: 700;
-  font-size: clamp(1.05rem, 1.3vw, 1.35rem);
-  letter-spacing: .04em;
+  font-family: var(--f-body);
+  font-weight: 600;
+  font-size: .76rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
   color: var(--blue);
 }
 .is-navy .eyebrow,
 .on-navy .eyebrow { color: var(--sky-mid); }
+
+/* the playful one — same slot in the layout, hand-written instead */
+.eyebrow--hand {
+  font-family: var(--f-hand);
+  font-weight: 700;
+  font-size: clamp(1.05rem, 1.3vw, 1.35rem);
+  letter-spacing: .02em;
+  text-transform: none;
+}
 
 .label {
   font-size: .72rem;
@@ -237,10 +260,11 @@ h1, h2, h3 {
   display: inline-flex;
   align-items: center;
   gap: .6em;
-  padding: .74em 1.5em;
-  font-family: var(--f-hand);
-  font-weight: 700;
-  font-size: 1.22rem;
+  padding: .82em 1.55em;
+  font-family: var(--f-body);
+  font-weight: 600;
+  font-size: .95rem;
+  letter-spacing: -.005em;
   color: var(--btn-fg);
   background: transparent;
   border: 2.2px solid currentColor;
@@ -336,25 +360,26 @@ h1, h2, h3 {
 body.on-dark-left .nav::before,
 body.is-navy .nav::before { background: var(--navy); box-shadow: 0 1px 0 rgba(214, 241, 255, .12); }
 
+/* wordmark only — no logo, just her name and a full stop */
 .nav__mark {
   display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--f-hand);
-  font-weight: 700;
-  font-size: 1.3rem;
-  letter-spacing: .01em;
+  align-items: baseline;
+  gap: 2px;
+  font-family: var(--f-body);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: -.014em;
 }
-.nav__mark svg { width: 30px; height: 30px; flex: none; }
-.nav__mark:hover svg { animation: wobble .6s var(--e-soft); }
+.nav__mark i { font-style: normal; color: var(--red); }
 
 .nav__links {
   display: flex;
   align-items: center;
-  gap: clamp(14px, 2vw, 30px);
-  font-family: var(--f-hand);
-  font-weight: 700;
-  font-size: 1.18rem;
+  gap: clamp(16px, 2.2vw, 32px);
+  font-family: var(--f-body);
+  font-weight: 500;
+  font-size: .95rem;
+  letter-spacing: -.008em;
 }
 .nav__links a { position: relative; padding: 2px 2px 4px; }
 .nav__links a::after {
@@ -410,9 +435,10 @@ body.is-navy .nav__links a::after {
   margin-top: 34px;
 }
 .foot__mail {
-  font-family: var(--f-hand);
-  font-size: clamp(1.4rem, 2.4vw, 2rem);
-  font-weight: 700;
+  font-family: var(--f-display);
+  font-size: clamp(1.4rem, 2.6vw, 2.2rem);
+  font-weight: 400;
+  letter-spacing: -.015em;
   color: var(--sky);
 }
 .foot__meta {

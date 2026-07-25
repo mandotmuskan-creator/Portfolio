@@ -5,8 +5,8 @@
    1. Drop images in  assets/img/projects/
    2. Copy one block below, change the values, put it in the
       order you want it to appear.
-   That's it — the home rope, the work grid and the case study
-   page all read from this array.
+   The home page, the work grid and the case study page all
+   read from this array.
 
    Block reference
    ---------------
@@ -21,18 +21,135 @@
    platform  web / mobile / both
    tags      array — powers the filters on /work.html
    accent    card colour: "navy" | "blue" | "cream" | "red"
-   cover     card image
+   cover     card image  (or coverMock for a drawn-in-code cover)
    coverFit  "cover" (fill the card) | "top" (pin to the top)
+   focus     three short lines shown on the home card
    intro     array of paragraphs — the overview
-   roleNote  the "My Role" line from the deck
+   roleNote  the one-line "My Role" summary
    sections  array of { kind, ... } blocks, rendered in order:
-               { kind:'text',   title, body:[..] }
-               { kind:'points', title, items:[..] }
-               { kind:'full',   src, caption, frame:'browser'|'plain', long:true }
-               { kind:'duo',    items:[{src,caption}, {src,caption}] }
-               { kind:'phones', items:[{src,caption}] }
-               { kind:'quote',  text }
+               { kind:'text',    title, body:[..] }
+               { kind:'points',  title, items:[..] }
+               { kind:'quote',   text }
+               { kind:'stats',   items:[{ figure, label }] }
+               { kind:'journey', title, note, stages:[{ phase, doing, feeling, move }] }
+               { kind:'flow',    title, note, steps:[{ label, sub }] }
+               { kind:'split',   title, items:[{ head, body }] }
+               { kind:'full',    src, caption, frame:'browser'|'plain', long:true }
+               { kind:'duo',     items:[{src,caption}], long }
+               { kind:'phones',  items:[{src,caption}] }
+               { kind:'mock',    device:'desktop'|'mobile', html, caption }
+               { kind:'mocks',   items:[{ device, html, caption }] }
    ========================================================= */
+
+/* ---------------------------------------------------------
+   Disney Store screens are rebuilt here in HTML rather than
+   exported as flat images, so they stay sharp at any size and
+   the page keeps its no-external-assets rule. Styling lives
+   under the .mk namespace in page.css.
+   --------------------------------------------------------- */
+
+const DSW = `<span class="mk-dsw"><em>Disney</em> store</span>`;
+
+const MOCK_JOIN = `
+  <div class="mk mk-modal">
+    <span class="mk-x">×</span>
+    <div class="mk-logo">${DSW}</div>
+    <h3 class="mk-h">Get extra perks with Disney Club</h3>
+    <p class="mk-p">Enjoy exclusive offers, early access and delivery savings — just for being a member.</p>
+    <span class="mk-link">See All Benefits</span>
+    <span class="mk-btn">Join Disney Store Club</span>
+    <p class="mk-note">By joining, you agree to <u>Disney Store terms</u>.</p>
+  </div>`;
+
+const MOCK_WELCOME = `
+  <div class="mk mk-modal">
+    <span class="mk-x">×</span>
+    <div class="mk-band">
+      <div class="mk-logo mk-logo--light">${DSW}</div>
+      <h3 class="mk-h mk-h--light">You're in! Welcome to Disney Club</h3>
+      <p class="mk-p mk-p--light">Your free membership is now active! Enjoy member-only offers, early access and delivery savings.</p>
+    </div>
+    <div class="mk-panel">
+      <span class="mk-ears"></span>
+      <p class="mk-p">Want more relevant perks? Tell us what you're into.<br>You can update this later in My Account.</p>
+    </div>
+    <p class="mk-note">Make sure you're opted into receive communications, so you don't miss out on latest perks. <u>Manage preferences</u></p>
+    <span class="mk-btn">Start personalising</span>
+    <span class="mk-link mk-link--quiet">Skip for now</span>
+  </div>`;
+
+const MOCK_PICKER = `
+  <div class="mk mk-picker">
+    <span class="mk-x">×</span>
+    <div class="mk-logo">${DSW}</div>
+    <div class="mk-card">
+      <h3 class="mk-h mk-h--sm">Who's your favourite in the Disney universe?</h3>
+      <p class="mk-p mk-p--sm">Pick your favourite to personalise your theme. You can always change it later.</p>
+      <div class="mk-tiles">
+        <div class="mk-tile"><span class="mk-thumb mk-thumb--1"></span><span class="mk-pill">Mickey &amp; Friends</span></div>
+        <div class="mk-tile"><span class="mk-thumb mk-thumb--2"></span><span class="mk-pill">Stitch</span></div>
+        <div class="mk-tile"><span class="mk-thumb mk-thumb--3"></span><span class="mk-pill">Disney Princesses</span></div>
+        <div class="mk-tile"><span class="mk-thumb mk-thumb--4"></span><span class="mk-pill">Marvel Heroes</span></div>
+        <div class="mk-tile is-on"><span class="mk-thumb mk-thumb--5"></span><span class="mk-pill">Star Wars</span></div>
+        <div class="mk-tile"><span class="mk-thumb mk-thumb--6"></span><span class="mk-pill">A Bit of Everything</span></div>
+      </div>
+      <span class="mk-btn">Continue</span>
+      <span class="mk-link mk-link--quiet">Skip for now</span>
+    </div>
+  </div>`;
+
+const MOCK_DONE = `
+  <div class="mk mk-modal mk-modal--sm">
+    <span class="mk-x">×</span>
+    <div class="mk-hero-art"></div>
+    <h3 class="mk-h mk-h--sm">Your Disney world is set ✨</h3>
+    <p class="mk-p mk-p--sm">We'll use this to shape the offers and stories you see. Change it any time in My Account.</p>
+    <span class="mk-btn">Start exploring</span>
+  </div>`;
+
+const MOCK_LEAVE = `
+  <div class="mk mk-modal mk-modal--sm">
+    <span class="mk-x">×</span>
+    <div class="mk-hero-art mk-hero-art--grey"></div>
+    <h3 class="mk-h mk-h--sm">Leave the club?</h3>
+    <p class="mk-p mk-p--sm">You'll lose member pricing, early access and your saved personalisation. You can rejoin at any time.</p>
+    <span class="mk-btn">Stay a member</span>
+    <span class="mk-link mk-link--quiet">Leave club</span>
+  </div>`;
+
+const MOCK_ACCOUNT = `
+  <div class="mk mk-acct">
+    <div class="mk-topbar">Send magic with a Disney Store eGift Card &nbsp;|&nbsp; <u>Shop now</u></div>
+    <div class="mk-nav">
+      <span class="mk-nav__links">Disney+ · Disney.co.uk · Outlet · Help</span>
+      <div class="mk-logo mk-logo--sm">${DSW}</div>
+      <span class="mk-nav__links">Sign In &nbsp; ♡ Wish List &nbsp; ⛉ Bag</span>
+    </div>
+    <div class="mk-acct__body">
+      <aside class="mk-side">
+        <div class="mk-side__me"><span class="mk-avatar"></span><span><b>Hi, Sally Sullivan</b><br><small>sally@email.com</small></span></div>
+        <ul class="mk-side__nav">
+          <li>My Account Overview</li>
+          <li class="is-on">Disney Club <span class="mk-badge">Member</span></li>
+          <li>Order History</li>
+          <li>Wish List <span class="mk-badge">12</span></li>
+          <li>Info &amp; Settings</li>
+        </ul>
+      </aside>
+      <div class="mk-acct__main">
+        <div class="mk-strip">
+          <span><b>Your theme</b><br><small>Star Wars</small></span>
+          <span class="mk-link">Change</span>
+        </div>
+        <div class="mk-perks">
+          <div class="mk-perk"><b>Member pricing</b><small>Applied at checkout</small></div>
+          <div class="mk-perk"><b>Early access</b><small>48 hours ahead</small></div>
+          <div class="mk-perk"><b>Delivery savings</b><small>On orders over £30</small></div>
+        </div>
+        <span class="mk-link mk-link--quiet mk-leave">Leave Disney Club</span>
+      </div>
+    </div>
+  </div>`;
 
 const PROJECTS = [
 
@@ -40,45 +157,95 @@ const PROJECTS = [
     slug: 'tdk-invensense',
     title: 'TDK InvenSense',
     client: 'TDK · InvenSense',
-    tagline: 'A sensor giant’s website, rebuilt around clarity — and a design system to keep it that way.',
-    category: 'Website Redesign & Design System',
+    tagline: 'A sensor giant with a catalogue nobody could navigate — rebuilt around the three people who actually use it.',
+    category: 'End-to-end web redesign & design system',
     year: '2025',
-    role: 'Visual Designer',
-    tools: ['Figma'],
+    role: 'UX / UI Designer',
+    tools: ['Figma', 'FigJam'],
     platform: 'Responsive web',
-    tags: ['Web', 'Design System'],
+    tags: ['UX/UI', 'Web', 'Design System'],
     accent: 'navy',
     cover: 'assets/img/projects/tdk-06.jpg',
     coverFit: 'top',
-    intro: [
-      'The project involved redesigning the website for InvenSense (TDK) to improve usability, visual consistency, and overall user experience. The existing platform was restructured to create a more intuitive navigation flow and a cleaner interface, making it easier for users to explore products and information. A key focus was on making the website fully responsive, ensuring a seamless experience across desktop, tablet, and mobile devices.',
-      'Along with the redesign, a comprehensive design system was created to standardize components, typography, colors, and interaction patterns. This helped maintain consistency across the platform and made future updates more scalable and efficient. The overall approach focused on aligning the design with modern UI standards while keeping it functional, structured, and user-friendly.'
+    focus: [
+      'Audit, IA and wireframes through to signed-off UI',
+      'Three role-based paths: engineer, partner, distributor',
+      'A component library documented for handoff'
     ],
-    roleNote: 'Worked on redesigning the website by creating responsive UI screens and contributing to the development of a scalable design system.',
+    intro: [
+      'InvenSense makes the motion and sound sensors inside drones, cars, headsets, hearing aids and smart homes. The catalogue is enormous and deeply technical, and the old site asked every visitor to already know what they were looking for. Engineers, procurement partners and distributors all landed in the same undifferentiated place.',
+      'I worked across the whole arc of the redesign — auditing the existing experience, restructuring the information architecture, wireframing, writing the interface copy, and taking the visual design through to a signed-off, fully responsive build. Alongside it I helped build the design system the site now runs on.'
+    ],
+    roleNote: 'UX and UI across the full redesign — IA, wireframes, UX writing, responsive visual design, and the component library handed to engineering.',
     sections: [
+      {
+        kind: 'text',
+        title: 'The problem was not the catalogue. It was the front door.',
+        body: [
+          'A sensor company sells to at least three very different people. An engineer wants a datasheet and an evaluation board. A partner wants roadmap and supply confidence. A distributor wants stock, pricing and collateral. The old homepage tried to speak to all three at once, so it spoke to none of them clearly.',
+          'The redesign starts by admitting that. Instead of one funnel, the site opens into recognisable routes — browse by what you are building, or by the sensor you already know you need — and then names the three audiences outright, low on the page, where someone who has not yet found their way can self-select.'
+        ]
+      },
+      {
+        kind: 'journey',
+        title: 'Who we were designing for',
+        note: 'Three audiences, mapped in FigJam before a single screen was drawn. The homepage sections map one-to-one onto these.',
+        stages: [
+          {
+            phase: 'Developer / Engineer',
+            doing: 'Comparing part numbers, hunting datasheets, checking whether an eval board exists.',
+            feeling: 'Impatient. Already knows the domain, resents marketing pages.',
+            move: 'Sensor selector with application and sensor-type filters. Specs surfaced on the card, not two clicks in.'
+          },
+          {
+            phase: 'OEM / Partner',
+            doing: 'Assessing whether TDK can support a product line at volume.',
+            feeling: 'Cautious. Needs proof before a conversation starts.',
+            move: 'A measurable-success band — 8+ billion sensors shipped, 500+ products, 15,000+ patents — plus named partner brands.'
+          },
+          {
+            phase: 'Distributor',
+            doing: 'Finding inventory, pricing and ready-made collateral to sell on.',
+            feeling: 'Transactional. Wants the shortest path to assets.',
+            move: 'A dedicated resource path with its own entry card and a remembered choice for return visits.'
+          }
+        ]
+      },
       {
         kind: 'points',
         title: 'What I did',
         items: [
-          'Designed clean and structured UI with a focus on clarity and usability.',
-          'Simplified complex data into intuitive tables and easy-to-scan layouts and bento grids.',
-          'Created responsive components and contributed to the design system.'
+          'Audited the existing site and restructured the information architecture around tasks rather than internal org structure.',
+          'Wireframed desktop, tablet and mobile, then ran the layouts through feedback iterations with stakeholders and engineering.',
+          'Ran a UX-writing pass over the whole page — every heading, helper line and empty state annotated in-file for the build team.',
+          'Designed the signed-off responsive UI at 1440, 800 and 375, with behaviour notes on each breakpoint.',
+          'Built and documented components — colour, type, badges, checkboxes, buttons — with every state and edge case.'
+        ]
+      },
+      { kind: 'full', src: 'assets/img/projects/tdk-06.jpg', caption: 'Signed-off homepage — the full desktop scroll', frame: 'browser', long: true },
+      {
+        kind: 'text',
+        title: 'A bento grid that does real work',
+        body: [
+          'The middle of the page had to carry the breadth of the catalogue without turning into a wall of categories. The answer was a bento grid where each tile is an application — presence detection, smart locks, automotive safety, wearables — rather than a product family.',
+          'People rarely arrive thinking "I need a six-axis IMU". They arrive thinking "I am building a smart lock". The tabs above the grid let you switch to browsing by sensor once you do know, so the expert route is never buried under the beginner one.'
         ]
       },
       {
-        kind: 'text',
-        title: 'A homepage that explains a whole company',
-        body: [
-          'InvenSense makes sensors that end up inside drones, cars, headsets and smart homes — a catalogue that is genuinely hard to summarise. The homepage had to introduce the breadth without drowning anyone in it.',
-          'The answer was rhythm: a confident hero, proof points right underneath, then a bento grid where each application area gets its own tile and its own way in. You can scan it in five seconds or read it for five minutes.'
+        kind: 'split',
+        title: 'Decisions worth defending',
+        items: [
+          { head: 'Proof before pitch', body: 'The stats band sits immediately under the hero. For a partner evaluating supply risk, scale is the argument — so it leads, before any product copy.' },
+          { head: 'Specs on the card', body: 'Part cards carry the two or three specs an engineer actually filters on, so comparison happens in the grid instead of across five open tabs.' },
+          { head: 'One remembered choice', body: 'The role selector remembers what you picked. A distributor should not have to re-declare themselves on every visit.' },
+          { head: 'Filters, not a search box', body: 'The sensor selector asks for application type and sensor type. Free-text search assumes vocabulary the visitor may not share with us.' }
         ]
       },
-      { kind: 'full', src: 'assets/img/projects/tdk-06.jpg', caption: 'Homepage — full scroll', frame: 'browser', long: true },
       {
         kind: 'duo',
         items: [
           { src: 'assets/img/projects/tdk-07.jpg', caption: 'Product detail — specs, variants and comparison' },
-          { src: 'assets/img/projects/tdk-08.jpg', caption: 'Responsive behaviour on narrow screens' }
+          { src: 'assets/img/projects/tdk-08.jpg', caption: 'The same page reflowed for narrow screens' }
         ],
         long: true
       },
@@ -86,14 +253,14 @@ const PROJECTS = [
         kind: 'text',
         title: 'Then: the system underneath',
         body: [
-          'A redesign that stops at screens gets undone within a year. So alongside the pages, we built the vocabulary — colour, type, spacing, and every component in every state, annotated for the developers who had to build it.',
-          'Each component was documented with its variants, its behaviour and its edge cases. Not a swatch page: a working reference.'
+          'A redesign that stops at screens comes undone within a year. So alongside the pages we built the vocabulary — colour, type, spacing, and every component in every state, annotated for the engineers who had to build it.',
+          'Each component was documented with its variants, its behaviour and its edge cases: not a swatch page, a working reference. It is the part of this project I expect to outlast the visual design.'
         ]
       },
       {
         kind: 'duo',
         items: [
-          { src: 'assets/img/projects/tdk-04.jpg', caption: 'Colour foundations' },
+          { src: 'assets/img/projects/tdk-04.jpg', caption: 'Colour foundations and usage rules' },
           { src: 'assets/img/projects/tdk-05.jpg', caption: 'Type scale across desktop and mobile' }
         ],
         long: true
@@ -101,252 +268,140 @@ const PROJECTS = [
       {
         kind: 'duo',
         items: [
-          { src: 'assets/img/projects/tdk-01.jpg', caption: 'Badges — components and annotations' },
+          { src: 'assets/img/projects/tdk-01.jpg', caption: 'Badges — variants and annotations' },
           { src: 'assets/img/projects/tdk-02.jpg', caption: 'Checkboxes — default, checked, error, disabled' }
         ]
       },
       { kind: 'full', src: 'assets/img/projects/tdk-03.jpg', caption: 'Buttons — primary, secondary and ghost, across every state', frame: 'plain', long: true },
-      { kind: 'quote', text: 'Consistency isn’t a coat of paint you add at the end. It’s the thing you build first and then get to keep.' }
+      { kind: 'quote', text: 'Consistency is not a coat of paint you add at the end. It is the thing you build first, and then get to keep.' }
     ]
   },
 
   {
-    slug: 'capshift-advisor-hub',
-    title: 'CapShift Advisor Hub',
-    client: 'CapShift',
-    tagline: 'Making impact investing legible for advisors who log in twice a month.',
-    category: 'Product Redesign & Design System',
-    year: '2025',
-    role: 'Visual Designer — design lead on the redesign',
-    tools: ['Figma'],
-    platform: 'Web app',
-    tags: ['Web', 'Design System'],
-    accent: 'blue',
-    cover: 'assets/img/projects/capshift-01.jpg',
-    coverFit: 'cover',
-    intro: [
-      'I led the redesign of an existing advisory platform with the goal of making it more affordable, more approachable, and far more intuitive for a new category of “secondary advisors.” These users aren’t power users — they log in only a few times a month — so the experience needed to deliver high-value insights without requiring steep learning curves.',
-      'To achieve this, the product was restructured around clear paths rather than a dense feature set. That structure not only simplified navigation but also encouraged discovery and confidence in using the product.',
-      'A major part of the initiative involved building a modern, lightweight design system from the ground up.'
-    ],
-    roleNote: 'The legacy application was re-imagined into four streamlined, path-based interaction models, allowing users to explore and complete tasks effortlessly.',
-    sections: [
-      {
-        kind: 'points',
-        title: 'What I did',
-        items: [
-          'Refined the visual language using brand and supporting colors to create a more approachable, lightweight, and engaging interface.',
-          'Designed clean, modern layouts with clear hierarchy to make insights easy to scan and reduce cognitive effort for infrequent users.'
-        ]
-      },
-      {
-        kind: 'text',
-        title: 'Four doors instead of one long corridor',
-        body: [
-          'The old application asked you to already know what you wanted. The new entry screen asks the opposite question — what are you here for? — and offers four honest answers: understand how CapShift works with your firm, research a theme, respond to an RFP, or search for an investment.',
-          'Someone who signs in every few weeks doesn’t need to remember where anything lives. They just need the door with their name on it.'
-        ]
-      },
-      { kind: 'full', src: 'assets/img/projects/capshift-01.jpg', caption: 'The welcome screen — four paths and one prompt box', frame: 'browser' },
-      {
-        kind: 'duo',
-        items: [
-          { src: 'assets/img/projects/capshift-03.jpg', caption: 'Guided questions for people who don’t know what to ask yet' },
-          { src: 'assets/img/projects/capshift-02.jpg', caption: 'Answers arrive with their reference documents attached' }
-        ]
-      },
-      {
-        kind: 'text',
-        title: 'Insight you can actually skim',
-        body: [
-          'Advisory content is long by nature. The layout does the compressing: generous line length, a calm type scale, and reference documents pulled out to the side so the answer never has to compete with its sources.',
-          'The palette was lightened across the board — brand blue kept for emphasis, supporting tones doing the quiet structural work. The result reads less like enterprise software and more like something you’d willingly open.'
-        ]
-      },
-      { kind: 'full', src: 'assets/img/projects/capshift-04.jpg', caption: 'Sourcing reports, shortlists and monitoring in one workspace', frame: 'browser' }
-    ]
-  },
-
-  {
-    slug: 'parle-one',
-    title: 'Parle One',
-    client: 'Parle · SAP Platform',
-    tagline: 'Wholesale order management, folded down to fit in one hand.',
-    category: 'Enterprise Mobile App',
-    year: '2024',
-    role: 'Visual Designer',
-    tools: ['Figma'],
-    platform: 'Mobile (SAP)',
-    tags: ['Mobile', 'Enterprise'],
-    accent: 'red',
-    cover: 'assets/img/projects/parle-03.jpg',
-    coverFit: 'top',
-    intro: [
-      'Designed a streamlined mobile application for wholesalers to efficiently manage orders, track statuses, handle approvals, and oversee inventory. The goal was to simplify day-to-day operations by creating an intuitive experience that allows users to quickly access key information and complete tasks with ease.',
-      'The design focused on improving clarity, reducing effort, and ensuring a smooth flow across different stages of order management.'
-    ],
-    roleNote: 'Followed SAP design guidelines to transform existing web designs into responsive mobile interfaces, focusing on creating intuitive, user-friendly experiences.',
-    sections: [
-      {
-        kind: 'points',
-        title: 'What I did',
-        items: [
-          'Adapted complex workflows into clean, mobile-friendly layouts with clear hierarchy.',
-          'Ensured consistency by aligning with SAP design standards and visual patterns.',
-          'Designed for clarity and ease of use, keeping interactions simple and efficient.'
-        ]
-      },
-      {
-        kind: 'text',
-        title: 'The constraint was the brief',
-        body: [
-          'SAP has opinions. Working inside its design guidelines meant the interesting work wasn’t in inventing a look — it was in deciding what earns a place on a 390-pixel-wide screen when the desktop version had a whole table to play with.',
-          'Every approval card answers the three questions a wholesaler actually asks: who, how far along, and what do I do about it. Application number, wholesaler code and approval count sit in a fixed order on every card, so the eye learns the shape once and never has to hunt again.'
-        ]
-      },
-      { kind: 'phones', items: [
-        { src: 'assets/img/projects/parle-01.jpg', caption: 'Application home' },
-        { src: 'assets/img/projects/parle-03.jpg', caption: 'Pending requests' },
-        { src: 'assets/img/projects/parle-04.jpg', caption: 'Wholesaler detail' },
-        { src: 'assets/img/projects/parle-05.jpg', caption: 'Compliance documents' }
-      ]},
-      {
-        kind: 'text',
-        title: 'Decisions where the thumb already is',
-        body: [
-          'Approve, reject and hold are the whole point of the app, so they live at the bottom of the detail screen — reachable, unambiguous, and colour-coded consistently with the rest of the SAP estate.',
-          'Everything above them is evidence: status, dates, approval progress, and the documents you need to be sure before you tap.'
-        ]
-      }
-    ]
-  },
-
-  {
-    slug: 'popular-bank-marketplace',
-    title: 'Popular Bank Marketplace',
-    client: 'Popular Bank',
-    tagline: 'Five splash screens, five reasons to keep going.',
-    category: 'Illustration & Onboarding UI',
-    year: '2024',
-    role: 'Visual Designer',
-    tools: ['Figma', 'Illustrator'],
-    platform: 'Mobile',
-    tags: ['Mobile', 'Illustration'],
-    accent: 'blue',
-    cover: 'assets/img/projects/popular-04.jpg',
-    coverFit: 'top',
-    intro: [
-      'The project involved designing splash screens for a banking marketplace app that allows users to explore products, make transactions, and manage their finances. The goal was to create an engaging entry experience that introduces key features of the app in a clear and visually appealing way.',
-      'The screens were designed to capture attention while maintaining clarity, ensuring users get a quick understanding of the app’s offerings from the very first interaction.'
-    ],
-    roleNote: 'Designed high-fidelity splash screens focusing on visual hierarchy, color, and clarity.',
-    sections: [
-      {
-        kind: 'points',
-        title: 'What I did',
-        items: [
-          'Designed each splash screen around a specific feature, using custom illustrations to visually communicate its purpose.',
-          'Used a vibrant mix of 2D and 3D styles to make screens feel engaging while maintaining clarity and focus.',
-          'Aligned visuals with brand guidelines while ensuring illustrations felt relatable and easy to understand for users.'
-        ]
-      },
-      {
-        kind: 'text',
-        title: 'One idea per screen',
-        body: [
-          'Onboarding fails when it tries to say everything at once. Each of the five screens carries exactly one promise — discover deals, shop smarter, track savings, earn cash back, redeem in a tap — and one illustration built to carry it.',
-          'The illustrations mix flat 2D shapes with soft dimensional lighting, so the coupons and badges feel like objects you could pick up without ever tipping into novelty.'
-        ]
-      },
-      { kind: 'phones', items: [
-        { src: 'assets/img/projects/popular-04.jpg', caption: 'Discover exclusive deals' },
-        { src: 'assets/img/projects/popular-05.jpg', caption: 'Shop smarter, earn more' },
-        { src: 'assets/img/projects/popular-02.jpg', caption: 'Track your savings over time' },
-        { src: 'assets/img/projects/popular-03.jpg', caption: 'Cash back rewards in your pocket' },
-        { src: 'assets/img/projects/popular-01.jpg', caption: 'Redeem offers with a tap' }
-      ]},
-      {
-        kind: 'text',
-        title: 'Holding the brand while having fun',
-        body: [
-          'Popular Bank’s blue does the anchoring on every screen. The warmth — butter yellow, blush, mint — is spent only on the illustration, which keeps five very different scenes recognisably one family.',
-          'Skip stays visible the whole way through. Onboarding you can leave is onboarding people finish.'
-        ]
-      }
-    ]
-  },
-
-  {
-    slug: 'healthymama',
-    title: 'healthymama',
-    client: 'healthymama',
-    tagline: 'A pregnancy companion that stays calm on the days you can’t.',
-    category: 'Health & Wellness App',
+    slug: 'disney-club',
+    title: 'Disney Club',
+    client: 'Disney Store · UK',
+    tagline: 'A free loyalty club, designed so that joining takes one tap and leaving never feels like a trap.',
+    category: 'Loyalty programme — UX research & design',
     year: '2026',
-    role: 'Visual Designer',
-    tools: ['Figma'],
-    platform: 'Mobile',
-    tags: ['Mobile', 'Design System', 'Illustration'],
-    accent: 'cream',
-    cover: 'assets/img/projects/mama-05.jpg',
-    coverFit: 'top',
-    intro: [
-      'Designed intuitive and engaging interfaces for a women’s health and pregnancy tracking app featuring an AI chatbot, Natalie, to provide personalized guidance and support throughout conception, pregnancy, and early motherhood.',
-      'The app enables users to track pregnancy weekly, monitor baby development, manage periods, save milestones and photos, and access wellness content and videos.'
+    role: 'UX / UI Designer',
+    tools: ['Figma', 'FigJam'],
+    platform: 'Responsive web',
+    tags: ['UX/UI', 'Web', 'Research'],
+    accent: 'blue',
+    coverMock: MOCK_WELCOME,
+    focus: [
+      'Research through to a signed-off membership flow',
+      'Personalisation that costs the member one question',
+      'Designed the way out as carefully as the way in'
     ],
-    roleNote: 'Focused on creating a calming, user-friendly experience with clear visual hierarchy and emotionally supportive design.',
+    intro: [
+      'Disney Store wanted a free membership club: member pricing, early access to drops, and delivery savings. The commercial case was straightforward. The design problem was not — loyalty schemes tend to be sold hard at the door and made deliberately difficult to leave, and neither of those behaviours belongs on a Disney property.',
+      'I worked on the research and the design together: what a member is actually joining, how much we are allowed to ask them for, what personalisation earns its keep, and what happens on the day they want out. The result is a five-state flow that runs on both desktop and mobile.'
+    ],
+    roleNote: 'Research and end-to-end design of the Disney Club membership experience — join, onboard, personalise, manage and leave — across desktop and mobile.',
     sections: [
       {
+        kind: 'text',
+        title: 'Where loyalty design usually goes wrong',
+        body: [
+          'The research kept turning up the same two failures. The first is the onboarding wall: a scheme that asks for a profile, preferences and consent before it has demonstrated a single benefit. The second is the exit trap — leaving buried three levels into settings, or hidden behind a support conversation.',
+          'Both come from the same mistake, which is treating membership as something extracted from the customer rather than offered to them. So the brief I set myself was narrow: make joining free of homework, and make leaving a normal, visible, one-screen thing.'
+        ]
+      },
+      {
+        kind: 'flow',
+        title: 'The five states',
+        note: 'Every state exists at desktop and mobile. The dotted step is optional — a member can skip it and stay a full member.',
+        steps: [
+          { label: 'Invitation', sub: 'A prompt with benefits stated plainly' },
+          { label: 'Joined', sub: 'Membership active before anything is asked' },
+          { label: 'Personalise', sub: 'One question, skippable', optional: true },
+          { label: 'Confirmed', sub: 'What we will do with the answer' },
+          { label: 'Manage', sub: 'Theme, perks and a visible way out' }
+        ]
+      },
+      {
+        kind: 'journey',
+        title: 'The member journey',
+        note: 'Mapped against what someone is actually thinking at each step, and what the design does about it.',
+        stages: [
+          {
+            phase: 'Sees the invitation',
+            doing: 'Mid-shop, hits a prompt offering a free club.',
+            feeling: '"What is this going to cost me — money, or my inbox?"',
+            move: 'Benefits listed in one line each. Free stated up front. Terms linked, not buried.'
+          },
+          {
+            phase: 'Joins',
+            doing: 'One tap. Membership is live immediately.',
+            feeling: 'Relief that nothing else was demanded.',
+            move: 'The confirmation leads with "You\'re in" — the reward arrives before any request does.'
+          },
+          {
+            phase: 'Personalises',
+            doing: 'Picks a favourite corner of the Disney universe.',
+            feeling: 'Curious, but wary of a long form.',
+            move: 'Exactly one question, six visual choices, an explicit "Skip for now" of equal weight.'
+          },
+          {
+            phase: 'Lives with it',
+            doing: 'Shops with member pricing and early access.',
+            feeling: 'Wants to know the choice actually did something.',
+            move: 'The chosen theme is shown and editable in My Account, so the answer stays visibly connected to the experience.'
+          },
+          {
+            phase: 'Leaves',
+            doing: 'Decides the emails or the club are not for them.',
+            feeling: 'Braced for a fight.',
+            move: 'Leave sits in plain sight. One confirmation, honest about what is lost, and rejoining is offered in the same breath.'
+          }
+        ]
+      },
+      {
+        kind: 'mocks',
+        items: [
+          { device: 'desktop', html: MOCK_JOIN, caption: 'The invitation — benefits first, one action, terms visible' },
+          { device: 'desktop', html: MOCK_WELCOME, caption: 'Membership is already active before personalisation is offered' }
+        ]
+      },
+      {
+        kind: 'text',
+        title: 'Personalisation that costs one question',
+        body: [
+          'The commercial ask was a preference profile. The research said every extra field would cost us members at exactly the moment they were most willing to say yes. So the profile became a single question — "Who\'s your favourite in the Disney universe?" — answered by picking one of six worlds rather than filling anything in.',
+          'Six options was the ceiling: enough to feel like a real choice, few enough to scan in one pass. The sixth, "A Bit of Everything", exists so that nobody has to lie to get past the screen. And "Skip for now" is given the same visual weight as Continue, because a member who skips is still a member.'
+        ]
+      },
+      { kind: 'mock', device: 'desktop', html: MOCK_PICKER, caption: 'The personalisation picker — one question, six worlds, an honest way past it' },
+      {
         kind: 'points',
-        title: 'What I did',
+        title: 'Decisions I would defend in a review',
         items: [
-          'Built the visual language from a moodboard through to a full colour and type foundation — pearl, peach, burgundy, light green and sage, set in Manrope and Syne.',
-          'Designed the weekly tracking, health snapshot, nutrition and milestone experiences around one calm, scannable hierarchy.',
-          'Gave Natalie, the AI companion, a presence that feels supportive rather than clinical.',
-          'Delivered the work as components, variants and tokens so the app can grow without drifting.'
+          'Membership activates before personalisation is requested — the benefit is never held hostage to the data.',
+          '"Skip for now" is styled as a peer of the primary action, not as a grey afterthought.',
+          'The confirmation screen says what the answer will be used for, in one sentence, in plain language.',
+          'Communications consent is surfaced with a link to preferences rather than pre-ticked and hoped for.',
+          'Leaving is a top-level item in My Account, and the confirmation states exactly which benefits stop.'
         ]
       },
       {
-        kind: 'text',
-        title: 'Starting with feeling, not screens',
-        body: [
-          'Pregnancy apps get this wrong in one of two directions: too clinical, or too saccharine. The moodboard was the argument for a third option — soft light, botanical greens, blush and pearl, photography that looks like a real morning rather than a stock one.',
-          'That mood then got turned into something buildable: five named colour families with full tints, and a type pairing of Manrope for the reading and Syne for the moments that deserve a little character.'
-        ]
-      },
-      {
-        kind: 'duo',
+        kind: 'mocks',
         items: [
-          { src: 'assets/img/projects/mama-01.jpg', caption: 'Moodboard — the feeling, before the pixels' },
-          { src: 'assets/img/projects/mama-02.jpg', caption: 'Colour palette and typography' }
+          { device: 'desktop', html: MOCK_DONE, caption: 'Confirmation — closes the loop on what the choice does' },
+          { device: 'desktop', html: MOCK_LEAVE, caption: 'Offboarding — honest about the loss, and rejoining offered in the same breath' }
         ]
       },
-      { kind: 'full', src: 'assets/img/projects/mama-03.jpg', caption: 'Full tint ramps for pearl, peach, burgundy, light green and sage', frame: 'plain' },
       {
         kind: 'text',
-        title: 'One glance, on a hard morning',
+        title: 'Where the club actually lives',
         body: [
-          'The home screen is built for the version of you that is tired. Due date, average size and average weight sit together at the top with an illustration of the baby at that week. The week strip underneath moves you through time without a calendar.',
-          'Below that, a health snapshot: blood pressure, weight, glucose — each with its own reassurance line, so the numbers never arrive without context.'
+          'Day to day, Disney Club is not a modal — it is a row in My Account, sitting alongside order history and the wish list. That is where the chosen theme can be changed, where the three active perks are restated, and where leaving is one visible link rather than a hunt.',
+          'Putting the exit on the same screen as the benefits was the argument I had to make most often. It reads as risky. In practice it is the thing that makes the rest of the club believable.'
         ]
       },
-      { kind: 'phones', items: [
-        { src: 'assets/img/projects/mama-05.jpg', caption: 'Home — week, snapshot, content' },
-        { src: 'assets/img/projects/mama-06.jpg', caption: 'Nutrition and mood check-in' },
-        { src: 'assets/img/projects/mama-07.jpg', caption: 'Milestones you write yourself' },
-        { src: 'assets/img/projects/mama-08.jpg', caption: 'Insights and mama moments' },
-        { src: 'assets/img/projects/mama-09.jpg', caption: 'Ask Natalie' }
-      ]},
-      {
-        kind: 'text',
-        title: 'Milestones are the product',
-        body: [
-          'Prenatal scan. First kick. The app’s real job is to be the place those go — dated, titled in the user’s own words, with the photos attached. Everything else is scaffolding around that.',
-          'Which is why milestones can be exported as a storybook, and why the entry form is three fields and a photo picker rather than a form.'
-        ]
-      },
-      { kind: 'full', src: 'assets/img/projects/mama-04.jpg', caption: 'Components, variants and tokens — the system behind the calm', frame: 'plain', long: true },
-      { kind: 'quote', text: 'Emotionally supportive design isn’t decoration. It’s deciding what a number means before you show it to someone.' }
+      { kind: 'mock', device: 'desktop', html: MOCK_ACCOUNT, caption: 'My Account — theme, perks and the way out, all on one screen' },
+      { kind: 'quote', text: 'A membership you can leave in one tap is one people feel safe joining in one tap. The exit is part of the offer.' }
     ]
   }
 

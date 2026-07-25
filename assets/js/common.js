@@ -20,7 +20,7 @@ function mountChrome() {
     navHost.className = 'nav';
     navHost.innerHTML = `
       <a class="nav__mark" href="index.html" aria-label="Muskan Mandot — home">
-        ${DOODLE.logo}<span>Muskan</span>
+        <span>Muskan Mandot</span><i>.</i>
       </a>
       <nav class="nav__links" aria-label="Primary">
         <a href="work.html"${on('work')}>Work</a>
@@ -34,14 +34,14 @@ function mountChrome() {
     footHost.className = 'foot on-navy';
     footHost.innerHTML = `
       <div class="foot__inner">
-        <p class="eyebrow reveal">Got something you'd like designed?</p>
-        <h2 class="display foot__big reveal" data-delay="1">Let's make it<br><span class="dd-underline dd-underline--sky">good</span>.</h2>
+        <p class="eyebrow reveal">Currently open to work</p>
+        <h2 class="display foot__big reveal" data-delay="1">Let's design<br>something <span class="dd-underline dd-underline--sky">useful</span>.</h2>
         <div class="foot__row reveal" data-delay="2">
           <a class="foot__mail link-doodle" href="mailto:mandotmuskan@gmail.com">mandotmuskan@gmail.com</a>
           <a class="btn" href="work.html">See the work</a>
         </div>
         <div class="foot__meta">
-          <span>© ${new Date().getFullYear()} Muskan Mandot · Visual Designer</span>
+          <span>© ${new Date().getFullYear()} Muskan Mandot · UX &amp; UI Designer</span>
           <span class="hand hand-sm">drawn, not stock ✎</span>
         </div>
       </div>
@@ -114,6 +114,20 @@ function mountReveals(root = document) {
 /* ---------- helpers used by other pages ---------- */
 
 function projectHref(p) { return `project.html?p=${encodeURIComponent(p.slug)}`; }
+
+/* A project cover is either a screenshot or a screen rebuilt in markup.
+   Both callers — the work grid and the home cards — want the same choice. */
+function coverMarkup(p, alt) {
+  if (p.coverMock) {
+    return `<div class="tile__shot tile__shot--mock">${p.coverMock}</div>`;
+  }
+  const fit = p.coverFit === 'top' ? 'center top' : 'center';
+  return `
+    <div class="tile__shot">
+      <img src="${p.cover}" alt="${escapeHtml(alt)}" style="object-position:${fit}"
+           loading="lazy" decoding="async">
+    </div>`;
+}
 
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, (c) => (

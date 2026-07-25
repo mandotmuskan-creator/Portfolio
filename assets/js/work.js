@@ -19,18 +19,15 @@
   /* tiles */
   grid.innerHTML = PROJECTS.map((p, i) => `
     <a class="tile reveal" data-delay="${i % 4}" href="${projectHref(p)}" data-tags="${escapeHtml(p.tags.join('|'))}">
-      <span class="tile__frame">
-        <span class="tile__no">${String(i + 1).padStart(2, '0')}</span>
-        <span class="tile__shot">
-          <img src="${p.cover}" alt="${escapeHtml(p.title)} — ${escapeHtml(p.category)}" loading="lazy" decoding="async">
-        </span>
-      </span>
-      <span class="tile__body">
+      <div class="tile__frame">
+        ${coverMarkup(p, `${p.title} — ${p.category}`)}
+      </div>
+      <div class="tile__body">
         <span class="tile__cat">${escapeHtml(p.category)}</span>
         <h2 class="tile__title">${escapeHtml(p.title)}</h2>
-        <span class="tile__line">${escapeHtml(p.tagline)}</span>
+        <p class="tile__line">${escapeHtml(p.tagline)}</p>
         <span class="tile__tags">${p.tags.map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</span>
-      </span>
+      </div>
     </a>`).join('');
 
   /* filtering */
