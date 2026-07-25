@@ -201,7 +201,7 @@
 }
 .klutz__card:nth-child(even) { border-radius: 15px 225px 15px 255px / 225px 15px 255px 15px; }
 .klutz__card:hover { transform: translateY(-6px) rotate(-.8deg); box-shadow: 7px 9px 0 var(--blue); }
-.klutz__card .doodle { width: 52px; color: var(--red); margin-bottom: 14px; }
+.klutz__card .doodle { width: 52px; color: var(--accent); margin-bottom: 14px; }
 .klutz__card h3 { font-size: 1.16rem; margin-bottom: .38em; }
 .klutz__card p { font-size: .93rem; opacity: .78; line-height: 1.6; }
 
@@ -221,7 +221,7 @@
   left: -32px; top: 7px;
   width: 15px; height: 15px;
   background: var(--paper);
-  border: 2.6px solid var(--red);
+  border: 2.6px solid var(--accent);
   border-radius: 46% 54% 52% 48% / 50% 46% 54% 50%;
 }
 .timeline h3 { font-size: 1.14rem; margin-bottom: .2em; }
@@ -264,7 +264,7 @@
   display: block;
   height: 100%;
   width: 0;
-  background: var(--red);
+  background: var(--accent);
 }
 
 .cs-hero {
@@ -445,7 +445,7 @@ figcaption {
   line-height: 1.62;
 }
 .points li + li { border-top: 1px solid rgba(63, 111, 151, .18); }
-.points .doodle { flex: none; width: 24px; margin-top: 8px; color: var(--red); }
+.points .doodle { flex: none; width: 24px; margin-top: 8px; color: var(--accent); }
 
 .pull {
   width: var(--rail-narrow);
@@ -465,7 +465,7 @@ figcaption {
 .rolebox {
   position: relative;
   padding: clamp(26px, 3.6vw, 40px) clamp(24px, 3.4vw, 38px);
-  border-left: 3px solid var(--red);
+  border-left: 3px solid var(--accent);
   border-radius: 0 12px 12px 0;
   background: var(--paper-warm);
 }
@@ -546,7 +546,7 @@ figcaption {
   width: 13px; height: 13px;
   border-radius: 50%;
   background: var(--paper);
-  border: 2.4px solid var(--red);
+  border: 2.4px solid var(--accent);
 }
 .journey__n {
   display: block;
@@ -593,7 +593,7 @@ figcaption {
   flex: 0 0 auto;
   align-self: center;
   width: 30px;
-  color: var(--red);
+  color: var(--accent);
   opacity: .8;
 }
 @media (max-width: 700px) {
@@ -620,7 +620,7 @@ figcaption {
 .nextup a:hover .nextup__title { transform: translateX(16px); }
 .nextup__row { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
 .nextup__cat { font-size: .9rem; color: var(--blue); }
-.nextup__row .doodle { width: 62px; color: var(--red); transition: transform .5s var(--e-back); }
+.nextup__row .doodle { width: 62px; color: var(--accent); transition: transform .5s var(--e-back); }
 .nextup a:hover .nextup__row .doodle { transform: translateX(14px); }
 
 /* =========================================================

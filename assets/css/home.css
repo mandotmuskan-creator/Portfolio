@@ -262,7 +262,7 @@
   opacity: .82;
 }
 .card__focus li + li { border-top: 1px solid rgba(63, 111, 151, .16); }
-.card__focus .doodle { flex: none; width: 20px; margin-top: 5px; color: var(--red); }
+.card__focus .doodle { flex: none; width: 20px; margin-top: 5px; color: var(--accent); }
 
 .card__foot {
   display: flex;
@@ -279,7 +279,7 @@
   font-weight: 600;
   color: var(--navy);
 }
-.card__go .doodle { width: 34px; color: var(--red); transition: transform .45s var(--e-back); }
+.card__go .doodle { width: 34px; color: var(--accent); transition: transform .45s var(--e-back); }
 .card:hover .card__go .doodle { transform: translateX(8px); }
 .card__meta { font-size: .8rem; color: var(--blue); opacity: .8; }
 
@@ -472,6 +472,13 @@
   z-index: 1;
   pointer-events: none;
 }
+/* she actually waves */
+.end__wave .mkw-arm { animation: wave-arm 2s var(--e-soft) infinite; transform-origin: 130px 110px; }
+@keyframes wave-arm {
+  0%, 100% { transform: rotate(0deg); }
+  50%      { transform: rotate(-20deg); }
+}
+
 .end__dood {
   position: absolute;
   color: var(--sky);
