@@ -273,7 +273,7 @@ h1, h2, h3, h4 {
   background: transparent;
   border: 2.2px solid currentColor;
   border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
-  cursor: pointer;
+  cursor: var(--cur-hand, pointer);
   transition: transform .28s var(--e-back), background-color .28s var(--e-soft),
               color .28s var(--e-soft), box-shadow .28s var(--e-out);
 }
@@ -468,6 +468,23 @@ body.is-navy .nav__links a::after {
 /* Hover feedback lives on the elements themselves — buttons, cards and
    links lift on their own. No cursor follower: a ring that eases toward
    the pointer always reads as lag. */
+
+/* ---------- cursor ----------
+   A hand-drawn pointer and pointing hand, set as the NATIVE cursor — no
+   follower element, so there is nothing to lag behind the pointer. Cream
+   fill with a navy outline so both read on the paper sections and on the
+   navy ones. Declared only for real pointing devices; the tokens simply
+   do not exist on touch, so `var(--cur-hand, pointer)` falls back cleanly. */
+@media (hover: hover) and (pointer: fine) {
+  :root {
+    --cur-arrow: url("data:image/svg+xml,<svg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2232%22%20height=%2232%22%20viewBox=%220%200%2032%2032%22><path%20d=%22M3.6%203.1%20C4.2%208.2%205.5%2014.6%206.9%2019.5%20C7.2%2020.7%208.5%2021%209.2%2020%20L11.6%2016.4%20L15%2023.1%20C15.5%2024.1%2016.8%2024.2%2017.5%2023.5%20C18.1%2022.8%2018%2022%2017.5%2021%20L14.4%2015.2%20L19.9%2014.4%20C21.2%2014.2%2021.5%2012.9%2020.5%2012.1%20C17.2%209.3%208.7%204.4%203.6%203.1%20Z%22%20fill=%22%23FCFAF5%22%20stroke=%22%2312295D%22%20stroke-width=%221.7%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22/></svg>") 4 3, default;
+    --cur-hand:  url("data:image/svg+xml,<svg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2232%22%20height=%2232%22%20viewBox=%220%200%2032%2032%22><path%20d=%22M9.7%205%20C9.7%202.9%2012.7%202.9%2012.7%205%20L12.7%2012.6%20C12.8%2010.9%2015.4%2011%2015.4%2012.6%20C15.5%2011%2018%2011.1%2018%2012.8%20C18.1%2011.4%2020.6%2011.6%2020.6%2013.5%20C20.7%2015.4%2021%2020%2020%2022.5%20C19%2025.2%2016.7%2026.9%2013.7%2026.8%20C10.8%2026.8%208.9%2025.2%207.9%2022.8%20L5.9%2018%20C5.2%2016.2%207.8%2014.9%208.8%2016.6%20L9.7%2018.2%20Z%22%20fill=%22%23FCFAF5%22%20stroke=%22%2312295D%22%20stroke-width=%221.7%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22/><path%20d=%22M12.7%2013.6%20L12.7%2016%20M15.4%2013.8%20L15.4%2016.2%20M18%2014%20L18%2016.4%22%20fill=%22none%22%20stroke=%22%2312295D%22%20stroke-width=%221.4%22%20stroke-linecap=%22round%22/></svg>") 11 3, pointer;
+  }
+  html { cursor: var(--cur-arrow); }
+  a[href], button, summary, label[for], [role="button"] { cursor: var(--cur-hand); }
+  /* the doodle cursor would hide the I-beam, so text fields keep theirs */
+  input, textarea, select { cursor: auto; }
+}
 
 /* ---------- reveal ---------- */
 .reveal {

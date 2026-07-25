@@ -148,6 +148,18 @@ one, add another entry to the `DOODLE` object using `class="stroke"` on the path
 Doodles are used generously on the home page, the About page and the closing
 panel. Case study pages deliberately stay quiet — arrows only.
 
+### The cursor
+
+The pointer and the pointing hand are hand-drawn too, set as the **native**
+cursor via `--cur-arrow` / `--cur-hand` in `base.css` — not a follower element,
+so there is nothing that can lag behind the real pointer. Cream fill with a navy
+outline, so both read on the paper sections and on the navy ones.
+
+They are declared inside `@media (hover: hover) and (pointer: fine)`, so on touch
+the tokens simply do not exist and every `cursor: var(--cur-hand, pointer)` falls
+back to the plain keyword. Text fields keep their I-beam. `scripts/cursor.py`
+regenerates the data-URIs and a preview sheet.
+
 ---
 
 ## How the home page works

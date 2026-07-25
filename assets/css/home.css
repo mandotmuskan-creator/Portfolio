@@ -133,7 +133,7 @@
   z-index: 1;
   pointer-events: none;
 }
-.dood--hot { pointer-events: auto; cursor: pointer; transition: transform .5s var(--e-back), opacity .4s; }
+.dood--hot { pointer-events: auto; cursor: var(--cur-hand, pointer); transition: transform .5s var(--e-back), opacity .4s; }
 .dood--hot:hover { transform: rotate(-12deg) scale(1.14); opacity: .8; }
 .dood--float { animation: drift 11s var(--e-soft) infinite; }
 
@@ -523,7 +523,7 @@
   bottom: -8px;
   width: 112px;
   pointer-events: auto;
-  cursor: pointer;
+  cursor: var(--cur-hand, pointer);
 }
 .companion .mascot { width: 100%; }
 
