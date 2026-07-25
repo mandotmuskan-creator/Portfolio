@@ -34,7 +34,7 @@
   const desc = document.querySelector('meta[name="description"]');
   if (desc) desc.setAttribute('content', `${p.title} — ${p.tagline}`);
 
-  /* ---------- block renderers ---------- */
+  /* ---------- shared pieces ---------- */
 
   const longHint = `<span class="shot--scrollhint">scroll inside ↕</span>`;
 
@@ -51,10 +51,27 @@
       </figure>`;
   }
 
+  /* screens rebuilt in markup rather than exported as flat images */
+  function mockFigure(it) {
+    const body = it.device === 'mobile'
+      ? `<div class="phone__frame phone__frame--mock">${it.html}</div>`
+      : `<div class="shot shot--browser shot--mock">${it.html}</div>`;
+    return `
+      <figure class="reveal">
+        ${body}
+        ${it.caption ? `<figcaption>${escapeHtml(it.caption)}</figcaption>` : ''}
+      </figure>`;
+  }
+
+  const heading = (t) => (t ? `<h2 class="display d-md reveal">${escapeHtml(t)}</h2>` : '');
+  const note = (t) => (t ? `<p class="cs-note reveal" data-delay="1">${escapeHtml(t)}</p>` : '');
+
+  /* ---------- block renderers ---------- */
+
   const BLOCK = {
     text: (b) => `
       <div class="cs-block cs-block--text">
-        ${b.title ? `<h2 class="display d-md reveal">${escapeHtml(b.title)}</h2>` : ''}
+        ${heading(b.title)}
         <div class="prose lede reveal" data-delay="1">
           ${b.body.map((t) => `<p>${escapeHtml(t)}</p>`).join('')}
         </div>
@@ -62,11 +79,68 @@
 
     points: (b) => `
       <div class="cs-block cs-block--text">
-        ${b.title ? `<h2 class="display d-md reveal">${escapeHtml(b.title)}</h2>` : ''}
+        ${heading(b.title)}
         <ul class="points reveal" data-delay="1">
           ${b.items.map((t) => `
-            <li><span class="doodle" data-doodle="check"></span><span>${escapeHtml(t)}</span></li>`).join('')}
+            <li><span class="doodle" data-doodle="arrowTiny"></span><span>${escapeHtml(t)}</span></li>`).join('')}
         </ul>
+      </div>`,
+
+    stats: (b) => `
+      <div class="cs-block">
+        <div class="statband reveal">
+          ${b.items.map((s) => `
+            <div><strong class="display">${escapeHtml(s.figure)}</strong><span>${escapeHtml(s.label)}</span></div>`).join('')}
+        </div>
+      </div>`,
+
+    /* two-column list of decisions, kept deliberately plain */
+    split: (b) => `
+      <div class="cs-block">
+        ${heading(b.title)}
+        <div class="splitgrid reveal" data-delay="1">
+          ${b.items.map((it) => `
+            <div class="splitgrid__cell">
+              <h3>${escapeHtml(it.head)}</h3>
+              <p>${escapeHtml(it.body)}</p>
+            </div>`).join('')}
+        </div>
+      </div>`,
+
+    /* journey map — one column per stage, three rows of meaning */
+    journey: (b) => `
+      <div class="cs-block">
+        ${heading(b.title)}
+        ${note(b.note)}
+        <div class="journey reveal" data-delay="2">
+          <div class="journey__rail" aria-hidden="true"></div>
+          <div class="journey__row">
+            ${b.stages.map((s, i) => `
+              <div class="journey__stage">
+                <span class="journey__dot" aria-hidden="true"></span>
+                <span class="journey__n">${String(i + 1).padStart(2, '0')}</span>
+                <h3>${escapeHtml(s.phase)}</h3>
+                <p class="journey__doing">${escapeHtml(s.doing)}</p>
+                <p class="journey__feel"><span class="label">Thinking</span>${escapeHtml(s.feeling)}</p>
+                <p class="journey__move"><span class="label">Design response</span>${escapeHtml(s.move)}</p>
+              </div>`).join('')}
+          </div>
+        </div>
+      </div>`,
+
+    /* linear state flow with arrows between the steps */
+    flow: (b) => `
+      <div class="cs-block">
+        ${heading(b.title)}
+        ${note(b.note)}
+        <div class="flow reveal" data-delay="2">
+          ${b.steps.map((s, i) => `
+            ${i ? `<span class="flow__arrow doodle" data-doodle="arrowTiny"></span>` : ''}
+            <div class="flow__step${s.optional ? ' is-optional' : ''}">
+              <strong>${escapeHtml(s.label)}</strong>
+              <span>${escapeHtml(s.sub)}</span>
+            </div>`).join('')}
+        </div>
       </div>`,
 
     full: (b) => `<div class="cs-block">${figure(b.src, b.caption, b.frame, b.long)}</div>`,
@@ -89,6 +163,13 @@
         </div>
       </div>`,
 
+    mock: (b) => `<div class="cs-block">${mockFigure(b)}</div>`,
+
+    mocks: (b) => `
+      <div class="cs-block">
+        <div class="duo duo--mock">${b.items.map(mockFigure).join('')}</div>
+      </div>`,
+
     quote: (b) => `<blockquote class="pull reveal">“${escapeHtml(b.text)}”</blockquote>`
   };
 
@@ -96,17 +177,26 @@
 
   const isMobile = /mobile/i.test(p.platform);
 
-  const cover = isMobile
-    ? `<div class="cs-cover cs-cover--mobile">
-         <figure class="reveal">
-           <div class="phone__frame"><img src="${p.cover}" alt="${escapeHtml(p.title)}" fetchpriority="high" decoding="async"></div>
-         </figure>
-       </div>`
-    : `<div class="cs-cover">
-         <figure class="reveal">
-           <div class="shot shot--browser shot--cover"><img src="${p.cover}" alt="${escapeHtml(p.title)}" fetchpriority="high" decoding="async"></div>
-         </figure>
-       </div>`;
+  let cover;
+  if (p.coverMock) {
+    cover = `<div class="cs-cover">
+               <figure class="reveal">
+                 <div class="shot shot--browser shot--mock shot--cover">${p.coverMock}</div>
+               </figure>
+             </div>`;
+  } else if (isMobile) {
+    cover = `<div class="cs-cover cs-cover--mobile">
+               <figure class="reveal">
+                 <div class="phone__frame"><img src="${p.cover}" alt="${escapeHtml(p.title)}" fetchpriority="high" decoding="async"></div>
+               </figure>
+             </div>`;
+  } else {
+    cover = `<div class="cs-cover">
+               <figure class="reveal">
+                 <div class="shot shot--browser shot--cover"><img src="${p.cover}" alt="${escapeHtml(p.title)}" fetchpriority="high" decoding="async"></div>
+               </figure>
+             </div>`;
+  }
 
   const meta = [
     ['Role', p.role],
@@ -127,7 +217,6 @@
             ${meta.map(([k, v]) => `<div><span class="label">${k}</span><strong>${escapeHtml(v)}</strong></div>`).join('')}
           </div>
         </div>
-        <div class="cs-hero__doodle" data-doodle="${isMobile ? 'phone' : 'laptop'}"></div>
       </header>
 
       ${cover}
@@ -144,7 +233,6 @@
           <div class="rolebox reveal">
             <span class="label">My role</span>
             <p>${escapeHtml(p.roleNote)}</p>
-            <span class="doodle" data-doodle="star"></span>
           </div>
         </div>
 
@@ -154,10 +242,10 @@
       <section class="nextup">
         <div class="nextup__inner">
           <a href="${projectHref(next)}" data-hot>
-            <p class="eyebrow reveal">next one up —</p>
+            <p class="eyebrow reveal">Next case study</p>
             <h2 class="display nextup__title reveal" data-delay="1">${escapeHtml(next.title)}</h2>
             <span class="nextup__row reveal" data-delay="2">
-              <span class="hand hand-md" style="color:var(--blue)">${escapeHtml(next.category)}</span>
+              <span class="nextup__cat">${escapeHtml(next.category)}</span>
               <span class="doodle" data-doodle="arrowRight"></span>
             </span>
           </a>

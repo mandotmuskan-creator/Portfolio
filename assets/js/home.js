@@ -1,377 +1,191 @@
 /* =========================================================
-   home.js — the horizontal stage
+   home.js — the vertical home page
 
-   Vertical scroll drives a horizontal translate. The mascot is
-   pinned in the viewport; the rope and the project cards slide
-   past her, so she reads as hauling them in. Rope sag, card
-   swing and her effort all come off scroll velocity.
+   Two jobs:
+   1. build the project cards from data.js
+   2. run the scroll companion — the mascot who hauls a rope
+      along in the bottom-left gutter while you read the work.
+
+   She lives in a fixed corner slot, outside the document flow,
+   so she can never end up on top of a card. Below 1100px she
+   is hidden by CSS and this file leaves her alone.
    ========================================================= */
 
 (function () {
-  const spacer = document.getElementById('spacer');
-  const view   = document.getElementById('view');
-  const track  = document.getElementById('track');
-  if (!spacer || !view || !track) return;
+  const REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const ropeSvg  = document.getElementById('rope');
-  const puller   = document.getElementById('puller');
-  const rail     = document.getElementById('rail');
-  const railFill = document.getElementById('railFill');
-  const railWalk = document.getElementById('railWalker');
-  const railLbl  = document.getElementById('railLabel');
-  const railPct  = document.getElementById('railPct');
+  /* ---------------------------------------------------------
+     1 · project cards
+     --------------------------------------------------------- */
 
-  const SCROLL_RATIO = 0.86;   // vertical distance per horizontal pixel
-  const EASE         = 0.115;  // scroll smoothing
-  const SAG          = 26;     // how much the line droops between the cards
+  const cards = document.getElementById('cards');
+  if (cards) {
+    cards.innerHTML = PROJECTS.map((p, i) => `
+      <a class="card reveal" href="${projectHref(p)}" data-hot>
+        <div class="card__media">
+          ${coverMarkup(p, `${p.title} — ${p.category}`)}
+        </div>
+        <div class="card__text">
+          <span class="card__no">PROJECT ${String(i + 1).padStart(2, '0')}</span>
+          <span class="card__cat">${escapeHtml(p.category)}</span>
+          <h3 class="card__title display">${escapeHtml(p.title)}</h3>
+          <p class="card__line">${escapeHtml(p.tagline)}</p>
+          <ul class="card__focus">
+            ${(p.focus || []).map((f) => `
+              <li><span class="doodle" data-doodle="arrowTiny"></span><span>${escapeHtml(f)}</span></li>`).join('')}
+          </ul>
+          <div class="card__foot">
+            <span class="card__go">Read the case study <span class="doodle" data-doodle="arrowRight"></span></span>
+            <span class="card__meta">${escapeHtml(p.year)} · ${escapeHtml(p.client)}</span>
+          </div>
+        </div>
+      </a>`).join('');
 
-  let cards = [];
-  let panels = [];
-  let maxX = 0, viewW = 0, viewH = 0;
-  let target = 0, current = 0, vel = 0, velSmooth = 0;
-  let hand = { x: 0, y: 0 };
-  let armPhase = 0;
-  let enabled = false;
+    paintDoodles(cards);
+    mountReveals(cards);
+  }
 
-  /* ---------- build the project cards ---------- */
+  const yr = document.getElementById('yr');
+  if (yr) yr.textContent = String(new Date().getFullYear());
 
-  function buildCards() {
-    const anchor = track.querySelector('.panel--about');
-    const frag = document.createDocumentFragment();
+  /* ---------------------------------------------------------
+     2 · nav colour over the dark sections
+     --------------------------------------------------------- */
 
-    PROJECTS.forEach((p, i) => {
-      const sec = document.createElement('section');
-      sec.className = 'panel panel--project';
-      sec.dataset.label = p.title;
-      sec.innerHTML = `
-        <a class="card" href="${projectHref(p)}" data-accent="${p.accent}" data-hot
-           aria-label="${escapeHtml(p.title)} — ${escapeHtml(p.category)}">
-          <span class="card__peek" data-doodle="${['star', 'sparkle', 'heart', 'bulb', 'spiral'][i % 5]}"></span>
-          <span class="card__inner">
-            <span class="card__shot ${p.coverFit === 'top' ? 'card__shot--top' : ''}">
-              <span class="card__no">${String(i + 1).padStart(2, '0')}</span>
-              <img src="${p.cover}" alt="${escapeHtml(p.title)} — ${escapeHtml(p.category)}" loading="lazy" decoding="async">
-            </span>
-            <span class="card__body">
-              <span class="card__cat">${escapeHtml(p.category)}</span>
-              <span class="card__title">${escapeHtml(p.title)}</span>
-              <span class="card__line">${escapeHtml(p.tagline)}</span>
-              <span class="card__cta">Open case study <span class="doodle" data-doodle="arrowRight"></span></span>
-            </span>
-          </span>
-        </a>`;
-      frag.appendChild(sec);
+  const darks = [...document.querySelectorAll('[data-dark]')];
+
+  function paintNav() {
+    // the nav sits in the top ~76px; whichever section is under it wins
+    const probe = 44;
+    const onDark = darks.some((el) => {
+      const r = el.getBoundingClientRect();
+      return r.top <= probe && r.bottom > probe;
     });
-
-    track.insertBefore(frag, anchor);
-    paintDoodles(track);
+    document.body.classList.toggle('on-dark-left', onDark);
   }
 
-  /* ---------- measure ---------- */
+  /* ---------------------------------------------------------
+     3 · the scroll companion
+     --------------------------------------------------------- */
 
-  function measure() {
-    viewW = view.offsetWidth;
-    viewH = view.offsetHeight;
+  const comp = document.querySelector('.companion');
+  const ropeSvg = comp && comp.querySelector('.companion__rope path');
+  const say = comp && comp.querySelector('.companion__say');
 
-    panels = [...track.children].map((el) => ({
-      el,
-      x: el.offsetLeft,
-      w: el.offsetWidth,
-      label: el.dataset.label || '',
-      dark: el.hasAttribute('data-dark')
-    }));
+  // kept short — the bubble lives inside a narrow gutter
+  const LINES = [
+    'heave!',
+    'nearly there',
+    'heavier than it looks',
+    'mind the cable',
+    'worth it, promise'
+  ];
+  let lineAt = 0;
 
-    const last = panels[panels.length - 1];
-    const trackW = last ? last.x + last.w : track.scrollWidth;
-    maxX = Math.max(0, trackW - viewW);
-
-    spacer.style.height = enabled ? (viewH + maxX * SCROLL_RATIO) + 'px' : '';
-
-    cards = [...track.querySelectorAll('.card')].map((el) => {
-      const panel = el.closest('.panel');
-      return {
-        el,
-        cx: panel.offsetLeft + el.offsetLeft + el.offsetWidth / 2,
-        top: el.offsetTop,
-        bottom: el.offsetTop + el.offsetHeight,
-        a: 0, av: 0
-      };
-    });
-
-    measureHand();
+  // her rig, once the doodle has been painted in
+  const rig = {};
+  function findRig() {
+    if (!comp) return;
+    rig.arm = comp.querySelector('#mkp-arm');
+    rig.legF = comp.querySelector('#mkp-legF');
+    rig.legB = comp.querySelector('#mkp-legB');
+    rig.head = comp.querySelector('#mkp-head');
   }
 
-  function measureHand() {
-    const svg = puller.querySelector('svg');
-    if (!svg) return;
-    const r = svg.getBoundingClientRect();
-    const vb = svg.viewBox.baseVal;      // 0 0 280 300
-    const sx = r.width / (vb.width || 280);
-    const sy = r.height / (vb.height || 300);
-    // midpoint of the two gripping hands, in the mascot's own coordinates
-    hand.x = r.left + 226 * sx;
-    hand.y = r.top + 110 * sy;
+  let lastY = scrollY;
+  let vel = 0;          // smoothed scroll speed
+  let phase = 0;        // haul cycle
+  let tension = 0;      // 0 slack … 1 taut
+
+  function bounds() {
+    // she walks on while the work section is in view, and stands
+    // down again once the closing panel takes over
+    const work = document.getElementById('work');
+    const end = document.getElementById('end');
+    if (!work) return false;
+    const w = work.getBoundingClientRect();
+    const e = end ? end.getBoundingClientRect() : { top: Infinity };
+    return w.top < innerHeight * 0.55 && e.top > innerHeight * 0.72;
   }
-
-  /* ---------- rope geometry ---------- */
-
-  const smoothstep = (a, b, v) => {
-    const t = clamp((v - a) / (b - a), 0, 1);
-    return t * t * (3 - 2 * t);
-  };
-
-  function ropeY(x, level, sag, whip) {
-    const span = (viewW + 300) - hand.x;
-    const u = clamp((x - hand.x) / (span || 1), 0, 1);
-    const base = lerp(hand.y, level, smoothstep(0, 0.2, u));
-    const dip = sag * Math.sin(Math.PI * clamp((u - 0.05) / 0.95, 0, 1));
-    const flick = whip * Math.sin(u * Math.PI * 2.4) * (1 - u);
-    return base + dip + flick;
-  }
-
-  function drawRope(level, sag, whip) {
-    const N = 44;
-    let d = '';
-    for (let i = 0; i <= N; i++) {
-      const x = lerp(hand.x, viewW + 300, i / N);
-      const y = ropeY(x, level, sag, whip);
-      d += (i ? ' L' : 'M') + x.toFixed(1) + ' ' + y.toFixed(1);
-    }
-
-    // little twists along the rope so it reads as cord, not wire
-    let tw = '';
-    for (let i = 2; i < N - 1; i += 3) {
-      const x = lerp(hand.x, viewW + 300, i / N);
-      const y = ropeY(x, level, sag, whip);
-      tw += `M${(x - 5).toFixed(1)} ${(y + 4).toFixed(1)} L${(x + 5).toFixed(1)} ${(y - 4).toFixed(1)} `;
-    }
-
-    // each card is tethered to the line by a short string from its underside
-    let strings = '';
-    cards.forEach((c) => {
-      const x = c.cx - current;
-      if (x < -260 || x > viewW + 260) return;
-      const ky = ropeY(x, level, sag, whip);
-      const tail = c.a * (Math.PI / 180) * (ky - c.bottom);   // where the swing puts the card's tie point
-      strings +=
-        `<path class="string" d="M${x.toFixed(1)} ${ky.toFixed(1)} ` +
-        `Q${(x + tail * 0.35).toFixed(1)} ${((ky + c.bottom) / 2).toFixed(1)} ` +
-        `${(x - tail).toFixed(1)} ${c.bottom.toFixed(1)}"/>` +
-        `<circle class="knot" cx="${x.toFixed(1)}" cy="${ky.toFixed(1)}" r="6"/>`;
-    });
-
-    ropeSvg.innerHTML =
-      `<path class="rope-line" d="${d}"/><path class="rope-tw" d="${tw}"/>${strings}`;
-  }
-
-  /* ---------- the mascot's effort ---------- */
-
-  const legF = () => puller.querySelector('#mkp-legF');
-  const legB = () => puller.querySelector('#mkp-legB');
-  const arm  = () => puller.querySelector('#mkp-arm');
-  const head = () => puller.querySelector('#mkp-head');
-
-  function animatePuller(effort) {
-    armPhase += 0.03 + effort * 0.09;
-    const s = Math.sin(armPhase);
-
-    const a = arm();  if (a) a.style.transform = `rotate(${(-4 + s * 7 * (0.35 + effort)).toFixed(2)}deg) translateX(${(s * 5 * effort).toFixed(1)}px)`;
-    const f = legF(); if (f) f.style.transform = `rotate(${(s * 4 * effort).toFixed(2)}deg)`;
-    const b = legB(); if (b) b.style.transform = `rotate(${(-s * 5 * effort).toFixed(2)}deg)`;
-    const h = head(); if (h) h.style.transform = `rotate(${(-2 - s * 2.5 * effort).toFixed(2)}deg) translateY(${(-s * 2 * effort).toFixed(1)}px)`;
-
-    puller.style.rotate = `${(-2 - effort * 5).toFixed(2)}deg`;
-    puller.classList.toggle('is-heaving', effort > 0.55);
-  }
-
-  /* ---------- the loop ---------- */
 
   function frame() {
-    if (!enabled) { requestAnimationFrame(frame); return; }
+    const dy = scrollY - lastY;
+    lastY = scrollY;
 
-    const start = spacer.offsetTop;
-    const dist = Math.max(1, spacer.offsetHeight - viewH);
-    const p = clamp((scrollY - start) / dist, 0, 1);
+    // smoothed absolute speed, normalised to something usable
+    vel = lerp(vel, Math.min(Math.abs(dy) / 26, 1), 0.16);
+    tension = lerp(tension, vel, 0.12);
+    phase += Math.abs(dy) * 0.03;
 
-    const prev = current;
-    target = p * maxX;
-    current = lerp(current, target, EASE);
-    if (Math.abs(target - current) < 0.05) current = target;
+    if (comp) {
+      comp.classList.toggle('is-in', bounds());
+      comp.classList.toggle('is-hauling', vel > 0.12);
 
-    vel = current - prev;
-    velSmooth = lerp(velSmooth, vel, 0.2);
+      const swing = Math.sin(phase);
 
-    track.style.transform = `translate3d(${(-current).toFixed(2)}px, 0, 0)`;
+      if (rig.arm) rig.arm.setAttribute('transform', `translate(${(-7 * swing * vel).toFixed(2)} ${(2 * swing * vel).toFixed(2)})`);
+      if (rig.legF) rig.legF.setAttribute('transform', `rotate(${(4 * swing * vel).toFixed(2)} 152 190)`);
+      if (rig.legB) rig.legB.setAttribute('transform', `rotate(${(-5 * swing * vel).toFixed(2)} 120 196)`);
+      if (rig.head) rig.head.setAttribute('transform', `translate(0 ${(-2.5 * Math.abs(swing) * vel).toFixed(2)})`);
 
-    /* --- what's on screen right now --- */
-    const centre = current + viewW * 0.5;
-    const leftEdge = current + 90;
-    let atCentre = panels[0], atLeft = panels[0];
-    for (const pl of panels) {
-      if (centre >= pl.x && centre < pl.x + pl.w) atCentre = pl;
-      if (leftEdge >= pl.x && leftEdge < pl.x + pl.w) atLeft = pl;
-    }
-
-    document.body.classList.toggle('on-dark-left', !!(atLeft && atLeft.dark));
-    rail.classList.toggle('on-dark', !!(atLeft && atLeft.dark));
-
-    /* --- rope + cards, only while the projects are actually in play.
-           She arrives once the first card is well into frame and leaves
-           as the last one clears her, so she never stands on the copy. --- */
-    const first = cards[0], last = cards[cards.length - 1];
-    const ropeOn = first && current > first.cx - viewW * 0.58 && current < last.cx - viewW * 0.02;
-
-    ropeSvg.classList.toggle('is-on', !!ropeOn);
-    puller.classList.toggle('is-on', !!ropeOn);
-
-    if (ropeOn) {
-      measureHand();
-      const effort = clamp(Math.abs(velSmooth) / 26, 0, 1);
-      const level = hand.y - 6;               // the line leaves her grip level
-      const sag = SAG + effort * 16;
-      const whip = -velSmooth * 1.5;
-
-      cards.forEach((c) => {
-        c.av += (0 - c.a) * 0.06;       // spring back to hanging
-        c.av += -velSmooth * 0.011;     // shoved by the motion
-        c.av *= 0.88;
-        c.a += c.av;
-        c.a = clamp(c.a, -9, 9);
-        // written every frame, on screen or not, so an off-screen card never
-        // snaps back into view holding a stale angle
-        const x = c.cx - current;
-        c.el.style.transformOrigin = `50% ${(ropeY(x, level, sag, whip) - c.top).toFixed(1)}px`;
-        c.el.style.transform = `rotate(${c.a.toFixed(2)}deg)`;
-      });
-
-      drawRope(level, sag, whip);
-      animatePuller(effort);
-    }
-
-    /* --- progress rail --- */
-    railFill.setAttribute('d', `M2 5 H${(2 + p * 996).toFixed(1)}`);
-    railWalk.style.left = (p * 100).toFixed(2) + '%';
-    railWalk.style.transform = `translateY(${(Math.sin(current * 0.06) * 3).toFixed(1)}px) rotate(${(velSmooth * 0.4).toFixed(1)}deg)`;
-    railPct.textContent = Math.round(p * 100) + '%';
-    if (atCentre && railLbl.textContent !== atCentre.label) railLbl.textContent = atCentre.label;
-
-    /* --- hero parallax --- */
-    if (current < viewW * 1.2) {
-      heroDoodles.forEach((d) => { d.el.style.translate = `${(current * d.depth).toFixed(1)}px 0`; });
-    }
-
-    requestAnimationFrame(frame);
-  }
-
-  /* ---------- hero extras ---------- */
-
-  let heroDoodles = [];
-
-  function setupHero() {
-    heroDoodles = [...document.querySelectorAll('.dood, .hero__oops, .hero__mascot')].map((el, i) => ({
-      el,
-      depth: el.classList.contains('hero__mascot') ? 0.14 : (0.06 + ((i * 37) % 24) / 100)
-    }));
-
-    // the mascot's eyes track the cursor
-    const eyes = document.querySelector('#heroMascot .mk-eyes');
-    if (eyes && !REDUCED && !COARSE) {
-      addEventListener('pointermove', (e) => {
-        const r = document.getElementById('heroMascot').getBoundingClientRect();
-        if (!r.width) return;
-        const dx = clamp((e.clientX - (r.left + r.width * 0.52)) / (innerWidth * 0.5), -1, 1);
-        const dy = clamp((e.clientY - (r.top + r.height * 0.28)) / (innerHeight * 0.5), -1, 1);
-        eyes.style.transform = `translate(${(dx * 2.6).toFixed(2)}px, ${(dy * 2).toFixed(2)}px)`;
-      }, { passive: true });
-    }
-  }
-
-  /* ---------- input niceties ---------- */
-
-  function setupInput() {
-    // trackpad side-swipes and shift+wheel should move the story along
-    addEventListener('wheel', (e) => {
-      if (!enabled) return;
-      if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 2) {
-        scrollBy({ top: e.deltaX, behavior: 'instant' });
+      // rope: slack when she is idle, taut when the page is moving
+      if (ropeSvg) {
+        const slack = lerp(56, 10, tension);
+        ropeSvg.setAttribute('d', `M2 126 Q105 ${(65 + slack).toFixed(1)} 208 4`);
       }
-    }, { passive: true });
-
-    addEventListener('keydown', (e) => {
-      if (!enabled) return;
-      if (e.target.closest('input, textarea')) return;
-      const step = viewW * 0.42;
-      if (e.key === 'ArrowRight') { scrollBy({ top: step * SCROLL_RATIO, behavior: 'smooth' }); e.preventDefault(); }
-      if (e.key === 'ArrowLeft') { scrollBy({ top: -step * SCROLL_RATIO, behavior: 'smooth' }); e.preventDefault(); }
-    });
-
-    // keep a focused card on screen when tabbing through
-    track.addEventListener('focusin', (e) => {
-      if (!enabled) return;
-      const card = e.target.closest('.card');
-      if (!card) return;
-      const panel = card.closest('.panel');
-      const wanted = panel.offsetLeft - (viewW - panel.offsetWidth) / 2;
-      scrollTo({ top: spacer.offsetTop + clamp(wanted / maxX, 0, 1) * (spacer.offsetHeight - viewH), behavior: 'smooth' });
-    });
-  }
-
-  /* ---------- mode ---------- */
-
-  function decideMode() {
-    const narrow = innerWidth < 900;
-    const shortish = innerHeight < 540;
-    const next = !(REDUCED || COARSE || narrow || shortish);
-    if (next === enabled && document.body.classList.contains('no-hscroll') !== next) {
-      // already correct
     }
-    enabled = next;
-    document.body.classList.toggle('no-hscroll', !enabled);
-    if (!enabled) {
-      track.style.transform = '';
-      spacer.style.height = '';
-      ropeSvg.innerHTML = '';
-      current = 0;
-      cards.forEach((c) => { c.el.style.transform = ''; c.el.style.transformOrigin = ''; });
-      document.querySelectorAll('.dood, .hero__oops, .hero__mascot').forEach((el) => { el.style.translate = ''; });
-    }
-  }
 
-  /* ---------- boot ---------- */
-
-  /* in the vertical layout the nav sits on the navy hero and needs to go light */
-  function watchHeroForNav() {
-    const hero = track.querySelector('.panel--hero');
-    const tick = () => {
-      if (enabled) return;
-      document.body.classList.toggle('on-dark-left', scrollY < hero.offsetHeight - 74);
-    };
-    addEventListener('scroll', tick, { passive: true });
-    addEventListener('resize', tick);
-    tick();
-  }
-
-  function boot() {
-    buildCards();
-    // the standing copy of the mascot is decorative — keep the rig IDs unique
-    document.querySelectorAll('.handoff__mascot [id]').forEach((n) => n.removeAttribute('id'));
-    setupHero();
-    setupInput();
-    watchHeroForNav();
-    decideMode();
-    measure();
-    mountReveals(track);
+    paintNav();
     requestAnimationFrame(frame);
-
-    let t;
-    addEventListener('resize', () => {
-      clearTimeout(t);
-      t = setTimeout(() => { decideMode(); measure(); }, 120);
-    });
-    addEventListener('load', () => { decideMode(); measure(); });
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { measure(); });
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
-  else boot();
+  /* ---------------------------------------------------------
+     4 · she answers when you poke her
+     --------------------------------------------------------- */
+
+  if (comp) {
+    const fig = comp.querySelector('.companion__fig');
+    let timer;
+
+    const talk = () => {
+      if (!say) return;
+      say.textContent = LINES[lineAt % LINES.length];
+      lineAt++;
+      comp.classList.add('is-talking');
+      clearTimeout(timer);
+      timer = setTimeout(() => comp.classList.remove('is-talking'), 2400);
+    };
+
+    fig.addEventListener('click', talk);
+    fig.addEventListener('mouseenter', talk);
+    fig.setAttribute('role', 'button');
+    fig.setAttribute('tabindex', '0');
+    fig.setAttribute('aria-label', 'Say hello to the mascot');
+    fig.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); talk(); }
+    });
+  }
+
+  /* ---------------------------------------------------------
+     start
+     --------------------------------------------------------- */
+
+  document.addEventListener('DOMContentLoaded', () => {
+    findRig();
+    paintNav();
+    if (REDUCE) {
+      // no animation loop — just let her stand where she belongs
+      if (comp) {
+        comp.classList.toggle('is-in', bounds());
+        addEventListener('scroll', () => {
+          comp.classList.toggle('is-in', bounds());
+          paintNav();
+        }, { passive: true });
+      } else {
+        addEventListener('scroll', paintNav, { passive: true });
+      }
+      return;
+    }
+    requestAnimationFrame(frame);
+  });
 })();

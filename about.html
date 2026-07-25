@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>About — Muskan Mandot</title>
-<meta name="description" content="Muskan Mandot — visual designer with 4+ years across web, mobile, SAP and design systems. Clean work, chaotic desk.">
+<meta name="description" content="Muskan Mandot — UX and UI designer with 4+ years across web, mobile, enterprise and design systems. Research and flows through to interface design.">
 <meta name="theme-color" content="#FCFAF5">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%2312295D'/%3E%3Cpath d='M9 31 L12 12 L20 24 L28 12 L31 31' fill='none' stroke='%23FCFAF5' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M5 26 L12 22 L10 31 Z' fill='%23FF3B2A'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%2312295D'/%3E%3Cpath d='M20 10 L20 30 M11 15 L29 25 M29 15 L11 25' fill='none' stroke='%23FCFAF5' stroke-width='2.8' stroke-linecap='round'/%3E%3Ccircle cx='31' cy='10' r='4.2' fill='%23FF3B2A'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="assets/css/fonts.css">
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/page.css">
 <style>
-  /* the doodle labels that ring the photo, straight off the deck */
+  /* the doodle labels that ring the photo */
   .ring { position: absolute; display: flex; align-items: center; gap: 2px; color: var(--blue);
           font-family: var(--f-hand); font-weight: 700; font-size: clamp(1rem, 1.2vw, 1.3rem); white-space: nowrap; }
   .ring .doodle { width: clamp(44px, 4.6vw, 66px); }
@@ -26,6 +26,16 @@
     .ring--b { left: -2%; }
     .ring--c { right: 0; }
   }
+
+  /* what I actually do, stage by stage */
+  .craft { display: grid; gap: 1px; background: rgba(63,111,151,.22);
+           border: 1px solid rgba(63,111,151,.22); border-radius: 12px; overflow: hidden; }
+  .craft__row { display: grid; grid-template-columns: minmax(150px, .34fr) 1fr;
+                gap: clamp(14px, 2.4vw, 34px); padding: clamp(22px, 2.8vw, 32px); background: var(--paper); }
+  .craft__row h3 { font-size: 1.06rem; }
+  .craft__row p { font-size: .95rem; line-height: 1.64; opacity: .78; max-width: 62ch; }
+  .craft__row ul { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
+  @media (max-width: 700px) { .craft__row { grid-template-columns: 1fr; gap: 10px; } }
 </style>
 </head>
 
@@ -42,71 +52,119 @@
       <figure class="about-hero__photo reveal">
         <img src="assets/img/muskan.jpg" alt="Muskan Mandot, sitting at a café table in front of a hand-drawn mural." width="450" height="800">
         <figcaption>
-          <span class="ring ring--a"><span>Creative</span><span class="doodle" data-doodle="arrowCurl"></span></span>
+          <span class="ring ring--a"><span>Curious</span><span class="doodle" data-doodle="arrowCurl"></span></span>
           <span class="ring ring--b"><span>Empath</span><span class="doodle" data-doodle="arrowCurl"></span></span>
-          <span class="ring ring--c"><span>Social</span><span class="doodle" data-doodle="arrowCurl"></span></span>
+          <span class="ring ring--c"><span>Systems-brained</span><span class="doodle" data-doodle="arrowCurl"></span></span>
         </figcaption>
       </figure>
 
       <div>
-        <p class="eyebrow reveal">Visual Designer</p>
+        <p class="eyebrow eyebrow--hand reveal">UX &amp; UI Designer</p>
         <h1 class="display d-xl reveal" data-delay="1">Hello,</h1>
         <div class="prose lede reveal" data-delay="2">
           <p>
-            With a background in design, I create clean, user-friendly digital experiences across
-            multiple domains, working on both mobile and web with a strong focus on usability,
-            clarity, and consistency. I also have experience building and contributing to design
-            systems to make products more scalable and cohesive.
+            I design digital products for web and mobile — and the part I care about most
+            happens before anything gets drawn. Who is on the other side of this screen?
+            How often do they come back? What do they already know, and what are we
+            making them learn for no good reason?
           </p>
           <p>
-            I collaborate closely with developers and stakeholders, and have been part of presales
-            and client-facing projects as well. I enjoy turning ideas into simple, thoughtful designs
-            that not only look good but also work well.
+            That means the work usually starts in FigJam rather than Figma: auditing what
+            exists, mapping journeys and flows, writing the interface copy, and arguing
+            about which steps have actually earned their place. Then I design the
+            interface, take it through iterations with stakeholders and engineers, and
+            leave behind a documented system so it stays consistent after I have moved on.
           </p>
           <p>
-            Outside of work, I love exploring new places, trying new food, and finding inspiration
-            in everyday moments.
+            I have worked across sensors and hardware, retail and loyalty, fintech,
+            enterprise SAP tooling and health — plus presales and client-facing work,
+            which is really just the same skill pointed at a room full of opinions.
+          </p>
+          <p>
+            Outside of it all I like new places, unfamiliar food, and noticing how badly
+            signage is designed in airports.
           </p>
         </div>
 
         <div class="spec reveal" data-delay="3">
           <div><strong>4+ Years</strong><span>Experience</span></div>
-          <div><strong>Visual Designer</strong><span>Role</span></div>
-          <div class="wide"><strong>UI Design, Responsive (Web &amp; Mobile), SAP, Design Systems</strong><span>Key skills</span></div>
-          <div class="wide"><strong>Figma, Photoshop, XD, AI Tools</strong><span>Tools</span></div>
+          <div><strong>UX &amp; UI Designer</strong><span>Role</span></div>
+          <div class="wide"><strong>Research, journeys &amp; flows · IA · UX writing · Responsive UI · Design systems</strong><span>Key skills</span></div>
+          <div class="wide"><strong>Figma · FigJam · Photoshop · Adobe XD · AI tools</strong><span>Tools</span></div>
         </div>
       </div>
     </div>
     <div class="phead__doodle" data-doodle="plant" style="top:auto;bottom:6%;opacity:.22"></div>
   </section>
 
+  <!-- ===== what I actually do ===== -->
+  <section class="section" style="background:var(--paper-warm)">
+    <div class="wrap">
+      <p class="eyebrow reveal">The work, stage by stage</p>
+      <h2 class="display d-lg reveal" data-delay="1" style="margin:.2em 0 .9em">
+        Not just the <span class="dd-underline dd-underline--blue">pretty end</span>
+      </h2>
+
+      <div class="craft reveal" data-delay="2">
+        <div class="craft__row">
+          <h3>Understand</h3>
+          <div>
+            <p>Auditing what already exists, reading whatever research is on the shelf, and talking to the people who answer support tickets. Most of the real problems are already known by someone — they have just never been written down in one place.</p>
+            <ul><span class="tag">Audits</span><span class="tag">Stakeholder interviews</span><span class="tag">Competitive review</span></ul>
+          </div>
+        </div>
+        <div class="craft__row">
+          <h3>Map</h3>
+          <div>
+            <p>Personas that describe behaviour rather than demographics, journey maps that admit where someone gets frustrated, and flows covering the empty, error and success states before the happy path gets designed twice.</p>
+            <ul><span class="tag">Journey maps</span><span class="tag">User flows</span><span class="tag">Information architecture</span></ul>
+          </div>
+        </div>
+        <div class="craft__row">
+          <h3>Design</h3>
+          <div>
+            <p>Wireframes into responsive interface design across desktop, tablet and mobile — including the interface copy, because a heading that has to be rewritten later usually means the layout was wrong.</p>
+            <ul><span class="tag">Wireframes</span><span class="tag">Responsive UI</span><span class="tag">UX writing</span><span class="tag">Prototypes</span></ul>
+          </div>
+        </div>
+        <div class="craft__row">
+          <h3>Systemise</h3>
+          <div>
+            <p>Foundations, component libraries, variants, tokens and developer-facing annotations. The unglamorous work that makes the next six months faster for everyone who touches the product.</p>
+            <ul><span class="tag">Design systems</span><span class="tag">Component libraries</span><span class="tag">Handoff</span></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ===== how I work ===== -->
   <section class="section">
     <div class="wrap">
-      <p class="eyebrow reveal">how the work actually goes —</p>
-      <h2 class="display d-lg reveal" data-delay="1" style="margin-bottom:1em">
-        Four things I keep <span class="dd-underline dd-underline--blue">coming back to</span>
+      <p class="eyebrow eyebrow--hand reveal">how the work actually goes —</p>
+      <h2 class="display d-lg reveal" data-delay="1" style="margin:.2em 0 .9em">
+        Four things I keep <span class="dd-underline">coming back to</span>
       </h2>
 
       <div class="klutz">
         <div class="klutz__card reveal">
-          <span class="doodle" data-doodle="compass"></span>
-          <h3 class="display">Clarity first</h3>
-          <p>Hierarchy before decoration. If someone has to hunt for the one thing that matters, the layout hasn't earned its keep yet.</p>
+          <span class="doodle" data-doodle="cloudThink"></span>
+          <h3>Ask the boring questions</h3>
+          <p>How often does this person sign in? What do they already know? The most interesting design decisions come out of the least interesting answers.</p>
         </div>
         <div class="klutz__card reveal" data-delay="1">
-          <span class="doodle" data-doodle="ruler"></span>
-          <h3 class="display">Systems, not screens</h3>
-          <p>Components, variants and tokens, documented with their states. It's the difference between a redesign that lasts and one that drifts by spring.</p>
+          <span class="doodle" data-doodle="compass"></span>
+          <h3>Clarity first</h3>
+          <p>Hierarchy before decoration. If someone has to hunt for the one thing that matters, the layout has not earned its keep yet.</p>
         </div>
         <div class="klutz__card reveal" data-delay="2">
-          <span class="doodle" data-doodle="cloudThink"></span>
-          <h3 class="display">Ask the boring questions</h3>
-          <p>How often does this person log in? What do they already know? Most interesting design decisions come out of an unglamorous answer.</p>
+          <span class="doodle" data-doodle="ruler"></span>
+          <h3>Systems, not screens</h3>
+          <p>Components, variants and tokens, documented with their states. The difference between a redesign that lasts and one that drifts by spring.</p>
         </div>
         <div class="klutz__card reveal" data-delay="3">
           <span class="doodle" data-doodle="heart"></span>
-          <h3 class="display">Warmth counts</h3>
+          <h3>Warmth counts</h3>
           <p>Even enterprise software is used by someone having a day. A little softness in the colour, the copy and the spacing goes a long way.</p>
         </div>
       </div>
@@ -118,7 +176,7 @@
     <div class="wrap">
       <div class="about-hero" style="align-items:center">
         <div>
-          <p class="eyebrow reveal">the fine print —</p>
+          <p class="eyebrow eyebrow--hand reveal">the fine print —</p>
           <h2 class="display d-lg reveal" data-delay="1">I am, admittedly,<br>a bit of a <span class="dd-underline">klutz</span>.</h2>
           <div class="prose lede reveal" data-delay="2" style="margin-top:1em">
             <p>
@@ -127,32 +185,33 @@
               named <em>final-FINAL-v3-actually.fig</em> and meant it sincerely.
             </p>
             <p>
-              None of that ever made it into the work — if anything it's why I'm so stubborn about
-              the systems. When you know you'll drop something eventually, you build the kind of
-              structure that survives being dropped.
+              None of that ever made it into the work — if anything it is why I am so stubborn
+              about the systems. When you know you will drop something eventually, you build
+              the kind of structure that survives being dropped.
             </p>
           </div>
+          <span class="doodle reveal" data-delay="3" data-doodle="mascotTrip" style="width:min(300px,80%);color:var(--blue);opacity:.5;margin-top:26px"></span>
         </div>
 
         <ul class="timeline reveal" data-delay="1">
           <li>
             <span class="label">Right now</span>
-            <h3 class="display">Visual Designer</h3>
-            <p>Web and mobile across sensors, fintech, FMCG and health — plus the design systems that keep them consistent.</p>
+            <h3>UX &amp; UI Designer</h3>
+            <p>End-to-end product design across web and mobile — sensors, retail, fintech and health — plus the design systems that keep them consistent.</p>
           </li>
           <li>
             <span class="label">Along the way</span>
-            <h3 class="display">Presales &amp; client-facing</h3>
-            <p>Pitching concepts, walking stakeholders through rationale, and translating a room full of opinions into one direction.</p>
+            <h3>Presales &amp; client-facing</h3>
+            <p>Pitching concepts, walking stakeholders through rationale, and translating a room full of opinions into one direction everyone can build against.</p>
           </li>
           <li>
             <span class="label">Always</span>
-            <h3 class="display">Building the vocabulary</h3>
+            <h3>Building the vocabulary</h3>
             <p>Components, variants, tokens, annotations. The unglamorous work that makes the next six months faster for everyone.</p>
           </li>
           <li>
             <span class="label">Off the clock</span>
-            <h3 class="display">New places, new food</h3>
+            <h3>New places, new food</h3>
             <p>Most of what ends up in my work started as something I noticed on a walk, in a menu, or on a wall somewhere.</p>
           </li>
         </ul>
@@ -163,22 +222,22 @@
   <!-- ===== toolkit ===== -->
   <section class="section">
     <div class="wrap">
-      <p class="eyebrow reveal">what's on the desk —</p>
-      <h2 class="display d-lg reveal" data-delay="1" style="margin-bottom:.8em">The toolkit</h2>
+      <p class="eyebrow eyebrow--hand reveal">what's on the desk —</p>
+      <h2 class="display d-lg reveal" data-delay="1" style="margin:.2em 0 .9em">The toolkit</h2>
       <div class="klutz">
         <div class="klutz__card reveal">
           <span class="doodle" data-doodle="palette"></span>
-          <h3 class="display">Design</h3>
-          <p>Figma (daily), Photoshop, Adobe XD, and a growing pile of AI tools that are useful about half the time.</p>
+          <h3>Design</h3>
+          <p>Figma daily, FigJam for everything before it, Photoshop, Adobe XD, and a growing pile of AI tools that are useful about half the time.</p>
         </div>
         <div class="klutz__card reveal" data-delay="1">
           <span class="doodle" data-doodle="laptop"></span>
-          <h3 class="display">Craft</h3>
-          <p>Responsive UI for web and mobile, SAP design standards, bento layouts, data tables, and illustration when a screen needs a voice.</p>
+          <h3>Craft</h3>
+          <p>Responsive UI for web and mobile, SAP design standards, bento layouts, dense data tables, and illustration when a screen needs a voice.</p>
         </div>
         <div class="klutz__card reveal" data-delay="2">
           <span class="doodle" data-doodle="book"></span>
-          <h3 class="display">Systems</h3>
+          <h3>Systems</h3>
           <p>Foundations, component libraries, variants, tokens and dev-facing annotations — built to be handed over, not just admired.</p>
         </div>
       </div>
