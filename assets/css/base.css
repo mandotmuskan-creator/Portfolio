@@ -43,6 +43,10 @@ a { color: inherit; text-decoration: none; }
   --red:         #FF3B2A;
   --red-deep:    #D92A1B;
 
+  /* the wordmark's full stop — warm gold sits opposite navy on the wheel,
+     so it reads as an accent rather than as a second red */
+  --gold:        #E0A335;
+
   --ink:         var(--navy);
   --bg:          var(--paper);
 
@@ -370,7 +374,7 @@ body.is-navy .nav::before { background: var(--navy); box-shadow: 0 1px 0 rgba(21
   font-size: 1rem;
   letter-spacing: -.014em;
 }
-.nav__mark i { font-style: normal; color: var(--red); }
+.nav__mark i { font-style: normal; color: var(--gold); }
 
 .nav__links {
   display: flex;

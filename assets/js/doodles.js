@@ -231,74 +231,80 @@ const DOODLE = {
     <path class="stroke stroke-thin" d="M22 8 L24 33 M46 6 L48 31 M68 5 L70 30"/>
   </svg>`,
 
-  /* ---------- the mascot ----------
-     One character, four poses. Hair worn open — a crown arc over a jaw
-     arc, with two strands falling past the shoulders — and she is
-     smiling in all of them. */
+  /* ---------- the mascot ---------- */
 
-  /* Hero pose — hand up, mid-wave. Rigged: .mkw-arm waves, .mkw-head tilts. */
-  mascotWave: `<svg viewBox="0 0 240 280" class="doodle mascot mascot--wave" aria-hidden="true">
-    <!-- legs -->
-    <path class="stroke" d="M106 186 C100 212 98 230 94 250"/>
-    <path class="stroke" d="M94 250 C86 254 78 256 72 260 C80 266 94 266 102 260"/>
-    <path class="stroke" d="M128 186 C136 212 140 230 144 250"/>
-    <path class="stroke" d="M144 250 C152 254 160 256 166 260 C158 266 144 266 136 260"/>
+  /* Hero pose — feet out from under her, paperwork airborne. Clumsy incarnate. */
+  mascotTrip: `<svg viewBox="0 0 340 300" class="doodle mascot mascot--trip" aria-hidden="true">
+    <!-- the paperwork, no longer in her hands -->
+    <g class="mk-fly mk-fly--1"><path class="stroke stroke-thin" d="M138 4 L178 10 L172 44 L132 38Z"/><path class="stroke stroke-thin" d="M142 16 L166 20 M141 27 L163 30"/></g>
+    <g class="mk-fly mk-fly--2"><path class="stroke stroke-thin" d="M228 10 L268 4 L274 42 L234 48Z"/><path class="stroke stroke-thin" d="M238 20 L262 16 M239 31 L261 27"/></g>
+    <g class="mk-fly mk-fly--3"><path class="stroke stroke-thin" d="M288 48 L330 40 L336 76 L294 84Z"/></g>
 
-    <!-- dress -->
-    <path class="stroke" d="M118 116 C104 134 98 160 100 188 C116 196 134 196 148 188 C146 160 134 134 118 116Z"/>
-    <path class="stroke stroke-thin" d="M108 158 C118 163 130 163 140 158"/>
+    <!-- she was moving a moment ago -->
+    <path class="stroke stroke-thin mk-speed" d="M4 146 L42 141 M2 164 L34 160 M10 128 L40 124"/>
 
-    <!-- resting arm -->
-    <path class="stroke" d="M106 128 C90 140 80 158 78 176"/>
-    <circle class="stroke" cx="76" cy="182" r="6"/>
+    <g class="mk-body">
+      <!-- both feet, out from under her -->
+      <path class="stroke" d="M196 176 C222 168 246 158 276 132"/>
+      <path class="stroke" d="M276 132 C284 126 294 124 302 128 C298 140 288 148 276 148"/>
+      <path class="stroke" d="M198 188 C224 194 250 197 280 194"/>
+      <path class="stroke" d="M280 194 C289 196 297 201 301 210 C290 214 278 211 269 204"/>
 
-    <!-- waving arm -->
-    <g class="mkw-arm">
-      <path class="stroke" d="M132 126 C152 116 166 98 170 76"/>
-      <circle class="stroke" cx="172" cy="68" r="8"/>
-      <path class="stroke stroke-thin" d="M182 54 L190 46 M186 66 L198 63 M176 48 L179 36"/>
-    </g>
+      <!-- dress, already on its way down -->
+      <path class="stroke" d="M128 107 C120 118 112 129 108 137 C130 158 158 184 177 204 C194 194 208 170 215 148 C190 133 154 117 128 107Z"/>
 
-    <g class="mkw-head">
-      <!-- jaw -->
-      <path class="stroke" d="M90 74 C89 96 102 112 120 112 C138 112 151 96 150 74"/>
-      <!-- hair, worn open -->
-      <path class="stroke" d="M90 74 C86 48 104 32 120 33 C136 32 154 48 150 74"/>
-      <path class="stroke" d="M90 74 C82 94 84 116 92 132 C97 140 105 139 104 130"/>
-      <path class="stroke" d="M150 74 C158 94 156 116 148 132 C143 140 135 139 136 130"/>
-      <path class="stroke stroke-thin" d="M106 42 C113 50 127 50 134 41"/>
-      <!-- face -->
-      <g class="mkw-eyes">
-        <circle cx="109" cy="74" r="3.8" fill="currentColor"/>
-        <circle cx="131" cy="74" r="3.8" fill="currentColor"/>
+      <!-- one arm up, one reaching back for a floor that isn't there yet -->
+      <path class="stroke" d="M132 112 C152 96 172 78 194 60"/>
+      <circle class="stroke" cx="200" cy="54" r="7"/>
+      <path class="stroke" d="M110 132 C96 150 82 170 66 186"/>
+      <circle class="stroke" cx="60" cy="192" r="7"/>
+
+      <!-- head, thrown back -->
+      <g class="mk-head">
+        <circle class="stroke" cx="86" cy="88" r="30"/>
+        <circle class="stroke" cx="56" cy="60" r="16"/>
+        <path class="stroke stroke-thin" d="M58 76 C42 88 38 108 48 122"/>
+        <path class="stroke stroke-thin" d="M70 72 C74 66 82 66 86 71"/>
+        <path class="stroke stroke-thin" d="M95 70 C99 64 107 64 111 69"/>
+        <g class="mk-eyes">
+          <circle cx="78" cy="85" r="4" fill="currentColor"/>
+          <circle cx="102" cy="83" r="4" fill="currentColor"/>
+        </g>
+        <ellipse class="stroke stroke-thin" cx="91" cy="103" rx="7" ry="8"/>
+        <path class="stroke stroke-thin" d="M62 98 C65 96 68 96 70 98 M112 94 C115 92 118 92 120 94"/>
       </g>
-      <path class="stroke stroke-thin" d="M102 63 C106 59 112 59 115 63 M125 63 C128 59 134 59 138 63"/>
-      <path class="stroke stroke-thin" d="M110 88 C115 95 126 95 131 87"/>
-      <path class="stroke stroke-thin" d="M96 82 C99 80 102 80 104 82 M136 82 C139 80 142 80 144 82"/>
     </g>
+
+    <!-- and the floor she's about to meet -->
+    <path class="stroke stroke-thin mk-dust" d="M120 244 C136 234 156 238 164 250 M156 262 C172 254 190 258 198 268 M92 262 C104 254 118 258 124 266"/>
   </svg>`,
 
-  /* Rope-pulling pose — the scroll companion. Rigged: JS animates
-     #mkp-arm, #mkp-legF, #mkp-legB, #mkp-head.
-     Her grip sits at (226, 110) in these coordinates. */
+  /* Rope-pulling pose. Rigged: JS animates #mkp-arm, #mkp-legF, #mkp-legB, #mkp-head.
+     Her grip sits at (226, 110) in these coordinates — home.js anchors the rope there. */
   mascotPull: `<svg viewBox="0 0 280 300" class="doodle mascot mascot--pull" aria-hidden="true">
+    <!-- effort marks -->
     <path class="stroke stroke-thin mkp-effort" d="M92 20 L86 6 M114 12 L114 0 M68 38 L54 30"/>
 
+    <!-- back leg -->
     <g id="mkp-legB" class="mkp-leg">
       <path class="stroke" d="M120 196 C108 220 98 238 84 252"/>
       <path class="stroke" d="M84 252 C74 256 66 258 60 264 C68 271 82 271 92 264"/>
     </g>
 
+    <!-- front leg, braced against the pull -->
     <g id="mkp-legF" class="mkp-leg">
       <path class="stroke" d="M152 190 C176 208 198 222 218 234"/>
       <path class="stroke" d="M218 234 C228 236 238 240 244 248 C234 255 220 253 210 245"/>
     </g>
 
-    <path class="stroke" d="M116 104 C118 110 120 114 124 117"/>
+    <!-- neck -->
+    <path class="stroke" d="M116 100 C118 106 120 110 124 113"/>
 
+    <!-- dress, leaning back into the haul -->
     <path class="stroke" d="M141 104 C128 107 112 111 103 116 C101 145 104 175 108 202 C133 197 160 188 184 180 C174 152 156 126 141 104Z"/>
     <path class="stroke stroke-thin" d="M108 202 C124 208 152 200 184 180"/>
 
+    <!-- arms out front, hand over hand on the rope -->
     <g id="mkp-arm">
       <path class="stroke" d="M138 116 C166 116 194 112 220 104"/>
       <path class="stroke" d="M134 128 C162 132 190 130 216 120"/>
@@ -306,84 +312,62 @@ const DOODLE = {
       <circle class="stroke" cx="224" cy="118" r="8"/>
     </g>
 
+    <!-- head -->
     <g id="mkp-head">
-      <!-- jaw, tipped back into the haul -->
-      <path class="stroke" d="M80 68 C79 90 92 106 110 106 C128 106 141 90 140 68"/>
-      <path class="stroke" d="M80 68 C76 42 94 26 110 27 C126 26 144 42 140 68"/>
-      <!-- hair streaming back from the effort -->
-      <path class="stroke" d="M80 68 C68 84 60 104 62 124 C64 134 74 134 74 124"/>
-      <path class="stroke" d="M140 68 C148 88 146 110 138 126 C133 134 125 133 126 124"/>
-      <path class="stroke stroke-thin" d="M96 36 C103 44 117 44 124 35"/>
+      <circle class="stroke" cx="108" cy="74" r="30"/>
+      <circle class="stroke" cx="82" cy="48" r="16"/>
+      <path class="stroke stroke-thin" d="M84 64 C68 76 64 96 74 110"/>
+      <path class="stroke stroke-thin" d="M92 60 C97 57 103 58 106 62"/>
+      <path class="stroke stroke-thin" d="M120 62 C124 58 130 57 134 60"/>
       <g class="mkp-eyes">
-        <circle cx="99" cy="68" r="3.8" fill="currentColor"/>
-        <circle cx="121" cy="68" r="3.8" fill="currentColor"/>
+        <circle cx="101" cy="73" r="4" fill="currentColor"/>
+        <circle cx="126" cy="71" r="4" fill="currentColor"/>
       </g>
-      <path class="stroke stroke-thin" d="M92 57 C96 53 102 53 105 57 M115 57 C118 53 124 53 128 57"/>
-      <!-- a determined, teeth-gritted grin -->
-      <path class="stroke stroke-thin" d="M100 82 C105 89 116 89 121 81"/>
-      <path class="stroke stroke-thin" d="M86 76 C89 74 92 74 94 76 M126 76 C129 74 132 74 134 76"/>
-      <path class="stroke stroke-thin mkp-sweat" d="M152 34 C156 41 158 45 158 48 C158 52 155 55 152 55 C149 55 146 52 146 48 C146 45 148 41 152 34Z"/>
+      <ellipse class="stroke stroke-thin" cx="116" cy="90" rx="7" ry="6"/>
+      <path class="stroke stroke-thin" d="M82 86 C85 84 88 84 90 86 M138 82 C141 80 144 80 146 82"/>
+      <path class="stroke stroke-thin mkp-sweat" d="M146 36 C150 43 152 47 152 50 C152 54 149 57 146 57 C143 57 140 54 140 50 C140 47 142 43 146 36Z"/>
     </g>
 
+    <!-- skid dust under the braced foot -->
     <path class="stroke stroke-thin mkp-dust" d="M238 266 C250 260 262 264 266 272 M248 278 C260 274 272 278 276 285"/>
   </svg>`,
 
-  /* Feet out from under her, paperwork airborne. Kept for the About page,
-     where the clumsy half of the story actually lives. */
-  mascotTrip: `<svg viewBox="0 0 340 300" class="doodle mascot mascot--trip" aria-hidden="true">
-    <g class="mk-fly mk-fly--1"><path class="stroke stroke-thin" d="M138 4 L178 10 L172 44 L132 38Z"/><path class="stroke stroke-thin" d="M142 16 L166 20 M141 27 L163 30"/></g>
-    <g class="mk-fly mk-fly--2"><path class="stroke stroke-thin" d="M228 10 L268 4 L274 42 L234 48Z"/><path class="stroke stroke-thin" d="M238 20 L262 16 M239 31 L261 27"/></g>
-    <g class="mk-fly mk-fly--3"><path class="stroke stroke-thin" d="M288 48 L330 40 L336 76 L294 84Z"/></g>
-
-    <path class="stroke stroke-thin mk-speed" d="M4 146 L42 141 M2 164 L34 160 M10 128 L40 124"/>
-
-    <g class="mk-body">
-      <path class="stroke" d="M196 176 C222 168 246 158 276 132"/>
-      <path class="stroke" d="M276 132 C284 126 294 124 302 128 C298 140 288 148 276 148"/>
-      <path class="stroke" d="M198 188 C224 194 250 197 280 194"/>
-      <path class="stroke" d="M280 194 C289 196 297 201 301 210 C290 214 278 211 269 204"/>
-
-      <path class="stroke" d="M128 107 C120 118 112 129 108 137 C130 158 158 184 177 204 C194 194 208 170 215 148 C190 133 154 117 128 107Z"/>
-
-      <path class="stroke" d="M132 112 C152 96 172 78 194 60"/>
-      <circle class="stroke" cx="200" cy="54" r="7"/>
-      <path class="stroke" d="M110 132 C96 150 82 170 66 186"/>
-      <circle class="stroke" cx="60" cy="192" r="7"/>
-
-      <g class="mk-head">
-        <!-- head thrown back, hair flying with it -->
-        <path class="stroke" d="M58 84 C57 106 70 122 88 122 C106 122 119 106 118 84"/>
-        <path class="stroke" d="M58 84 C54 58 72 42 88 43 C104 42 122 58 118 84"/>
-        <path class="stroke" d="M58 84 C42 92 28 108 26 126 C25 136 36 138 38 128"/>
-        <path class="stroke" d="M118 84 C128 100 128 120 120 136 C115 144 107 143 108 134"/>
-        <path class="stroke stroke-thin" d="M74 52 C81 60 95 60 102 51"/>
-        <g class="mk-eyes">
-          <circle cx="77" cy="84" r="4" fill="currentColor"/>
-          <circle cx="99" cy="84" r="4" fill="currentColor"/>
-        </g>
-        <path class="stroke stroke-thin" d="M70 72 C74 67 80 67 83 72 M93 72 C96 67 102 67 106 72"/>
-        <!-- caught mid-laugh, not mid-scream -->
-        <ellipse class="stroke stroke-thin" cx="88" cy="100" rx="7" ry="8"/>
-        <path class="stroke stroke-thin" d="M64 94 C67 92 70 92 72 94 M104 94 C107 92 110 92 112 94"/>
-      </g>
+  /* Waving pose for the about panel */
+  mascotWave: `<svg viewBox="0 0 240 260" class="doodle mascot mascot--wave" aria-hidden="true">
+    <path class="stroke" d="M104 170 C98 196 96 214 92 234"/>
+    <path class="stroke" d="M92 234 C84 238 76 240 70 244 C78 250 92 250 100 244"/>
+    <path class="stroke" d="M126 170 C134 196 138 214 142 234"/>
+    <path class="stroke" d="M142 234 C150 238 158 240 164 244 C156 250 142 250 134 244"/>
+    <path class="stroke" d="M116 100 C102 118 96 144 98 172 C114 180 132 180 146 172 C144 144 132 118 116 100Z"/>
+    <path class="stroke" d="M104 112 C88 124 78 142 76 160"/>
+    <circle class="stroke" cx="74" cy="166" r="6"/>
+    <g class="mkw-arm">
+      <path class="stroke" d="M130 110 C150 100 164 82 168 60"/>
+      <circle class="stroke" cx="170" cy="52" r="8"/>
+      <path class="stroke stroke-thin" d="M180 38 L188 30 M184 50 L196 47 M174 32 L177 20"/>
     </g>
-
-    <path class="stroke stroke-thin mk-dust" d="M120 244 C136 234 156 238 164 250 M156 262 C172 254 190 258 198 268 M92 262 C104 254 118 258 124 266"/>
+    <g class="mkw-head">
+      <circle class="stroke" cx="118" cy="66" r="28"/>
+      <circle class="stroke" cx="94" cy="42" r="15"/>
+      <path class="stroke stroke-thin" d="M96 60 C84 70 84 86 94 94"/>
+      <circle cx="108" cy="64" r="3.6" fill="currentColor"/>
+      <circle cx="130" cy="64" r="3.6" fill="currentColor"/>
+      <path class="stroke stroke-thin" d="M102 52 C106 48 113 48 116 51 M124 51 C128 47 135 47 138 50"/>
+      <path class="stroke stroke-thin" d="M108 78 C113 84 125 84 130 78"/>
+      <path class="stroke stroke-thin" d="M92 74 C95 72 98 72 100 74 M136 74 C139 72 142 72 144 74"/>
+    </g>
   </svg>`,
 
   /* Peeking over an edge — used as a small easter egg */
-  mascotPeek: `<svg viewBox="0 0 170 116" class="doodle mascot" aria-hidden="true">
-    <path class="stroke" d="M55 46 C54 68 67 84 85 84 C103 84 116 68 115 46"/>
-    <path class="stroke" d="M55 46 C51 20 69 4 85 5 C101 4 119 20 115 46"/>
-    <path class="stroke" d="M55 46 C46 64 47 86 55 102"/>
-    <path class="stroke" d="M115 46 C124 64 123 86 115 102"/>
-    <path class="stroke stroke-thin" d="M71 14 C78 22 92 22 99 13"/>
-    <circle cx="74" cy="46" r="3.8" fill="currentColor"/>
-    <circle cx="96" cy="46" r="3.8" fill="currentColor"/>
-    <path class="stroke stroke-thin" d="M67 35 C71 31 77 31 80 35 M90 35 C93 31 99 31 103 35"/>
-    <path class="stroke stroke-thin" d="M75 60 C80 67 91 67 96 59"/>
-    <path class="stroke" d="M22 100 C34 92 44 92 52 98"/>
-    <path class="stroke" d="M118 98 C126 91 138 91 148 98"/>
+  mascotPeek: `<svg viewBox="0 0 160 110" class="doodle mascot" aria-hidden="true">
+    <circle class="stroke" cx="80" cy="52" r="30"/>
+    <circle class="stroke" cx="53" cy="26" r="16"/>
+    <path class="stroke stroke-thin" d="M55 44 C42 55 42 72 53 82"/>
+    <circle cx="69" cy="50" r="4" fill="currentColor"/>
+    <circle cx="93" cy="49" r="4" fill="currentColor"/>
+    <path class="stroke stroke-thin" d="M72 66 C78 72 90 72 96 65"/>
+    <path class="stroke" d="M40 88 C52 80 62 80 70 86"/>
+    <path class="stroke" d="M104 86 C112 79 124 79 134 86"/>
   </svg>`
 };
 

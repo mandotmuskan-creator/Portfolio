@@ -98,14 +98,14 @@
   let tension = 0;      // 0 slack … 1 taut
 
   function bounds() {
-    // she walks on while the work section is in view, and stands
-    // down again once the closing panel takes over
+    // she is hauling the projects along, so she only walks on for the
+    // work section and stands down once the about panel takes over
     const work = document.getElementById('work');
-    const end = document.getElementById('end');
+    const after = document.getElementById('aboutp');
     if (!work) return false;
     const w = work.getBoundingClientRect();
-    const e = end ? end.getBoundingClientRect() : { top: Infinity };
-    return w.top < innerHeight * 0.55 && e.top > innerHeight * 0.72;
+    const a = after ? after.getBoundingClientRect() : { top: Infinity };
+    return w.top < innerHeight * 0.55 && a.top > innerHeight * 0.72;
   }
 
   function frame() {
