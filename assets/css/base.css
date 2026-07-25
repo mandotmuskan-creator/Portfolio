@@ -43,6 +43,10 @@ a { color: inherit; text-decoration: none; }
   --red:         #FF3B2A;
   --red-deep:    #D92A1B;
 
+  /* the dot after the wordmark — the red's complement, so the two
+     accents sit beside each other instead of competing */
+  --dot:         #12A39B;
+
   --ink:         var(--navy);
   --bg:          var(--paper);
 
@@ -370,7 +374,7 @@ body.is-navy .nav::before { background: var(--navy); box-shadow: 0 1px 0 rgba(21
   font-size: 1rem;
   letter-spacing: -.014em;
 }
-.nav__mark i { font-style: normal; color: var(--red); }
+.nav__mark i { font-style: normal; color: var(--dot); }
 
 .nav__links {
   display: flex;
