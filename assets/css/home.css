@@ -408,6 +408,14 @@
   background: var(--navy);
   border-radius: 46% 54% 52% 48% / 50% 46% 54% 50%;
 }
+/* Caveat's numerals sit right and low inside their own em box — measured at
+   +2.17px / +0.50px against the disc — so centring the line box still leaves
+   the ink off-centre. Padding cannot fix it: grid centring snaps to whole
+   pixels, so the ink can only land on a half-pixel either way. A transform
+   composites at sub-pixel precision, so the nudge goes on an inner span.
+   In em, so it holds if the font-size changes. */
+.process__no > span { display: block; transform: translate(-.109em, -.025em); }
+
 .process__steps li:nth-child(even) .process__no { background: var(--blue); }
 
 .process__steps h3 { font-size: 1.02rem; margin-bottom: .5em; }
