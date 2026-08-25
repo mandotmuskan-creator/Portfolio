@@ -168,6 +168,24 @@ type), `paper-fold.jpg` (the folded-sheet ground under the title moments) and
 
 ---
 
+## A shareable preview
+
+To send the site to someone who cannot run a server, bundle it into one
+self-contained file:
+
+```bash
+python3 -m http.server 4321 &          # the builder renders against the real site
+PW_DIR=<dir with playwright installed> python3 scripts/build_preview.py preview.html
+```
+
+It renders each page in a headless browser, keeps the resulting markup, inlines
+every stylesheet, font and image as a data URI, and swaps the between-page links
+for hash routes (`#/work`, `#/about`, `#/p/<slug>`). The output makes no network
+requests at all. It is a preview, not a second implementation — the markup and
+CSS are the site's own; only the URLs differ.
+
+---
+
 ## Adding a project
 
 Everything reads from **one file**: `assets/js/data.js`. The home rows, the
@@ -276,4 +294,12 @@ assets/js/home.js        selected-work rows and the toolkit composition
 assets/js/work.js        the filterable index
 assets/js/play.js        the experiments grid
 assets/js/project.js     the case-study renderer
+
+scripts/slice_sheets.py   cut a sprite sheet into individual pieces
+scripts/contact_sheet.py  lay the pieces on a numbered grid to identify them
+scripts/key_faces.py      lift the character faces off their paper background
+scripts/build_assets.py   name, trim and export the crayon library
+scripts/make_textures.py  the procedural hatch, fold and tooth textures
+scripts/image_sizes.py    intrinsic sizes of the project screenshots
+scripts/build_preview.py  bundle the whole site into one shareable file
 ```
