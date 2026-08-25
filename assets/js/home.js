@@ -1,232 +1,99 @@
 /* =========================================================
-   home.js — the vertical home page
+   home.js — Selected Work rows and the toolkit composition.
 
-   Two jobs:
-   1. build the project cards from data.js
-   2. run the scroll companion — the mascot who hauls a rope
-      along in the bottom-left gutter while you read the work.
-
-   She lives in a fixed corner slot, outside the document flow,
-   so she can never end up on top of a card. Below 1100px she
-   is hidden by CSS and this file leaves her alone.
+   The decoration around each project deliberately differs:
+   the system is shared, the composition is not.
    ========================================================= */
 
 (function () {
-  const REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  'use strict';
 
-  /* ---------------------------------------------------------
-     1 · project cards
-     --------------------------------------------------------- */
-
-  const cards = document.getElementById('cards');
-  if (cards) {
-    cards.innerHTML = PROJECTS.map((p, i) => `
-      <a class="card reveal" href="${projectHref(p)}" data-hot>
-        <div class="card__media">
-          ${coverMarkup(p, `${p.title} — ${p.category}`)}
-        </div>
-        <div class="card__text">
-          <span class="card__no">PROJECT ${String(i + 1).padStart(2, '0')}</span>
-          <span class="card__cat">${escapeHtml(p.category)}</span>
-          <h3 class="card__title display">${escapeHtml(p.title)}</h3>
-          <p class="card__line">${escapeHtml(p.tagline)}</p>
-          <ul class="card__focus">
-            ${(p.focus || []).map((f) => `
-              <li><span class="doodle" data-doodle="arrowTiny"></span><span>${escapeHtml(f)}</span></li>`).join('')}
-          </ul>
-          <div class="card__foot">
-            <span class="card__go">Read the case study <span class="doodle" data-doodle="arrowRight"></span></span>
-            <span class="card__meta">${escapeHtml(p.year)} · ${escapeHtml(p.client)}</span>
-          </div>
-        </div>
-      </a>`).join('');
-
-    paintDoodles(cards);
-    mountReveals(cards);
-  }
-
-  const yr = document.getElementById('yr');
-  if (yr) yr.textContent = String(new Date().getFullYear());
-
-  /* ---------------------------------------------------------
-     2 · nav colour over the dark sections
-     --------------------------------------------------------- */
-
-  const darks = [...document.querySelectorAll('[data-dark]')];
-
-  function paintNav() {
-    // the nav sits in the top ~76px; whichever section is under it wins
-    const probe = 44;
-    const onDark = darks.some((el) => {
-      const r = el.getBoundingClientRect();
-      return r.top <= probe && r.bottom > probe;
-    });
-    document.body.classList.toggle('on-dark-left', onDark);
-  }
-
-  /* ---------------------------------------------------------
-     3 · the scroll companion
-     --------------------------------------------------------- */
-
-  const comp = document.querySelector('.companion');
-  const ropeSvg = comp && comp.querySelector('.companion__rope path');
-  const say = comp && comp.querySelector('.companion__say');
-
-  // kept short — the bubble lives inside a narrow gutter
-  const LINES = [
-    'heave!',
-    'nearly there',
-    'heavier than it looks',
-    'mind the cable',
-    'worth it, promise'
+  var DECOR = [
+    /* project 1 — an arrow into the UI, the character beside the title */
+    function () {
+      return '<div class="proj__art" aria-hidden="true">' +
+        doodle('arrow-red',  { cls: 'ca-float proj-arrow', rot: -12 }) +
+        '<img class="ca ca-float proj-face stamp" src="assets/img/face/thinking.webp" alt="" aria-hidden="true" loading="lazy" style="--rot:8deg;transform:rotate(8deg)">' +
+        '</div>';
+    },
+    /* project 2 — an arrow back toward the copy, a flower at the edge */
+    function () {
+      return '<div class="proj__art" aria-hidden="true">' +
+        doodle('arrow-blue', { cls: 'ca-float proj-arrow', rot: 168 }) +
+        crayon('flower',     { cls: 'ca-float proj-flower', rot: -14 }) +
+        '</div>';
+    },
+    /* project 3 onwards — one quiet arrow, nothing else */
+    function () {
+      return '<div class="proj__art" aria-hidden="true">' +
+        doodle('arrow-loop', { cls: 'ca-float proj-arrow', rot: -4 }) +
+        '</div>';
+    }
   ];
-  let lineAt = 0;
 
-  // her rig, once the doodle has been painted in
-  const rig = {};
-  function findRig() {
-    if (!comp) return;
-    rig.arm = comp.querySelector('#mkp-arm');
-    rig.legF = comp.querySelector('#mkp-legF');
-    rig.legB = comp.querySelector('#mkp-legB');
-    rig.head = comp.querySelector('#mkp-head');
+  var NUM_STAR = ['star-black', 'star-yellow', 'star-solid'];
+
+  function metaRow(p) {
+    var rows = [
+      ['Role', p.role],
+      ['Tools', (p.tools || []).join(' · ')],
+      ['Year', p.year],
+      ['Platform', p.platform]
+    ].filter(function (r) { return r[1]; });
+
+    return '<dl class="meta">' + rows.map(function (r) {
+      return '<div><dt>' + escapeHtml(r[0]) + '</dt><dd>' + escapeHtml(r[1]) + '</dd></div>';
+    }).join('') + '</dl>';
   }
 
-  let lastY = scrollY;
-  let vel = 0;          // smoothed scroll speed
-  let phase = 0;        // haul cycle
-  let tension = 0;      // 0 slack … 1 taut
-
-  function bounds() {
-    // she walks on while the work section is in view, and stands
-    // down again once the closing panel takes over
-    const work = document.getElementById('work');
-    const end = document.getElementById('end');
-    if (!work) return false;
-    const w = work.getBoundingClientRect();
-    const e = end ? end.getBoundingClientRect() : { top: Infinity };
-    return w.top < innerHeight * 0.55 && e.top > innerHeight * 0.72;
+  function row(p, i) {
+    var n = String(i + 1).padStart(2, '0');
+    var slot = ['a', 'b', 'c'][Math.min(i, 2)];
+    return '<article class="proj proj--' + slot + ' reveal">' +
+      DECOR[Math.min(i, DECOR.length - 1)]() +
+      '<div class="proj__media">' +
+        coverMarkup(p, p.title + ' — ' + p.category, 'proj__shot') +
+      '</div>' +
+      '<div class="proj__body">' +
+        '<p class="proj__no">' + doodle(NUM_STAR[i % 3], { size: 'xs' }) +
+          '<span>PROJECT ' + n + '</span></p>' +
+        '<h3 class="proj__title"><a class="stretch" href="' + projectHref(p) + '">' +
+          markWord(p.title, { art: i % 2 ? 'underline-blue' : 'underline-red' }) + '</a></h3>' +
+        '<p class="proj__line">' + escapeHtml(p.tagline) + '</p>' +
+        metaRow(p) +
+        '<p class="proj__cta"><span class="btn btn--ghost" aria-hidden="true">' +
+          'Read the case study' + doodle('arrow-red', { cls: 'btn__arrow' }) + '</span></p>' +
+      '</div>' +
+    '</article>';
   }
 
-  function frame() {
-    const dy = scrollY - lastY;
-    lastY = scrollY;
-
-    // smoothed absolute speed, normalised to something usable
-    vel = lerp(vel, Math.min(Math.abs(dy) / 26, 1), 0.16);
-    tension = lerp(tension, vel, 0.12);
-    phase += Math.abs(dy) * 0.03;
-
-    if (comp) {
-      comp.classList.toggle('is-in', bounds());
-      comp.classList.toggle('is-hauling', vel > 0.12);
-
-      const swing = Math.sin(phase);
-
-      if (rig.arm) rig.arm.setAttribute('transform', `translate(${(-7 * swing * vel).toFixed(2)} ${(2 * swing * vel).toFixed(2)})`);
-      if (rig.legF) rig.legF.setAttribute('transform', `rotate(${(4 * swing * vel).toFixed(2)} 152 190)`);
-      if (rig.legB) rig.legB.setAttribute('transform', `rotate(${(-5 * swing * vel).toFixed(2)} 120 196)`);
-      if (rig.head) rig.head.setAttribute('transform', `translate(0 ${(-2.5 * Math.abs(swing) * vel).toFixed(2)})`);
-
-      // rope: slack when she is idle, taut when the page is moving
-      if (ropeSvg) {
-        const slack = lerp(56, 10, tension);
-        ropeSvg.setAttribute('d', `M2 126 Q105 ${(65 + slack).toFixed(1)} 208 4`);
-      }
+  document.addEventListener('DOMContentLoaded', function () {
+    var host = document.getElementById('projects');
+    if (host) {
+      host.innerHTML = PROJECTS.map(row).join('');
+      mountReveals(host);
     }
 
-    paintNav();
-    requestAnimationFrame(frame);
-  }
-
-  /* ---------------------------------------------------------
-     4 · she answers when you poke her
-     --------------------------------------------------------- */
-
-  if (comp) {
-    const fig = comp.querySelector('.companion__fig');
-    let timer;
-
-    const talk = () => {
-      if (!say) return;
-      say.textContent = LINES[lineAt % LINES.length];
-      lineAt++;
-      comp.classList.add('is-talking');
-      clearTimeout(timer);
-      timer = setTimeout(() => comp.classList.remove('is-talking'), 2400);
-    };
-
-    fig.addEventListener('click', talk);
-    fig.addEventListener('mouseenter', talk);
-    fig.setAttribute('role', 'button');
-    fig.setAttribute('tabindex', '0');
-    fig.setAttribute('aria-label', 'Say hello to the mascot');
-    fig.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); talk(); }
-    });
-  }
-
-  /* ---------------------------------------------------------
-     5 · both mascots follow the pointer with their eyes
-     --------------------------------------------------------- */
-
-  function mountEyes() {
-    if (REDUCE || window.matchMedia('(pointer: coarse)').matches) return;
-
-    const rigs = [
-      { host: document.getElementById('heroMascot'), sel: '.mk-eyes', reach: 3.4 },
-      { host: comp, sel: '.mkp-eyes', reach: 2.6 }
-    ]
-      .filter((r) => r.host)
-      .map((r) => ({ ...r, eyes: r.host.querySelector(r.sel) }))
-      .filter((r) => r.eyes);
-
-    if (!rigs.length) return;
-
-    let px = innerWidth / 2, py = innerHeight / 2, queued = 0;
-
-    const paint = () => {
-      queued = 0;
-      rigs.forEach((r) => {
-        const b = r.host.getBoundingClientRect();
-        if (!b.width) return;
-        // measured from the head, which sits in the upper part of each figure
-        const dx = clamp((px - (b.left + b.width * 0.5)) / (innerWidth * 0.45), -1, 1);
-        const dy = clamp((py - (b.top + b.height * 0.38)) / (innerHeight * 0.45), -1, 1);
-        r.eyes.setAttribute('transform',
-          `translate(${(dx * r.reach).toFixed(2)} ${(dy * r.reach * 0.75).toFixed(2)})`);
-      });
-    };
-
-    addEventListener('pointermove', (e) => {
-      px = e.clientX; py = e.clientY;
-      if (!queued) queued = requestAnimationFrame(paint);
-    }, { passive: true });
-
-    paint();
-  }
-
-  /* ---------------------------------------------------------
-     start
-     --------------------------------------------------------- */
-
-  document.addEventListener('DOMContentLoaded', () => {
-    findRig();
-    mountEyes();
-    paintNav();
-    if (REDUCE) {
-      // no animation loop — just let her stand where she belongs
-      if (comp) {
-        comp.classList.toggle('is-in', bounds());
-        addEventListener('scroll', () => {
-          comp.classList.toggle('is-in', bounds());
-          paintNav();
-        }, { passive: true });
-      } else {
-        addEventListener('scroll', paintNav, { passive: true });
-      }
-      return;
+    var kit = document.getElementById('kit');
+    if (kit && window.TOOLKIT) {
+      var half = Math.ceil(TOOLKIT.length / 2);
+      var col = function (items, side) {
+        return '<div class="kit__col kit__col--' + side + '">' + items.map(function (t) {
+          return '<div class="kit__item reveal"><b>' + escapeHtml(t.name) + '</b>' +
+            '<span>' + escapeHtml(t.note) + '</span></div>';
+        }).join('') + '</div>';
+      };
+      kit.innerHTML =
+        col(TOOLKIT.slice(0, half), 'l') +
+        '<div class="kit__art" aria-hidden="true">' +
+          crayon('laptop',     { cls: 'ca-float kit-laptop', rot: -4 }) +
+          crayon('sketchbook', { cls: 'ca-float kit-book',   rot: 9 }) +
+          crayon('pen',        { cls: 'ca-float kit-pen',    rot: -22 }) +
+          crayon('phone',      { cls: 'ca-float kit-phone',  rot: 12 }) +
+          crayon('figma',      { cls: 'ca-float kit-figma',  rot: -8 }) +
+        '</div>' +
+        col(TOOLKIT.slice(half), 'r');
+      mountReveals(kit);
     }
-    requestAnimationFrame(frame);
   });
 })();

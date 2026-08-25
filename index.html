@@ -3,25 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Muskan Mandot — UX &amp; UI Designer</title>
-<meta name="description" content="Portfolio of Muskan Mandot, a UX and UI designer with 4+ years shaping web and mobile products — research and flows through to interface design and the systems that hold them together.">
-<meta name="theme-color" content="#12295D">
+<title>Muskan Mandot — Product Designer, UI &amp; Design Systems</title>
+<meta name="description" content="Portfolio of Muskan Mandot — product and UI design for web and mobile, and the design systems underneath. Based in Pune, India.">
+<meta name="theme-color" content="#FDFBF6">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="Muskan Mandot — UX &amp; UI Designer">
-<meta property="og:description" content="Research, flows and interfaces for web and mobile — and the design systems underneath.">
+<meta property="og:title" content="Muskan Mandot — Product Designer">
+<meta property="og:description" content="I design digital things that make sense. UI, design systems and visual design.">
 <meta property="og:image" content="assets/img/projects/tdk-06.jpg">
 <meta name="twitter:card" content="summary_large_image">
 
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%2312295D'/%3E%3Cpath d='M20 10 L20 30 M11 15 L29 25 M29 15 L11 25' fill='none' stroke='%23FCFAF5' stroke-width='2.8' stroke-linecap='round'/%3E%3Ccircle cx='31' cy='10' r='4.2' fill='%231B74B8'/%3E%3C/svg%3E">
+<link rel="icon" href="assets/img/face/neutral.webp" type="image/webp">
 
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/caveat-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/caprasimo-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/base.css">
-<link rel="stylesheet" href="assets/css/page.css">
-<link rel="stylesheet" href="assets/css/home.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/mocks.css">
 </head>
 
 <body data-page="home">
@@ -30,174 +30,131 @@
 
 <main id="main">
 
-  <!-- ============ 1 · HERO ============ -->
-  <section class="hero paper-grain" data-dark>
-    <div class="hero__inner">
-      <p class="hand hero__eyebrow">UX &amp; UI Designer</p>
-      <h1 class="display hero__title">Portfolio</h1>
-      <div class="hero__sig">
-        <span class="hero__sig-arrow doodle" data-doodle="arrowLoop"></span>
-        <span class="hand hero__name">Muskan Mandot</span>
-      </div>
-      <p class="hero__blurb">
-        I make clean, user-friendly things for web and mobile. I also
-        <b>trip over cables</b>, spill coffee on the moodboard, and
-        somehow still ship on time.
-      </p>
-    </div>
+  <!-- ============ 1 · HERO — the poster moment ============ -->
+  <section class="hero paper">
+    <div class="poster hero__stage">
+      <h1 class="ct poster__word hero__word">Portfolio</h1>
 
-    <p class="hero__oops" aria-hidden="true">
-      <span>every single time</span>
-      <span class="doodle" data-doodle="arrowCurveR"></span>
-    </p>
+      <img class="poster__face" src="assets/img/face/neutral-lg.webp"
+           width="836" height="729" alt="" aria-hidden="true"
+           fetchpriority="high" decoding="async">
 
-    <div class="hero__mascot" id="heroMascot" data-doodle="mascotTrip"></div>
-
-    <!-- the mess -->
-    <span class="dood dood-cup dood--hot"    data-doodle="cup"></span>
-    <span class="dood dood-puddle"           data-doodle="puddle"></span>
-    <span class="dood dood-drop dood--float" data-doodle="drop"></span>
-    <span class="dood dood-pencil dood--hot" data-doodle="pencilBroken"></span>
-    <span class="dood dood-plane dood--hot dood--float" data-doodle="paperPlane"></span>
-    <span class="dood dood-star dood--float" data-doodle="star"></span>
-    <span class="dood dood-spark dood--float" data-doodle="sparkle"></span>
-    <span class="dood dood-tangle dood--hot" data-doodle="tangle"></span>
-    <span class="dood dood-clip"             data-doodle="clip"></span>
-    <span class="dood dood-banana dood--hot" data-doodle="bananaPeel"></span>
-    <span class="dood dood-sticky"           data-doodle="stickyNote"></span>
-    <span class="dood dood-scrib"            data-doodle="scribble"></span>
-
-    <p class="hero__scroll">
-      <span>Scroll</span>
-      <span class="doodle" data-doodle="arrowDown"></span>
-    </p>
-  </section>
-
-  <!-- ============ 2 · WORK ============ -->
-  <section class="work" id="work">
-    <div class="work__inner">
-      <div class="work__head">
-        <div>
-          <p class="eyebrow reveal">Selected work</p>
-          <h2 class="display d-lg reveal" data-delay="1">Two, in full.</h2>
-        </div>
-        <a class="btn reveal" data-delay="2" href="work.html">Browse all work</a>
-      </div>
-
-      <div class="cards" id="cards"><!-- built by home.js --></div>
-    </div>
-  </section>
-
-  <!-- ============ 4 · ABOUT ============ -->
-  <section class="aboutp">
-    <div class="aboutp__inner">
-      <figure class="aboutp__photo reveal">
-        <img src="assets/img/muskan.jpg" alt="Muskan Mandot, sitting at a café table in front of a hand-drawn mural." width="450" height="800" loading="lazy">
-        <figcaption>
-          <span class="aboutp__tag aboutp__tag--a"><span>Curious</span><span class="doodle" data-doodle="arrowCurl"></span></span>
-          <span class="aboutp__tag aboutp__tag--b"><span>Empath</span><span class="doodle" data-doodle="arrowCurl"></span></span>
-          <span class="aboutp__tag aboutp__tag--c"><span>Systems-brained</span><span class="doodle" data-doodle="arrowCurl"></span></span>
-        </figcaption>
-      </figure>
-
-      <div>
-        <p class="eyebrow eyebrow--hand reveal">and the person holding the rope —</p>
-        <h2 class="display d-lg reveal" data-delay="1">Hello, I'm <span class="dd-underline">Muskan</span>.</h2>
-        <p class="lede reveal" data-delay="2">
-          I design digital products across web and mobile, and I care most about the part
-          before the pixels — understanding who is on the other side, mapping what they
-          are trying to do, and cutting the steps that do not earn their place. Then I
-          build the interface, and the system that keeps it consistent once I have gone.
+      <div class="poster__id">
+        <span class="poster__star" aria-hidden="true"
+              data-doodle="star-black" data-rot="-8"></span>
+        <p class="poster__name">Muskan Mandot</p>
+        <p class="poster__role">product designer</p>
+        <p class="poster__meta">
+          <span>UI/UX</span><span>Design systems</span><span>Visual design</span>
         </p>
-
-        <div class="aboutp__facts reveal" data-delay="3">
-          <div><strong>4+ years</strong><span>Experience</span></div>
-          <div><strong>UX &amp; UI Designer</strong><span>Role</span></div>
-          <div><strong>Research · Flows · IA · UI · Design systems</strong><span>What I do</span></div>
-          <div><strong>Figma · FigJam · Photoshop · XD</strong><span>Tools</span></div>
-        </div>
-
-        <div class="aboutp__cta reveal" data-delay="4">
-          <a class="btn" href="about.html">More about me</a>
-          <span class="hand hand-sm" style="opacity:.6">(includes the clumsy bits)</span>
-        </div>
+        <p class="poster__fig">6+ yrs</p>
       </div>
+    </div>
+
+    <div class="wrap hero__base">
+      <dl class="hero__facts reveal">
+        <div><dt>Currently</dt><dd>Dentsu Global Services</dd></div>
+        <div><dt>Based in</dt><dd>Pune, India</dd></div>
+        <div><dt>Open to</dt><dd>Product design &amp; UI work</dd></div>
+      </dl>
+
+      <span class="hero__cta reveal" style="--d:1">
+        <a class="btn btn--red" href="#work">View my work
+          <span data-doodle="arrow-red" data-size="xs" class="btn__arrow"></span>
+        </a>
+        <img src="assets/img/doodle/underline-red.webp" alt="" aria-hidden="true"
+             loading="lazy" decoding="async">
+      </span>
     </div>
   </section>
 
-  <!-- ============ 4 · HOW I WORK ============ -->
-  <section class="process">
-    <div class="process__inner">
-      <div class="process__head">
-        <p class="eyebrow eyebrow--hand reveal">and roughly how it goes —</p>
-        <h2 class="display d-lg reveal" data-delay="1">The way I work.</h2>
-        <p class="lede reveal" data-delay="2">
-          Neither of those projects started with a screen. They started with a
-          question about who was actually going to use the thing.
+  <!-- ============ 2 · SELECTED WORK — quiet ============ -->
+  <section class="band band--line" id="work">
+    <div class="wrap">
+      <div class="shead">
+        <div class="shead__l">
+          <span class="shead__star" aria-hidden="true" data-doodle="star-black" data-rot="-8"></span>
+          <p class="eyebrow reveal">Case studies</p>
+          <h2 class="ct ct--md shead__title reveal" style="--d:1">Selected work</h2>
+        </div>
+        <p class="lede reveal" style="--d:2">
+          Two projects in full — what the problem actually was, what I changed,
+          and what I would defend in a review.
         </p>
       </div>
 
-      <ol class="process__steps">
-        <li class="reveal">
-          <span class="process__no"><span>01</span></span>
-          <h3>Ask the boring questions first</h3>
-          <p>How often does this person sign in? What do they already know? The unglamorous answers are where the interesting decisions come from.</p>
-        </li>
-        <li class="reveal" data-delay="1">
-          <span class="process__no"><span>02</span></span>
-          <h3>Map it before you draw it</h3>
-          <p>Journeys, flows and states on paper first. It is much cheaper to move a step than to redesign a screen.</p>
-        </li>
-        <li class="reveal" data-delay="2">
-          <span class="process__no"><span>03</span></span>
-          <h3>Clarity over decoration</h3>
-          <p>Hierarchy, then contrast, then everything else. If someone has to hunt for the one thing that matters, the layout has not earned its keep.</p>
-        </li>
-        <li class="reveal" data-delay="3">
-          <span class="process__no"><span>04</span></span>
-          <h3>Leave a system behind</h3>
-          <p>Components, variants, tokens and annotations — built to be handed over, not just admired.</p>
-        </li>
-      </ol>
+      <div class="projects" id="projects"><!-- built by home.js --></div>
+
+      <p style="margin-top:var(--s-7)">
+        <a class="btn btn--ghost" href="work.html">Browse all work
+          <span data-doodle="arrow-red" data-size="xs" class="btn__arrow"></span>
+        </a>
+      </p>
     </div>
-    <span class="process__doodle" data-doodle="footprints"></span>
   </section>
 
-  <!-- ============ 5 · END ============ -->
-  <section class="end on-navy" id="end" data-dark>
-    <div class="end__inner">
-      <p class="eyebrow eyebrow--hand reveal">that's the lot —</p>
-      <h2 class="display d-xl reveal" data-delay="1">Thank you.</h2>
-      <p class="lede reveal" data-delay="2">
-        If any of it looked like the kind of thing you need, I would love to hear about it.
-      </p>
-      <a class="end__mail link-doodle reveal" data-delay="3" href="mailto:mandotmuskan@gmail.com">mandotmuskan@gmail.com</a>
-      <div class="end__row reveal" data-delay="4">
-        <a class="btn" href="work.html">Browse all work</a>
-        <a class="btn" href="about.html">About me</a>
+  <!-- ============ 3 · ABOUT, SHORT — quiet ============ -->
+  <section class="band band--warm">
+    <div class="wrap">
+      <div class="shead">
+        <div class="shead__l">
+          <p class="eyebrow reveal">About</p>
+          <h2 class="ct ct--md shead__title reveal" style="--d:1">Hello, I’m Muskan</h2>
+        </div>
+        <p class="lede reveal" style="--d:2">
+          A designer who likes turning messy ideas into clear interfaces. I care
+          most about the part before the pixels — who is on the other side, and
+          which steps do not earn their place.
+        </p>
       </div>
-      <p class="end__meta">© <span id="yr"></span> Muskan Mandot · UX &amp; UI Designer <span class="hand hand-sm">· drawn, not stock ✎</span></p>
+
+      <div class="facts">
+        <div class="fact reveal">
+          <span data-crayon="calendar" data-rot="-6"></span>
+          <span><b>6+ years</b><span>designing digital experiences</span></span>
+        </div>
+        <div class="fact reveal" style="--d:1">
+          <span data-crayon="figma" data-rot="7"></span>
+          <span><b>Figma</b><span>my second home</span></span>
+        </div>
+        <div class="fact reveal" style="--d:2">
+          <span data-crayon="coffee" data-rot="-4"></span>
+          <span><b>Coffee</b><span>probably involved</span></span>
+        </div>
+        <div class="fact reveal" style="--d:3">
+          <span data-crayon="target" data-rot="9"></span>
+          <span><b>Badminton</b><span>when I’m not designing</span></span>
+        </div>
+      </div>
+
+      <p style="margin-top:var(--s-6)">
+        <a class="btn btn--ghost" href="about.html">More about me
+          <span data-doodle="arrow-red" data-size="xs" class="btn__arrow"></span>
+        </a>
+      </p>
     </div>
-    <span class="end__wave" data-doodle="mascotWave"></span>
-    <span class="end__dood end__dood--1" data-doodle="paperPlane"></span>
-    <span class="end__dood end__dood--2" data-doodle="star"></span>
-    <span class="end__dood end__dood--3" data-doodle="sparkle"></span>
+  </section>
+
+  <!-- ============ 4 · TOOLKIT — quiet ============ -->
+  <section class="band">
+    <div class="wrap">
+      <div class="shead" style="justify-content:center;text-align:center">
+        <div class="shead__l" style="max-width:34ch">
+          <p class="eyebrow reveal">What I work with</p>
+          <h2 class="ct ct--md shead__title reveal" style="--d:1">My design toolkit</h2>
+        </div>
+      </div>
+      <div class="kit__grid" id="kit"><!-- built by home.js --></div>
+    </div>
   </section>
 
 </main>
 
-<!-- the scroll companion — fixed in the corner, never in the layout -->
-<div class="companion" aria-hidden="true">
-  <div class="companion__fig">
-    <span class="companion__say">heave!</span>
-    <svg class="companion__rope" viewBox="0 0 210 130" aria-hidden="true">
-      <path d="M2 126 Q105 121 208 4"/>
-    </svg>
-    <span data-doodle="mascotPull"></span>
-  </div>
-</div>
+<footer data-foot></footer>
 
-<script src="assets/js/doodles.js"></script>
+<script src="assets/js/crayon-ratio.js"></script>
+<script src="assets/js/img-sizes.js"></script>
+<script src="assets/js/crayon.js"></script>
 <script src="assets/js/data.js"></script>
 <script src="assets/js/common.js"></script>
 <script src="assets/js/home.js"></script>

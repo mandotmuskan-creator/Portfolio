@@ -1,59 +1,62 @@
 /* =========================================================
-   work.js — the browsable project index
+   work.js — the filterable project index.
    ========================================================= */
 
 (function () {
-  const grid = document.getElementById('grid');
-  const empty = document.getElementById('empty');
-  const filters = document.querySelector('.filters');
-  if (!grid) return;
+  'use strict';
 
-  const ALL = 'Everything';
-  const tags = [ALL, ...new Set(PROJECTS.flatMap((p) => p.tags))];
+  var PINS = ['pin', 'clip', 'star-solid'];
 
-  /* chips */
-  filters.insertAdjacentHTML('beforeend', tags.map((t, i) => `
-    <button class="chip" type="button" data-tag="${escapeHtml(t)}"
-            aria-pressed="${i === 0}">${escapeHtml(t)}</button>`).join(''));
-
-  /* tiles */
-  grid.innerHTML = PROJECTS.map((p, i) => `
-    <a class="tile reveal" data-delay="${i % 4}" href="${projectHref(p)}" data-tags="${escapeHtml(p.tags.join('|'))}">
-      <div class="tile__frame">
-        ${coverMarkup(p, `${p.title} — ${p.category}`)}
-      </div>
-      <div class="tile__body">
-        <span class="tile__cat">${escapeHtml(p.category)}</span>
-        <h2 class="tile__title">${escapeHtml(p.title)}</h2>
-        <p class="tile__line">${escapeHtml(p.tagline)}</p>
-        <span class="tile__tags">${p.tags.map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</span>
-      </div>
-    </a>`).join('');
-
-  /* filtering */
-  function apply(tag) {
-    let shown = 0;
-    grid.querySelectorAll('.tile').forEach((el) => {
-      const has = tag === ALL || el.dataset.tags.split('|').includes(tag);
-      el.hidden = !has;
-      if (has) shown++;
-    });
-    empty.hidden = shown > 0;
-    filters.querySelectorAll('.chip').forEach((c) => {
-      c.setAttribute('aria-pressed', String(c.dataset.tag === tag));
-    });
-    history.replaceState(null, '', tag === ALL ? location.pathname : `?tag=${encodeURIComponent(tag)}`);
+  function tile(p, i) {
+    var pinKind = i % 3 === 2 ? 'doodle' : 'crayon';
+    return '<a class="tile reveal" href="' + projectHref(p) + '" data-tags="' +
+        escapeHtml((p.tags || []).join('|')) + '">' +
+      Crayon.asset({ kind: pinKind, name: PINS[i % 3], cls: 'ca-float tile__pin', rot: i % 2 ? 9 : -8 }) +
+      coverMarkup(p, p.title + ' — ' + p.category) +
+      '<p class="tile__no">PROJECT ' + String(i + 1).padStart(2, '0') + '</p>' +
+      '<h2 class="tile__title">' + escapeHtml(p.title) + '</h2>' +
+      '<p class="tile__line">' + escapeHtml(p.tagline) + '</p>' +
+      '<p class="tile__tags">' + (p.tags || []).map(function (t) {
+        return '<span>' + escapeHtml(t) + '</span>';
+      }).join('') + '</p>' +
+    '</a>';
   }
 
-  filters.addEventListener('click', (e) => {
-    const chip = e.target.closest('.chip');
-    if (chip) apply(chip.dataset.tag);
+  document.addEventListener('DOMContentLoaded', function () {
+    var grid = document.getElementById('grid');
+    var bar = document.getElementById('filters');
+    var empty = document.getElementById('empty');
+    if (!grid) return;
+
+    grid.innerHTML = PROJECTS.map(tile).join('');
+    Crayon.paint(grid);
+    mountReveals(grid);
+
+    if (bar) {
+      var tags = ['All'];
+      PROJECTS.forEach(function (p) {
+        (p.tags || []).forEach(function (t) { if (tags.indexOf(t) < 0) tags.push(t); });
+      });
+      bar.insertAdjacentHTML('beforeend', tags.map(function (t, i) {
+        return '<button class="chip" type="button" aria-pressed="' + (i === 0) + '" data-tag="' +
+          escapeHtml(t) + '">' + escapeHtml(t) + '</button>';
+      }).join(''));
+
+      bar.addEventListener('click', function (e) {
+        var btn = e.target.closest('.chip');
+        if (!btn) return;
+        var tag = btn.dataset.tag;
+        bar.querySelectorAll('.chip').forEach(function (c) {
+          c.setAttribute('aria-pressed', String(c === btn));
+        });
+        var shown = 0;
+        grid.querySelectorAll('.tile').forEach(function (el) {
+          var ok = tag === 'All' || el.dataset.tags.split('|').indexOf(tag) > -1;
+          el.hidden = !ok;
+          if (ok) shown++;
+        });
+        if (empty) empty.hidden = shown > 0;
+      });
+    }
   });
-
-  const wanted = new URLSearchParams(location.search).get('tag');
-  apply(tags.includes(wanted) ? wanted : ALL);
-
-  document.querySelectorAll('.tile, .chip').forEach((el) => el.setAttribute('data-hot', ''));
-  mountReveals(grid);
-  paintDoodles();
 })();

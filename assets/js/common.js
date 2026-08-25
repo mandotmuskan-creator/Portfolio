@@ -1,112 +1,137 @@
 /* =========================================================
-   common.js — chrome shared by every page
-   nav · footer · cursor companion · scroll reveals
+   common.js — chrome shared by every page.
+   nav · closing panel · scroll reveals · small helpers
    ========================================================= */
 
-const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const COARSE = window.matchMedia('(pointer: coarse)').matches;
+var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
-const lerp = (a, b, t) => a + (b - a) * t;
+var SITE = {
+  name: 'Muskan Mandot',
+  role: 'Product Design / UI',
+  mail: 'mandotmuskan@gmail.com'
+};
 
-/* ---------- nav + footer ---------- */
-
-function mountChrome() {
-  const here = document.body.dataset.page || '';
-
-  const navHost = document.querySelector('[data-nav]');
-  if (navHost) {
-    const on = (p) => (p === here ? ' aria-current="page"' : '');
-    navHost.className = 'nav';
-    navHost.innerHTML = `
-      <a class="nav__mark" href="index.html" aria-label="Muskan Mandot — home">
-        <span>Muskan Mandot</span><i>.</i>
-      </a>
-      <nav class="nav__links" aria-label="Primary">
-        <a href="work.html"${on('work')}>Work</a>
-        <a href="about.html"${on('about')}>About</a>
-        <a href="mailto:mandotmuskan@gmail.com">Say hi</a>
-      </nav>`;
-  }
-
-  const footHost = document.querySelector('[data-foot]');
-  if (footHost) {
-    footHost.className = 'foot on-navy';
-    footHost.innerHTML = `
-      <div class="foot__inner">
-        <p class="eyebrow reveal">Currently open to work</p>
-        <h2 class="display foot__big reveal" data-delay="1">Let's design<br>something <span class="dd-underline dd-underline--sky">useful</span>.</h2>
-        <div class="foot__row reveal" data-delay="2">
-          <a class="foot__mail link-doodle" href="mailto:mandotmuskan@gmail.com">mandotmuskan@gmail.com</a>
-          <a class="btn" href="work.html">See the work</a>
-        </div>
-        <div class="foot__meta">
-          <span>© ${new Date().getFullYear()} Muskan Mandot · UX &amp; UI Designer</span>
-          <span class="hand hand-sm">drawn, not stock ✎</span>
-        </div>
-      </div>
-      <div class="foot__doodle" data-doodle="mascotPeek"></div>`;
-  }
-
-  paintDoodles();
-
-  if (navHost) {
-    const stick = () => navHost.classList.toggle('is-stuck', scrollY > 40);
-    addEventListener('scroll', stick, { passive: true });
-    stick();
-  }
-}
-
-/* ---------- scroll reveals ---------- */
-
-function mountReveals(root = document) {
-  const items = root.querySelectorAll('.reveal, .draw');
-  if (!items.length) return;
-
-  // measure each drawable path so the dash animation matches its real length
-  root.querySelectorAll('.draw').forEach((svg) => {
-    svg.querySelectorAll('path, line, polyline, circle, ellipse').forEach((p) => {
-      const len = p.getTotalLength ? Math.ceil(p.getTotalLength()) : 1200;
-      p.style.setProperty('--len', len);
-    });
-  });
-
-  if (REDUCED) { items.forEach((el) => el.classList.add('is-in')); return; }
-
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((en) => {
-      if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
-    });
-  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
-
-  items.forEach((el) => io.observe(el));
-}
-
-/* ---------- helpers used by other pages ---------- */
-
-function projectHref(p) { return `project.html?p=${encodeURIComponent(p.slug)}`; }
+function escapeHtml(s) { return Crayon.esc(s); }
+function projectHref(p) { return 'project.html?p=' + encodeURIComponent(p.slug); }
 
 /* A project cover is either a screenshot or a screen rebuilt in markup.
-   Both callers — the work grid and the home cards — want the same choice. */
-function coverMarkup(p, alt) {
-  if (p.coverMock) {
-    return `<div class="tile__shot tile__shot--mock">${p.coverMock}</div>`;
+   Both the home rows and the work grid want the same choice made once. */
+function coverMarkup(p, alt, cls) {
+  cls = cls || 'tile__shot';
+  if (p.coverMock) return '<div class="' + cls + ' ' + cls + '--mock">' + p.coverMock + '</div>';
+  var fit = p.coverFit === 'top' ? 'center top' : 'center';
+  var d = (window.IMG_SIZES || {})[p.cover];
+  return '<div class="' + cls + '"><img src="' + p.cover + '"' +
+    (d ? ' width="' + d[0] + '" height="' + d[1] + '"' : '') +
+    ' alt="' + escapeHtml(alt) + '" style="object-position:' + fit +
+    '" loading="lazy" decoding="async"></div>';
+}
+
+/* ---------------------------------------------------------
+   nav + closing panel
+   --------------------------------------------------------- */
+
+function mountChrome() {
+  var here = document.body.dataset.page || '';
+  var mark = function (art) {
+    return '<img src="assets/img/doodle/' + art + '.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">';
+  };
+
+  var navHost = document.querySelector('[data-nav]');
+  if (navHost) {
+    var link = function (href, label, key, art) {
+      return '<a href="' + href + '"' + (key === here ? ' aria-current="page"' : '') + '>' +
+        label + mark(art) + '</a>';
+    };
+    navHost.className = 'nav';
+    navHost.innerHTML =
+      '<a class="nav__mark" href="index.html">' +
+        '<img class="stamp" src="assets/img/face/neutral.webp" alt="" aria-hidden="true" decoding="async">' +
+        '<span>' + SITE.name + '</span>' +
+        '<span class="sr">— home</span>' +
+      '</a>' +
+      '<nav class="nav__links" aria-label="Primary">' +
+        link('work.html',  'Work',    'work',  'underline-red') +
+        link('about.html', 'About',   'about', 'underline-blue') +
+        link('play.html',  'Play',    'play',  'underline-red-bold') +
+        link('mailto:' + SITE.mail, 'Contact', 'contact', 'underline-red') +
+      '</nav>';
+
+    var stick = function () { navHost.classList.toggle('is-stuck', window.scrollY > 40); };
+    window.addEventListener('scroll', stick, { passive: true });
+    stick();
   }
-  const fit = p.coverFit === 'top' ? 'center top' : 'center';
-  return `
-    <div class="tile__shot">
-      <img src="${p.cover}" alt="${escapeHtml(alt)}" style="object-position:${fit}"
-           loading="lazy" decoding="async">
-    </div>`;
+
+  var footHost = document.querySelector('[data-foot]');
+  if (footHost) {
+    footHost.className = 'close paper';
+    footHost.innerHTML =
+      '<div class="close__art" aria-hidden="true">' +
+        crayon('flower', { cls: 'ca-float close-flower', rot: -12 }) +
+        doodle('star-yellow', { cls: 'ca-float close-star', rot: 9 }) +
+        crayon('laptop', { cls: 'ca-float close-laptop', rot: 8 }) +
+        doodle('arrow-loop-warm', { cls: 'ca-float close-arrow', rot: -8 }) +
+      '</div>' +
+      '<div class="wrap close__inner">' +
+        '<div class="close__stamp reveal">' +
+          stampRing('happy', { ring: 'circle-red', size: 'lg', rot: -5 }) +
+        '</div>' +
+        '<div class="poster close__stage">' +
+          '<h2 class="ct poster__word close__word reveal" style="--d:1">' +
+            '<span class="ln">Let’s make</span>' +
+            '<span class="ln">something</span>' +
+            '<span class="ln">good.</span>' +
+          '</h2>' +
+        '</div>' +
+        '<p class="lede reveal" style="--d:2">Open to product design and UI work, freelance or full time. ' +
+          'If any of this looked like the thing you need, tell me about it.</p>' +
+        '<div class="close__row reveal" style="--d:3">' +
+          '<a class="close__mail" href="mailto:' + SITE.mail + '">' +
+            markWord(SITE.mail, { art: 'underline-red' }) + '</a>' +
+        '</div>' +
+        '<div class="close__row reveal" style="--d:4">' +
+          '<a class="btn btn--red" href="work.html">See the work' + doodle('arrow-red', { cls: 'btn__arrow' }) + '</a>' +
+          '<a class="btn btn--ghost" href="about.html">About me</a>' +
+        '</div>' +
+        '<div class="foot__meta">' +
+          '<span>© ' + new Date().getFullYear() + ' ' + SITE.name + ' · ' + SITE.role + '</span>' +
+          '<span>Pune, India</span>' +
+          '<span class="hand hand--ink">drawn by hand ✎</span>' +
+        '</div>' +
+      '</div>';
+  }
+
+  Crayon.paint();
+  Crayon.mountFilter();
+  Crayon.fitWords();
 }
 
-function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, (c) => (
-    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
-  ));
+/* ---------------------------------------------------------
+   scroll reveals — also what triggers the marks to draw
+   --------------------------------------------------------- */
+
+function mountReveals(root) {
+  root = root || document;
+  var items = root.querySelectorAll('.reveal, .ca-float, .mark');
+  if (!items.length) return;
+
+  if (REDUCED) {
+    for (var i = 0; i < items.length; i++) items[i].classList.add('is-in');
+    return;
+  }
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (!en.isIntersecting) return;
+      en.target.classList.add('is-in');
+      io.unobserve(en.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.14 });
+
+  for (var j = 0; j < items.length; j++) io.observe(items[j]);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function () {
   mountChrome();
   mountReveals();
 });

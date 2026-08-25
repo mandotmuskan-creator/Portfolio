@@ -1,202 +1,279 @@
 # Muskan Mandot — Portfolio
 
-A static portfolio site. No build step, no dependencies, no framework — open
-`index.html` in a browser and it works. Every illustration (the mascot, the
-arrows, the spilled coffee, the rope) is an inline SVG path, and the Disney
-Store screens are rebuilt in markup rather than exported as images.
+A white editorial design portfolio, annotated by hand.
+
+Static site. No build step, no framework, no dependencies at runtime — every
+page is plain HTML, CSS and vanilla JS. The crayon artwork is a library of
+independent image assets that get placed, rotated and sized individually, and
+every headline is real selectable text, not a picture of text.
+
+---
+
+## Run it locally
+
+```bash
+python3 -m http.server 4321
+```
+
+Then open <http://127.0.0.1:4321/>.
+
+Any static server works — the site makes no network requests of its own, and
+the fonts, images and textures are all served from `assets/`. You need a
+server rather than opening the file directly, because the pages fetch
+`data.js` and friends over HTTP.
+
+Edit a file, save, refresh. There is nothing to compile.
 
 ---
 
 ## Pages
 
-| File           | What it is                                                        |
-| -------------- | ----------------------------------------------------------------- |
-| `index.html`   | Home — hero, the two projects, about, how I work, closing          |
-| `work.html`    | All projects, filterable                                           |
-| `project.html` | Case study template · `project.html?p=<slug>`                      |
-| `about.html`   | About me                                                           |
+| File           | What it is                                                   |
+| -------------- | ------------------------------------------------------------ |
+| `index.html`   | Home — poster hero, selected work, about, toolkit, closing    |
+| `work.html`    | All projects, filterable                                      |
+| `project.html` | Case-study template · `project.html?p=<slug>`                 |
+| `about.html`   | About                                                         |
+| `play.html`    | Experiments and side projects                                 |
+
+---
+
+## The visual system
+
+The rhythm across every page is **expressive → clean → clean → expressive**.
+Title moments carry the artwork; the reading sections go quiet again. Roughly
+80% clean editorial portfolio, 20% hand-drawn personality.
+
+### Colour, type and spacing — `assets/css/tokens.css`
+
+Everything comes from tokens. No file should hard-code a hex value or a magic
+pixel number.
+
+```css
+--paper  --paper-warm  --card              /* grounds  */
+--ink    --ink-soft    --ink-faint         /* text     */
+--red    --red-ink     --blue  --orange  --yellow  --green
+--t--1 … --t-6                             /* fluid type scale   */
+--s-1 … --s-8                              /* spacing scale      */
+--ca-xs … --ca-xl                          /* artwork sizes      */
+```
+
+`--red-ink` is a slightly deeper red used for display type, because the crayon
+hatch lightens it. Contrast was checked against the paper for every text
+colour in use.
+
+### Type
+
+Three faces, all self-hosted in `assets/fonts/`:
+
+- **Inter** — the interface. Everything you read.
+- **Caprasimo** — the crayon display type.
+- **Caveat** — handwritten annotations.
+
+A crayon headline is real text:
+
+```html
+<h1 class="ct ct--xl">Selected work</h1>
+```
+
+`.ct` clips a crayon hatch texture to the glyphs with `background-clip: text`
+and roughens the outline with an SVG turbulence filter. It stays selectable,
+searchable and translatable, and it degrades to flat red type where those
+features are missing.
+
+### Poster titles
+
+The big title moments — the homepage hero, each page title, the closing panel,
+each case-study opening — use `.poster`:
+
+```html
+<div class="poster">
+  <h1 class="ct poster__word"><span class="ln">Oh,</span><span class="ln">hello.</span></h1>
+</div>
+```
+
+The word is sized to fill its container exactly: CSS sets
+`font-size: 100cqw / var(--em)`, and `Crayon.fitWords()` measures the widest
+line as it is actually drawn and writes `--em` back. Change the words and the
+size follows — nobody has to hand-tune a font size, at any breakpoint.
+
+---
+
+## The crayon assets
+
+Three folders, one purpose each:
+
+```
+assets/img/face/     the character — head only, one file per expression
+assets/img/crayon/   illustrated objects: laptop, pen, flower, coffee, …
+assets/img/doodle/   the annotation vocabulary: arrows, circles, stars,
+                     underlines, highlights, scribbles
+```
+
+They are separate files on purpose. Nothing is baked into a background image,
+so any piece can be placed, rotated and sized on its own.
+
+### Placing one
+
+In markup:
+
+```html
+<span data-crayon="flower" data-size="sm" data-rot="-8"></span>
+<span data-face="happy"    data-size="lg"></span>
+<span data-doodle="arrow-red" data-rot="12"></span>
+```
+
+In the JS-rendered pages:
+
+```js
+crayon('flower', { size: 'sm', rot: -8 })
+face('happy',    { size: 'lg' })
+doodle('arrow-red', { rot: 12 })
+stampRing('happy', { ring: 'circle-red' })   // a head inside a drawn circle
+markWord('Muskan', { art: 'underline-red' }) // a word with a mark behind it
+handNote('The exit is part of the offer.', { art: 'arrow-loop' })
+```
+
+Assets carry `aria-hidden` unless you pass real `alt` text, so a screen reader
+walks straight past the decoration. Sizes come from `--ca-*` tokens; intrinsic
+dimensions come from `assets/js/crayon-ratio.js`, so a lazy image reserves its
+box and nothing shifts as the page loads.
+
+### Regenerating them
+
+The library is cut from the supplied sprite sheets by scripts in `scripts/`.
+You only need these if new artwork arrives.
+
+```bash
+pip install pillow numpy scipy
+
+# 1 · cut a sheet into individual pieces
+python3 scripts/slice_sheets.py <sheet.png> out/s1
+python3 scripts/contact_sheet.py out/s1 out/cs_s1.jpg   # numbered grid, to identify them
+
+# 2 · lift the character faces off their paper background
+python3 scripts/key_faces.py <expressions.png> out/f1
+
+# 3 · name, trim and export the library (edit the MANIFEST tables first)
+python3 scripts/build_assets.py out .
+
+# 4 · the two generated textures, and the image size manifests
+python3 scripts/make_textures.py
+python3 scripts/image_sizes.py
+```
+
+`make_textures.py` generates `crayon-hatch.png` (the fill inside the display
+type), `paper-fold.jpg` (the folded-sheet ground under the title moments) and
+`paper.png` (the faint tooth on every page). All seamless, all procedural.
 
 ---
 
 ## Adding a project
 
-Everything reads from **one file**: `assets/js/data.js`. The home cards, the
-work grid and the case study page all build themselves from it.
+Everything reads from **one file**: `assets/js/data.js`. The home rows, the
+work grid and the case-study page all build themselves from it.
 
-**1. Drop your images** in `assets/img/projects/`.
-Keep them under ~300 KB each. Web screenshots look best around 1400 px wide;
-phone screenshots around 700 px wide.
+**1. Drop your images** in `assets/img/projects/`, then run
+`python3 scripts/image_sizes.py` so they reserve their layout box.
 
-**2. Copy a block** in `assets/js/data.js` and change the values. Put it in the
-array in the order you want it shown.
+**2. Copy a block** in `data.js` and change the values.
 
 ```js
 {
   slug:     'my-project',            // becomes project.html?p=my-project
   title:    'My Project',
+  hero:     ['Making a', 'catalogue', 'findable.'],   // the crayon title, one line per array item
+  faceCue:  'thinking',              // which expression opens the case study
+  ringCue:  'circle-blue',
   client:   'Who it was for',
   tagline:  'One line. Shows on the card and under the title.',
   category: 'What kind of work it was',
   year:     '2026',
   role:     'UX / UI Designer',
   tools:    ['Figma'],
-  platform: 'Responsive web',        // say "Mobile" and the page uses phone frames
+  platform: 'Responsive web',
   tags:     ['UX/UI', 'Web'],        // these become the filters on work.html
-  accent:   'navy',                  // navy · blue · cream
   cover:    'assets/img/projects/my-project-01.jpg',
   coverFit: 'top',                   // 'top' for tall screenshots, 'cover' otherwise
-  focus:    ['Three short lines', 'shown on the', 'home page card'],
   intro:    ['First paragraph.', 'Second paragraph.'],
+  introNote:'A handwritten note in the margin.',
   roleNote: 'The one-line "My Role" summary.',
   sections: [ /* see below */ ]
 }
 ```
 
-**3. Build the case study** out of `sections` blocks. They render in the order
-you list them, so you can tell the story however you like:
+**3. Build the case study** out of `sections` blocks. They render in order:
 
 ```js
-{ kind: 'text',   title: 'A heading', body: ['A paragraph.', 'Another.'] }
-{ kind: 'points', title: 'What I did', items: ['One thing.', 'Another thing.'] }
-{ kind: 'quote',  text: 'A line worth pulling out.' }
-{ kind: 'stats',  items: [{ figure: '8+ billion', label: 'Sensors shipped' }] }
-{ kind: 'split',  title: 'Decisions', items: [{ head: 'Short title', body: 'Why.' }] }
-
-// a journey map — one column per stage, aligned across all of them
-{ kind: 'journey', title: 'The member journey', note: 'Optional line under the heading.',
-  stages: [{ phase: 'Sees the invitation',
-             doing:   'What they are doing here.',
-             feeling: 'What they are thinking.',
-             move:    'What the design does about it.' }] }
-
-// a left-to-right state flow with arrows between the steps
-{ kind: 'flow', title: 'The five states', note: 'Optional.',
-  steps: [{ label: 'Invitation', sub: 'One line', optional: true }] }
-
-// images
-{ kind: 'full',   src: '…/shot.jpg', caption: 'Caption',
-                  frame: 'browser',  // 'browser' draws a browser window, 'plain' doesn't
-                  long: true }       // long: true puts tall images in a scrollable window
-{ kind: 'duo',    items: [{ src, caption }, { src, caption }], long: false }
-{ kind: 'phones', items: [{ src, caption }, …] }   // a row of phone mockups
+{ kind:'text',    title, body:[..], note, noteArt }   // note = margin annotation
+{ kind:'points',  title, items:[..] }
+{ kind:'quote',   text }
+{ kind:'stats',   items:[{ figure, label }] }
+{ kind:'split',   title, items:[{ head, body }] }
+{ kind:'journey', title, note, stages:[{ phase, doing, feeling, move }] }
+{ kind:'flow',    title, note, steps:[{ label, sub, optional }] }
+{ kind:'full',    src, caption, frame:'browser'|'plain', long:true }
+{ kind:'duo',     items:[{ src, caption }], long }
+{ kind:'phones',  items:[{ src, caption }] }
+{ kind:'mock',    device:'desktop'|'mobile', html, caption }
+{ kind:'mocks',   items:[{ device, html, caption }] }
 ```
 
-That's it — nothing else to touch.
+Keep the writing short and plain. "People could earn rewards, but understanding
+them was harder than it needed to be" — not "leveraging user-centred
+methodologies".
 
-### Screens rebuilt in markup
+## Adding a Play item
 
-The Disney Club case study has no exported screenshots. Its screens are written
-as HTML at the top of `data.js` (`MOCK_JOIN`, `MOCK_PICKER`, …) and styled by the
-`.mk` block at the bottom of `assets/css/page.css`. They stay sharp at any size
-and scale themselves with container queries, so the same markup works full-width
-or as half of a pair.
+Same file, the `PLAY` array:
 
 ```js
-{ kind: 'mock',  device: 'desktop', html: MOCK_PICKER, caption: 'Caption' }
-{ kind: 'mocks', items: [{ device: 'desktop', html: MOCK_JOIN, caption: '…' }, …] }
+{ title: 'Photo walks', art: 'camera', kind: 'crayon', tag: 'Photography',
+  body: 'One or two sentences.' }
 ```
 
-A project can also use one as its cover, in place of `cover`:
-
-```js
-coverMock: MOCK_WELCOME
-```
-
-Everything inside a mock must be a non-interactive element — `<span>`, not `<a>`
-or `<button>`. The cards on the home page and the work grid are themselves
-links, and a nested link makes the HTML parser tear the card apart.
+`art` is any file name from `assets/img/crayon/` or `assets/img/doodle/`.
 
 ---
 
-## Colours & type
+## Accessibility
 
-Both are set as variables at the top of `assets/css/base.css`.
+Not negotiable, and checked rather than assumed:
 
-| Token       | Value     | Where it's from                    |
-| ----------- | --------- | ---------------------------------- |
-| `--navy`    | `#12295D` | the deck's background              |
-| `--paper`   | `#FCFAF5` | the deck's light pages             |
-| `--blue`    | `#3F6F97` | the deck's doodle and label blue    |
-| `--sky`     | `#D6F1FF` | doodle ink on navy                 |
-| `--accent`  | `#1B74B8` | the accent (`--accent-lt` on navy)  |
+- Real text everywhere — no headline is an image.
+- Every text colour meets WCAG AA against the paper it sits on.
+- Decorative artwork is `aria-hidden`; the character never announces itself.
+- One tab stop per project card, with a visible 3px focus ring on everything.
+- Headings run in order on every page — the mock screens are demoted out of
+  the outline, because they are pictures of a UI, not document structure.
+- `prefers-reduced-motion` removes every transition and reveals all content.
+- No page scrolls horizontally at 390, 820 or 1440.
 
-Type is **Instrument Serif** (display moments — put `.display` on the element),
-**Inter** (everything else, including plain `h1`–`h4`) and **Caveat** (used only
-for hand-written annotations, via `.hand` or `.eyebrow--hand`). All three are
-self-hosted in `assets/fonts/` — no third-party requests.
+## Motion
+
+Underlines draw themselves, artwork settles into place, the CTA compresses when
+pressed. Nothing loops, nothing parallaxes, and all of it stops under
+`prefers-reduced-motion`.
 
 ---
 
-## The doodles
+## File map
 
-Every illustration lives in `assets/js/doodles.js` as an SVG string. To use one
-anywhere in the HTML:
-
-```html
-<span data-doodle="cup"></span>
 ```
+assets/css/tokens.css   colour, type scale, spacing, sizing
+assets/css/fonts.css    self-hosted @font-face
+assets/css/base.css     reset, typography, poster, nav, closing, primitives
+assets/css/site.css     page sections — hero, work, toolkit, about, play
+assets/css/case.css     the case-study template
+assets/css/mocks.css    the Disney Store screens, rebuilt in markup
 
-Available: `star sparkle heart spiral scribble arrowCurl arrowCurveR arrowCurveL
-arrowLoop arrowDown arrowRight arrowTiny arrowElbow cup puddle drop pencilBroken
-bandaid bananaPeel tangle paperPlane stickyNote clip bulb cloudThink eyes
-footprints check laptop phone palette ruler coffee compass plant book globe
-camera frameTape mascotTrip mascotPull mascotWave mascotPeek`.
-
-They inherit `color`, so `style="color: var(--accent)"` recolours one. To draw a new
-one, add another entry to the `DOODLE` object using `class="stroke"` on the paths.
-
-Doodles are used generously on the home page, the About page and the closing
-panel. Case study pages deliberately stay quiet — arrows only.
-
-### The cursor
-
-The pointer and the pointing hand are hand-drawn too, set as the **native**
-cursor via `--cur-arrow` / `--cur-hand` in `base.css` — not a follower element,
-so there is nothing that can lag behind the real pointer. Cream fill with a navy
-outline, so both read on the paper sections and on the navy ones.
-
-They are declared inside `@media (hover: hover) and (pointer: fine)`, so on touch
-the tokens simply do not exist and every `cursor: var(--cur-hand, pointer)` falls
-back to the plain keyword. Text fields keep their I-beam. `scripts/cursor.py`
-regenerates the data-URIs and a preview sheet.
-
----
-
-## How the home page works
-
-Straight vertical scroll, in five acts: hero, work, about, how I work, closing.
-`assets/js/home.js` builds the project cards from `data.js` and runs the mascot.
-
-The mascot hauls her rope along in a **fixed slot pinned to the left gutter**
-(`.companion`). The slot is sized to exactly the empty space beside the content
-rail and it clips, so neither she nor the rope can ever paint over a project
-card — the rope just runs out of sight underneath it. She leans into the pull
-when the page is moving, stands up when it stops, and says something if you
-hover or click her — the bubble is anchored above her figure's top edge, not
-to its top-left corner, which is where her head is. Below 1440 px the gutter is
-too thin to hold her and she is hidden.
-
----
-
-## Running it
-
-Any static server works:
-
-```sh
-python3 -m http.server 8000
-# then open http://localhost:8000
+assets/js/crayon.js      the illustration system + the headline fitter
+assets/js/crayon-ratio.js  generated — intrinsic sizes of the crayon assets
+assets/js/img-sizes.js     generated — intrinsic sizes of the screenshots
+assets/js/data.js        every project, the toolkit and the Play items
+assets/js/common.js      nav, closing panel, scroll reveals
+assets/js/home.js        selected-work rows and the toolkit composition
+assets/js/work.js        the filterable index
+assets/js/play.js        the experiments grid
+assets/js/project.js     the case-study renderer
 ```
-
-## Deploying
-
-It's plain files, so anything static will host it — GitHub Pages, Netlify,
-Vercel, Cloudflare Pages. For **GitHub Pages**: repo → Settings → Pages → deploy
-from a branch → pick the branch and `/ (root)`.
-
-### Arrowheads
-
-Every arrow's head is two symmetric legs meeting exactly at the tip, angled off
-the shaft's tangent at that point. Drawn instead as one smooth curve bending
-through the tip — the earlier approach — the V comes out lopsided and can vanish
-at small sizes. `scripts/arrows.py` regenerates them from a shaft and a tip if
-you ever need a new one.

@@ -54,7 +54,7 @@ const MOCK_JOIN = `
   <div class="mk mk-modal">
     <span class="mk-x">×</span>
     <div class="mk-logo">${DSW}</div>
-    <h3 class="mk-h">Get extra perks with Disney Club</h3>
+    <p class="mk-h">Get extra perks with Disney Club</p>
     <p class="mk-p">Enjoy exclusive offers, early access and delivery savings — just for being a member.</p>
     <span class="mk-link">See All Benefits</span>
     <span class="mk-btn">Join Disney Store Club</span>
@@ -66,7 +66,7 @@ const MOCK_WELCOME = `
     <span class="mk-x">×</span>
     <div class="mk-band">
       <div class="mk-logo mk-logo--light">${DSW}</div>
-      <h3 class="mk-h mk-h--light">You're in! Welcome to Disney Club</h3>
+      <p class="mk-h mk-h--light">You're in! Welcome to Disney Club</p>
       <p class="mk-p mk-p--light">Your free membership is now active! Enjoy member-only offers, early access and delivery savings.</p>
     </div>
     <div class="mk-panel">
@@ -83,7 +83,7 @@ const MOCK_PICKER = `
     <span class="mk-x">×</span>
     <div class="mk-logo">${DSW}</div>
     <div class="mk-card">
-      <h3 class="mk-h mk-h--sm">Who's your favourite in the Disney universe?</h3>
+      <p class="mk-h mk-h--sm">Who's your favourite in the Disney universe?</p>
       <p class="mk-p mk-p--sm">Pick your favourite to personalise your theme. You can always change it later.</p>
       <div class="mk-tiles">
         <div class="mk-tile"><span class="mk-thumb mk-thumb--1"></span><span class="mk-pill">Mickey &amp; Friends</span></div>
@@ -102,7 +102,7 @@ const MOCK_DONE = `
   <div class="mk mk-modal mk-modal--sm">
     <span class="mk-x">×</span>
     <div class="mk-hero-art"></div>
-    <h3 class="mk-h mk-h--sm">Your Disney world is set ✨</h3>
+    <p class="mk-h mk-h--sm">Your Disney world is set ✨</p>
     <p class="mk-p mk-p--sm">We'll use this to shape the offers and stories you see. Change it any time in My Account.</p>
     <span class="mk-btn">Start exploring</span>
   </div>`;
@@ -111,7 +111,7 @@ const MOCK_LEAVE = `
   <div class="mk mk-modal mk-modal--sm">
     <span class="mk-x">×</span>
     <div class="mk-hero-art mk-hero-art--grey"></div>
-    <h3 class="mk-h mk-h--sm">Leave the club?</h3>
+    <p class="mk-h mk-h--sm">Leave the club?</p>
     <p class="mk-p mk-p--sm">You'll lose member pricing, early access and your saved personalisation. You can rejoin at any time.</p>
     <span class="mk-btn">Stay a member</span>
     <span class="mk-link mk-link--quiet">Leave club</span>
@@ -156,8 +156,11 @@ const PROJECTS = [
   {
     slug: 'tdk-invensense',
     title: 'TDK InvenSense',
+    hero: ['Making a', 'catalogue', 'findable.'],
+    faceCue: 'thinking',
+    ringCue: 'circle-blue',
     client: 'TDK · InvenSense',
-    tagline: 'A sensor giant with a catalogue nobody could navigate — rebuilt around the three people who actually use it.',
+    tagline: 'A sensor catalogue nobody could navigate, rebuilt around the three people who actually use it.',
     category: 'End-to-end web redesign & design system',
     year: '2025',
     role: 'UX / UI Designer',
@@ -176,11 +179,14 @@ const PROJECTS = [
       'InvenSense makes the motion and sound sensors inside drones, cars, headsets, hearing aids and smart homes. The catalogue is enormous and deeply technical, and the old site asked every visitor to already know what they were looking for. Engineers, procurement partners and distributors all landed in the same undifferentiated place.',
       'I worked across the whole arc of the redesign — auditing the existing experience, restructuring the information architecture, wireframing, writing the interface copy, and taking the visual design through to a signed-off, fully responsive build. Alongside it I helped build the design system the site now runs on.'
     ],
-    roleNote: 'UX and UI across the full redesign — IA, wireframes, UX writing, responsive visual design, and the component library handed to engineering.',
+    roleNote: 'IA, wireframes, UX writing, responsive UI, and the component library engineering builds from.',
+    introNote: 'Three audiences. One front door. That was the whole problem.',
     sections: [
       {
         kind: 'text',
         title: 'The problem was not the catalogue. It was the front door.',
+        note: 'Nobody arrives thinking "I need a six-axis IMU".',
+        noteArt: 'arrow-loop',
         body: [
           'A sensor company sells to at least three very different people. An engineer wants a datasheet and an evaluation board. A partner wants roadmap and supply confidence. A distributor wants stock, pricing and collateral. The old homepage tried to speak to all three at once, so it spoke to none of them clearly.',
           'The redesign starts by admitting that. Instead of one funnel, the site opens into recognisable routes — browse by what you are building, or by the sensor you already know you need — and then names the three audiences outright, low on the page, where someone who has not yet found their way can self-select.'
@@ -252,6 +258,8 @@ const PROJECTS = [
       {
         kind: 'text',
         title: 'Then: the system underneath',
+        note: 'This is the part I expect to outlast the visual design.',
+        noteArt: 'star-yellow',
         body: [
           'A redesign that stops at screens comes undone within a year. So alongside the pages we built the vocabulary — colour, type, spacing, and every component in every state, annotated for the engineers who had to build it.',
           'Each component was documented with its variants, its behaviour and its edge cases: not a swatch page, a working reference. It is the part of this project I expect to outlast the visual design.'
@@ -280,8 +288,11 @@ const PROJECTS = [
   {
     slug: 'disney-club',
     title: 'Disney Club',
+    hero: ['Loyalty,', 'made less', 'boring.'],
+    faceCue: 'happy',
+    ringCue: 'circle-red',
     client: 'Disney Store · UK',
-    tagline: 'A free loyalty club, designed so that joining takes one tap and leaving never feels like a trap.',
+    tagline: 'People could earn rewards. Understanding them was harder than it needed to be — so joining takes one tap, and leaving is never a trap.',
     category: 'Loyalty programme — UX research & design',
     year: '2026',
     role: 'UX / UI Designer',
@@ -299,11 +310,14 @@ const PROJECTS = [
       'Disney Store wanted a free membership club: member pricing, early access to drops, and delivery savings. The commercial case was straightforward. The design problem was not — loyalty schemes tend to be sold hard at the door and made deliberately difficult to leave, and neither of those behaviours belongs on a Disney property.',
       'I worked on the research and the design together: what a member is actually joining, how much we are allowed to ask them for, what personalisation earns its keep, and what happens on the day they want out. The result is a five-state flow that runs on both desktop and mobile.'
     ],
-    roleNote: 'Research and end-to-end design of the Disney Club membership experience — join, onboard, personalise, manage and leave — across desktop and mobile.',
+    roleNote: 'Research through to a signed-off flow: join, onboard, personalise, manage and leave.',
+    introNote: 'The exit is part of the offer.',
     sections: [
       {
         kind: 'text',
         title: 'Where loyalty design usually goes wrong',
+        note: 'Sold hard at the door, then made difficult to leave.',
+        noteArt: 'squiggle-red',
         body: [
           'The research kept turning up the same two failures. The first is the onboarding wall: a scheme that asks for a profile, preferences and consent before it has demonstrated a single benefit. The second is the exit trap — leaving buried three levels into settings, or hidden behind a support conversation.',
           'Both come from the same mistake, which is treating membership as something extracted from the customer rather than offered to them. So the brief I set myself was narrow: make joining free of homework, and make leaving a normal, visible, one-screen thing.'
@@ -368,6 +382,8 @@ const PROJECTS = [
       {
         kind: 'text',
         title: 'Personalisation that costs one question',
+        note: 'Every extra field costs a member, right when they were happiest to say yes.',
+        noteArt: 'arrow-loop-warm',
         body: [
           'The commercial ask was a preference profile. The research said every extra field would cost us members at exactly the moment they were most willing to say yes. So the profile became a single question — "Who\'s your favourite in the Disney universe?" — answered by picking one of six worlds rather than filling anything in.',
           'Six options was the ceiling: enough to feel like a real choice, few enough to scan in one pass. The sixth, "A Bit of Everything", exists so that nobody has to lie to get past the screen. And "Skip for now" is given the same visual weight as Continue, because a member who skips is still a member.'
@@ -407,4 +423,49 @@ const PROJECTS = [
 
 ];
 
-if (typeof window !== 'undefined') window.PROJECTS = PROJECTS;
+/* =========================================================
+   TOOLKIT — what shows up in the "My design toolkit" section.
+   No percentage bars. Just the work, named.
+   ========================================================= */
+
+const TOOLKIT = [
+  { name: 'UI Design',             note: 'Layout, hierarchy, states' },
+  { name: 'Design Systems',        note: 'Tokens, components, docs' },
+  { name: 'Figma',                 note: 'My second home' },
+  { name: 'Prototyping',           note: 'Test it before you build it' },
+  { name: 'Responsive Design',     note: '1440 / 800 / 375' },
+  { name: 'Component Architecture',note: 'Variants and edge cases' },
+  { name: 'Visual Design',         note: 'Type, colour, restraint' },
+  { name: 'UX Writing',            note: 'The words are the interface' }
+];
+
+/* =========================================================
+   PLAY — smaller things, made for the fun of it.
+   ========================================================= */
+
+const PLAY = [
+  { title: 'Crayon illustration set', art: 'crayons',    kind: 'crayon',
+    tag: 'Illustration',
+    body: 'The character and the props used across this site. Drawn as separate pieces so they can be placed anywhere.' },
+  { title: 'Type in the wild',        art: 'sketchbook', kind: 'crayon',
+    tag: 'Typography',
+    body: 'Collecting shop signs and hand-painted lettering. Half research, half hoarding.' },
+  { title: 'Micro-interactions',      art: 'phone',      kind: 'crayon',
+    tag: 'Motion',
+    body: 'Small motion tests — a toggle, a loader, an empty state that does not feel empty.' },
+  { title: 'Poster experiments',      art: 'paperplane', kind: 'crayon',
+    tag: 'Layout',
+    body: 'One layout constraint a week. Usually a grid I am not allowed to leave.' },
+  { title: 'Photo walks',             art: 'camera',     kind: 'crayon',
+    tag: 'Photography',
+    body: 'Pune, mostly early mornings. Good for noticing how things are actually arranged.' },
+  { title: 'Badminton',               art: 'target',     kind: 'crayon',
+    tag: 'Not design',
+    body: 'The only place I stop thinking about spacing. Tuesdays and Fridays.' }
+];
+
+if (typeof window !== 'undefined') {
+  window.PROJECTS = PROJECTS;
+  window.TOOLKIT = TOOLKIT;
+  window.PLAY = PLAY;
+}

@@ -1,0 +1,144 @@
+"""
+build_assets.py — turn the sliced sprite pieces into the named crayon library
+the site actually imports.
+
+Every entry in MANIFEST is  name -> (folder, piece-prefix).  Pieces are trimmed,
+capped to a sane pixel size for the way they get used, and written as WebP with
+alpha into assets/img/<kind>/.
+
+Run from the repo root:  python3 scripts/build_assets.py <slice-dir> <repo-root>
+"""
+import os, sys, glob
+from PIL import Image
+
+# --- the character, head only -------------------------------------------------
+FACES = {
+    "neutral":   ("f1", "00"),
+    "happy":     ("f1", "01"),
+    "surprised": ("f1", "02"),
+    "worried":   ("f1", "03"),
+    "sleepy":    ("f1", "04"),
+    "calm":      ("f1", "05"),
+    "thinking":  ("s4", "001"),
+}
+
+# --- small illustrated objects ------------------------------------------------
+OBJECTS = {
+    "laptop":         ("solo", "laptop"),
+    "pen":            ("solo", "pen"),
+    "flower":         ("solo", "flower"),
+    "daisy":          ("s3", "021"),
+    "coffee":         ("s3", "002"),
+    "sketchbook":     ("s1", "009"),
+    "phone":          ("s3", "012"),
+    "books":          ("s3", "008"),
+    "camera":         ("s1", "012"),
+    "headphones":     ("s1", "007"),
+    "plant":          ("s1", "006"),
+    "bulb":           ("s1", "014"),
+    "pencil":         ("s3", "016"),
+    "crayons":        ("s3", "013"),
+    "figma":          ("s1", "022"),
+    "pencup":         ("s1", "015"),
+    "target":         ("s1", "017"),
+    "tablet":         ("s1", "020"),
+    "calendar":       ("s1", "018"),
+    "paperplane":     ("s3", "020"),
+    "smiley":         ("s1", "038"),
+    "envelope":       ("s1", "026"),
+    "globe":          ("s2", "043"),
+    "clip":           ("s2", "044"),
+    "pin":            ("s2", "045"),
+    "checklist":      ("s2", "040"),
+    "notepaper":      ("s4", "057"),
+    "sticky-design":  ("s4", "044"),
+    "sticky-curious": ("s4", "046"),
+    "sticky-keep":    ("s4", "045"),
+}
+
+# --- the annotation vocabulary ------------------------------------------------
+DOODLES = {
+    "arrow-red":        ("d1", "001"),
+    "arrow-blue":       ("d1", "017"),
+    "arrow-loop":       ("d1", "013"),
+    "arrow-loop-warm":  ("d1", "016"),
+    "circle-blue":      ("d1", "002"),
+    "circle-red":       ("d1", "018"),
+    "circle-black":     ("d1", "041"),
+    "badge-uiux":       ("d1", "022"),
+    "star-black":       ("d1", "003"),
+    "star-black-alt":   ("d1", "020"),
+    "star-yellow":      ("d1", "038"),
+    "star-solid":       ("s3", "022"),
+    "sparkle":          ("d1", "019"),
+    "squiggle-blue":    ("d1", "004"),
+    "squiggle-red":     ("d1", "012"),
+    "swirl":            ("d1", "035"),
+    "burst-warm":       ("d1", "005"),
+    "burst-red":        ("d1", "021"),
+    "underline-red":    ("d1", "030"),
+    "underline-red-bold": ("d1", "014"),
+    "underline-blue":   ("d1", "034"),
+    "underline-warm":   ("d1", "032"),
+    "highlight-red":    ("d1", "042"),
+    "highlight-yellow": ("s2", "034"),
+    "highlight-blue":   ("s2", "035"),
+    "scribble-red":     ("d1", "033"),
+    "scribble-blue":    ("d1", "023"),
+    "check":            ("d1", "026"),
+    "heart":            ("d1", "029"),
+    "washi-yellow":     ("s2", "032"),
+    "washi-blue":       ("s4", "051"),
+}
+
+GROUPS = [("face", FACES, 460), ("crayon", OBJECTS, 440), ("doodle", DOODLES, 560)]
+
+
+def find(slice_dir, folder, prefix):
+    hits = sorted(glob.glob(os.path.join(slice_dir, folder, prefix + "*.png")))
+    if not hits:
+        raise SystemExit(f"missing piece: {folder}/{prefix}*")
+    return hits[0]
+
+
+def trim(im):
+    box = im.split()[3].getbbox()
+    return im.crop(box) if box else im
+
+
+def main(slice_dir, root):
+    total = 0
+    for kind, table, cap in GROUPS:
+        out = os.path.join(root, "assets", "img", kind)
+        os.makedirs(out, exist_ok=True)
+        for name, (folder, prefix) in table.items():
+            im = trim(Image.open(find(slice_dir, folder, prefix)).convert("RGBA"))
+            if max(im.size) > cap:
+                im.thumbnail((cap, cap), Image.LANCZOS)
+            dest = os.path.join(out, name + ".webp")
+            im.save(dest, "WEBP", quality=86, method=6)
+            total += os.path.getsize(dest)
+            print(f"{kind}/{name}.webp  {im.width}x{im.height}  {os.path.getsize(dest)//1024}K")
+    print(f"-- {total//1024} KB total")
+
+
+if __name__ == "__main__":
+    main(sys.argv[1], sys.argv[2])
+
+
+def write_ratios(root):
+    """Emit the intrinsic sizes so <img> can reserve its box before load."""
+    import json
+    out = {}
+    for kind, table, _ in GROUPS:
+        d = os.path.join(root, "assets", "img", kind)
+        for name in table:
+            p = os.path.join(d, name + ".webp")
+            if os.path.exists(p):
+                w, h = Image.open(p).size
+                out[f"{kind}/{name}"] = [w, h]
+    js = os.path.join(root, "assets", "js", "crayon-ratio.js")
+    with open(js, "w") as f:
+        f.write("/* generated by scripts/build_assets.py — intrinsic sizes for the crayon assets */\n")
+        f.write("window.CRAYON_RATIO = " + json.dumps(out, sort_keys=True, separators=(",", ":")) + ";\n")
+    print("wrote", js, len(out), "entries")

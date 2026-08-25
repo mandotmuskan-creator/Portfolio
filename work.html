@@ -4,12 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Work — Muskan Mandot</title>
-<meta name="description" content="Selected projects by Muskan Mandot — website redesigns, design systems, enterprise mobile apps and illustration-led onboarding.">
-<meta name="theme-color" content="#FCFAF5">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%2312295D'/%3E%3Cpath d='M20 10 L20 30 M11 15 L29 25 M29 15 L11 25' fill='none' stroke='%23FCFAF5' stroke-width='2.8' stroke-linecap='round'/%3E%3Ccircle cx='31' cy='10' r='4.2' fill='%231B74B8'/%3E%3C/svg%3E">
+<meta name="description" content="Selected projects by Muskan Mandot — website redesigns, design systems and loyalty product design.">
+<meta name="theme-color" content="#FDFBF6">
+<link rel="icon" href="assets/img/face/neutral.webp" type="image/webp">
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/caprasimo-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/base.css">
-<link rel="stylesheet" href="assets/css/page.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/mocks.css">
 </head>
 
 <body data-page="work">
@@ -18,28 +22,40 @@
 
 <main id="main">
 
-  <section class="phead paper-grain">
-    <div class="phead__inner">
-      <p class="eyebrow reveal">Case studies</p>
-      <h1 class="display d-xl reveal" data-delay="1">Selected <span class="dd-underline">work</span></h1>
-      <p class="lede reveal" data-delay="2">
-        Research, flows and interfaces for web and mobile — plus the systems
-        underneath. Pick one and I'll walk you through what it actually took.
-      </p>
+  <!-- expressive title moment -->
+  <!-- ============ the title moment ============ -->
+  <!-- ============ the title moment ============ -->
+  <section class="ptitle paper">
+    <div class="wrap ptitle__stage">
+      <div class="poster ptitle__lead">
+        <p class="eyebrow eyebrow--red reveal">Case studies</p>
+        <h1 class="ct poster__word ptitle__word reveal" style="--d:1">
+          <span class="ln">Selected</span>
+          <span class="ln">work.</span>
+        </h1>
+      </div>
+
+      <div class="ptitle__side reveal" style="--d:2">
+        <span class="ptitle__star" aria-hidden="true"
+              data-doodle="star-black" data-rot="9"></span>
+        <img class="ptitle__face" src="assets/img/face/happy.webp"
+             alt="" aria-hidden="true" fetchpriority="high" decoding="async"
+             style="--face-rot:-4deg">
+        <p class="lede">Research, flows and interfaces for web and mobile — plus the systems underneath. Pick one and I’ll walk you through what it took.</p>
+      </div>
     </div>
-    <div class="phead__doodle" data-doodle="palette"></div>
   </section>
 
-  <section class="section section--tight">
+  <!-- quiet index -->
+  <section class="band band--tight">
     <div class="wrap">
-      <div class="filters reveal" role="group" aria-label="Filter projects by kind">
+      <div class="filters" id="filters" role="group" aria-label="Filter projects by kind">
         <span class="filters__label eyebrow">Filter</span>
-        <!-- chips injected -->
       </div>
-      <div class="grid" id="grid"></div>
+      <div class="tiles" id="grid"></div>
       <p class="empty" id="empty" hidden>
-        <span class="doodle" data-doodle="mascotPeek"></span>
-        <span class="hand hand-lg">Nothing filed under that one yet.</span>
+        <span data-face="worried" data-size="lg"></span>
+        <span class="hand">Nothing filed under that one yet.</span>
       </p>
     </div>
   </section>
@@ -48,7 +64,9 @@
 
 <footer data-foot></footer>
 
-<script src="assets/js/doodles.js"></script>
+<script src="assets/js/crayon-ratio.js"></script>
+<script src="assets/js/img-sizes.js"></script>
+<script src="assets/js/crayon.js"></script>
 <script src="assets/js/data.js"></script>
 <script src="assets/js/common.js"></script>
 <script src="assets/js/work.js"></script>

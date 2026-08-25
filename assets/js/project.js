@@ -1,306 +1,246 @@
 /* =========================================================
-   project.js — renders a case study from data.js
+   project.js — the case-study template.
 
-   URL:  project.html?p=<slug>
-   Sections come straight from the project's `sections` array,
-   so adding a block never means touching this file.
+   One expressive opening built from the project's `hero`
+   lines, then the `sections` array rendered block by block
+   into a quiet, readable editorial layout.
    ========================================================= */
 
 (function () {
-  const main = document.getElementById('main');
-  if (!main) return;
+  'use strict';
 
-  const slug = new URLSearchParams(location.search).get('p');
-  const idx = PROJECTS.findIndex((p) => p.slug === slug);
-  const p = PROJECTS[idx];
+  var q = new URLSearchParams(location.search).get('p');
+  var idx = PROJECTS.findIndex(function (p) { return p.slug === q; });
+  var P = PROJECTS[idx > -1 ? idx : 0];
+  var NEXT = PROJECTS[((idx > -1 ? idx : 0) + 1) % PROJECTS.length];
 
-  if (!p) {
-    main.innerHTML = `
-      <section class="phead">
-        <div class="phead__inner" style="text-align:center">
-          <span class="doodle" style="width:170px;margin:0 auto 20px;color:var(--blue)" data-doodle="mascotPeek"></span>
-          <h1 class="display d-lg">Hmm — dropped that one.</h1>
-          <p class="lede" style="margin:0 auto 26px">That case study isn't here. It happens.</p>
-          <a class="btn btn--fill" href="work.html">Back to the work</a>
-        </div>
-      </section>`;
-    paintDoodles(main);
-    return;
+  var E = escapeHtml;
+
+  /* width/height from the generated manifest, so a lazy screenshot holds its
+     place in the layout before it loads. */
+  function dims(src) {
+    var d = (window.IMG_SIZES || {})[src];
+    return d ? ' width="' + d[0] + '" height="' + d[1] + '"' : '';
   }
 
-  const next = PROJECTS[(idx + 1) % PROJECTS.length];
-
-  document.title = `${p.title} — Muskan Mandot`;
-  const desc = document.querySelector('meta[name="description"]');
-  if (desc) desc.setAttribute('content', `${p.title} — ${p.tagline}`);
-
-  /* ---------- shared pieces ---------- */
-
-  const longHint = `<span class="shot--scrollhint">scroll inside ↕</span>`;
-
-  function figure(src, caption, frame, long) {
-    const cls = ['shot', frame === 'browser' ? 'shot--browser' : '', long ? 'shot--long' : '']
-      .filter(Boolean).join(' ');
-    return `
-      <figure class="reveal">
-        <div class="${cls}">
-          ${long ? longHint : ''}
-          <img src="${src}" alt="${escapeHtml(caption || p.title)}" loading="lazy" decoding="async">
-        </div>
-        ${caption ? `<figcaption>${escapeHtml(caption)}</figcaption>` : ''}
-      </figure>`;
+  /* The opening visual: a screenshot when there is one, otherwise the
+     screen rebuilt in markup. */
+  function coverArt() {
+    if (P.coverMock) {
+      return '<figure class="cshero__cover shot--mock reveal" style="--d:3">' + P.coverMock + '</figure>';
+    }
+    if (!P.cover) return '';
+    return '<figure class="cshero__cover reveal" style="--d:3"><img src="' + P.cover +
+      '"' + dims(P.cover) + ' alt="' + E(P.title + ' — ' + P.category) + '" decoding="async"></figure>';
   }
 
-  /* screens rebuilt in markup rather than exported as flat images */
-  function mockFigure(it) {
-    const body = it.device === 'mobile'
-      ? `<div class="phone__frame phone__frame--mock">${it.html}</div>`
-      : `<div class="shot shot--browser shot--mock">${it.html}</div>`;
-    return `
-      <figure class="reveal">
-        ${body}
-        ${it.caption ? `<figcaption>${escapeHtml(it.caption)}</figcaption>` : ''}
-      </figure>`;
+  /* ---------- the opening ---------- */
+
+  function hero(i) {
+    var lines = (P.hero || [P.title]).map(function (l) {
+      return '<span class="ln">' + E(l) + '</span>';
+    }).join('');
+
+    var facts = [
+      ['Client', P.client], ['Role', P.role],
+      ['Tools', (P.tools || []).join(' · ')],
+      ['Platform', P.platform], ['Year', P.year]
+    ].filter(function (r) { return r[1]; });
+
+    return '<section class="cshero paper">' +
+      '<div class="wrap">' +
+        '<div class="cshero__grid">' +
+          '<div class="poster cshero__lead">' +
+            '<p class="cshero__no">' + doodle('star-black', { size: 'xs' }) +
+              '<span>PROJECT ' + String(i + 1).padStart(2, '0') + '</span></p>' +
+            '<h1 class="ct poster__word cshero__title reveal">' + lines + '</h1>' +
+          '</div>' +
+          '<div class="cshero__side reveal" style="--d:1">' +
+            '<img class="cshero__face" src="assets/img/face/' + (P.faceCue || 'thinking') + '.webp"' +
+              ' alt="" aria-hidden="true" decoding="async" style="--face-rot:6deg">' +
+            '<p class="cshero__line">' + E(P.tagline) + '</p>' +
+          '</div>' +
+        '</div>' +
+
+        '<div class="cshero__grid" style="margin-top:var(--s-6);align-items:start">' +
+          '<dl class="cshero__facts reveal" style="--d:2">' + facts.map(function (r) {
+            return '<div><dt>' + E(r[0]) + '</dt><dd>' + E(r[1]) + '</dd></div>';
+          }).join('') + '</dl>' +
+          (P.roleNote
+            ? '<div class="reveal" style="--d:3">' +
+              handNote(P.roleNote, { art: 'arrow-loop-warm', artRot: -6, tone: 'ink' }) + '</div>'
+            : '<div></div>') +
+        '</div>' +
+
+        coverArt() +
+      '</div>' +
+    '</section>';
   }
 
-  const heading = (t) => (t ? `<h2 class="display d-md reveal">${escapeHtml(t)}</h2>` : '');
-  const note = (t) => (t ? `<p class="cs-note reveal" data-delay="1">${escapeHtml(t)}</p>` : '');
+  /* ---------- body blocks ---------- */
 
-  /* ---------- block renderers ---------- */
+  var BLOCK = {
+    text: function (b) {
+      var noted = !!b.note;
+      return '<section class="blk' + (noted ? ' blk--noted' : '') + ' reveal">' +
+        '<div>' +
+          (b.title ? '<h2 class="blk__title">' + E(b.title) + '</h2>' : '') +
+          '<div class="blk__body">' + (b.body || []).map(function (p) {
+            return '<p>' + E(p) + '</p>';
+          }).join('') + '</div>' +
+        '</div>' +
+        (noted ? handNote(b.note, { art: b.noteArt || 'arrow-loop', artRot: -8 }) : '') +
+      '</section>';
+    },
 
-  const BLOCK = {
-    text: (b) => `
-      <div class="cs-block cs-block--text">
-        ${heading(b.title)}
-        <div class="prose lede reveal" data-delay="1">
-          ${b.body.map((t) => `<p>${escapeHtml(t)}</p>`).join('')}
-        </div>
-      </div>`,
+    points: function (b) {
+      return '<section class="blk reveal">' +
+        (b.title ? '<h2 class="blk__title">' + E(b.title) + '</h2>' : '') +
+        '<ul class="points">' + (b.items || []).map(function (it, i) {
+          return '<li>' + doodle(i === 0 ? 'star-yellow' : 'check', { size: 'xs' }) +
+            '<span>' + E(it) + '</span></li>';
+        }).join('') + '</ul>' +
+      '</section>';
+    },
 
-    points: (b) => `
-      <div class="cs-block cs-block--text">
-        ${heading(b.title)}
-        <ul class="points reveal" data-delay="1">
-          ${b.items.map((t) => `
-            <li><span class="doodle" data-doodle="arrowTiny"></span><span>${escapeHtml(t)}</span></li>`).join('')}
-        </ul>
-      </div>`,
+    quote: function (b) {
+      return '<blockquote class="quote reveal">' +
+        doodle('scribble-red', { cls: 'ca-float quote__mark', rot: -12 }) +
+        '<p>' + E(b.text) + '</p></blockquote>';
+    },
 
-    stats: (b) => `
-      <div class="cs-block">
-        <div class="statband reveal">
-          ${b.items.map((s) => `
-            <div><strong class="display">${escapeHtml(s.figure)}</strong><span>${escapeHtml(s.label)}</span></div>`).join('')}
-        </div>
-      </div>`,
+    stats: function (b) {
+      return '<section class="stats reveal">' + (b.items || []).map(function (s) {
+        return '<div><b>' + E(s.figure) + '</b><span>' + E(s.label) + '</span></div>';
+      }).join('') + '</section>';
+    },
 
-    /* two-column list of decisions, kept deliberately plain */
-    split: (b) => `
-      <div class="cs-block">
-        ${heading(b.title)}
-        <div class="splitgrid reveal" data-delay="1">
-          ${b.items.map((it) => `
-            <div class="splitgrid__cell">
-              <h3>${escapeHtml(it.head)}</h3>
-              <p>${escapeHtml(it.body)}</p>
-            </div>`).join('')}
-        </div>
-      </div>`,
+    split: function (b) {
+      return '<section class="blk reveal">' +
+        (b.title ? '<h2 class="blk__title">' + E(b.title) + '</h2>' : '') +
+        '<div class="split">' + (b.items || []).map(function (it) {
+          return '<div><h3>' + E(it.head) + '</h3><p>' + E(it.body) + '</p></div>';
+        }).join('') + '</div>' +
+      '</section>';
+    },
 
-    /* journey map — one column per stage, three rows of meaning */
-    journey: (b) => `
-      <div class="cs-block">
-        ${heading(b.title)}
-        ${note(b.note)}
-        <div class="journey reveal" data-delay="2">
-          <div class="journey__rail" aria-hidden="true"></div>
-          <div class="journey__row">
-            ${b.stages.map((s, i) => `
-              <div class="journey__stage">
-                <span class="journey__dot" aria-hidden="true"></span>
-                <span class="journey__n">${String(i + 1).padStart(2, '0')}</span>
-                <h3>${escapeHtml(s.phase)}</h3>
-                <p class="journey__doing">${escapeHtml(s.doing)}</p>
-                <p class="journey__feel"><span class="label">Thinking</span>${escapeHtml(s.feeling)}</p>
-                <p class="journey__move"><span class="label">Design response</span>${escapeHtml(s.move)}</p>
-              </div>`).join('')}
-          </div>
-        </div>
-      </div>`,
+    journey: function (b) {
+      return '<section class="blk reveal">' +
+        (b.title ? '<h2 class="blk__title">' + E(b.title) + '</h2>' : '') +
+        (b.note ? '<p class="cap" style="margin-top:.7em;max-width:60ch">' + E(b.note) + '</p>' : '') +
+        '<div class="journey">' + (b.stages || []).map(function (s) {
+          return '<div class="jrow"><h3>' + E(s.phase) + '</h3>' +
+            '<dl><dt>Doing</dt><dd>' + E(s.doing) + '</dd></dl>' +
+            '<dl><dt>Feeling</dt><dd>' + E(s.feeling) + '</dd></dl>' +
+            '<dl><dt>What the design does</dt><dd>' + E(s.move) + '</dd></dl>' +
+          '</div>';
+        }).join('') + '</div>' +
+      '</section>';
+    },
 
-    /* linear state flow with arrows between the steps */
-    flow: (b) => `
-      <div class="cs-block">
-        ${heading(b.title)}
-        ${note(b.note)}
-        <div class="flow reveal" data-delay="2">
-          ${b.steps.map((s, i) => `
-            ${i ? `<span class="flow__arrow doodle" data-doodle="arrowTiny"></span>` : ''}
-            <div class="flow__step${s.optional ? ' is-optional' : ''}">
-              <strong>${escapeHtml(s.label)}</strong>
-              <span>${escapeHtml(s.sub)}</span>
-            </div>`).join('')}
-        </div>
-      </div>`,
+    flow: function (b) {
+      var steps = b.steps || [];
+      return '<section class="blk reveal">' +
+        (b.title ? '<h2 class="blk__title">' + E(b.title) + '</h2>' : '') +
+        (b.note ? '<p class="cap" style="margin-top:.7em;max-width:60ch">' + E(b.note) + '</p>' : '') +
+        '<div class="flow">' + steps.map(function (s, i) {
+          return '<div class="flow__step' + (s.optional ? ' flow__step--opt' : '') + '">' +
+              '<b>' + E(s.label) + '</b><span>' + E(s.sub) + '</span></div>' +
+            (i < steps.length - 1 ? doodle('arrow-red', { cls: 'flow__arrow' }) : '');
+        }).join('') + '</div>' +
+      '</section>';
+    },
 
-    full: (b) => `<div class="cs-block">${figure(b.src, b.caption, b.frame, b.long)}</div>`,
+    full: function (b) {
+      return '<figure class="blk reveal">' +
+        '<div class="shot' + (b.frame === 'plain' ? ' shot--plain' : '') +
+          (b.long ? ' shot--long' : '') + '">' +
+          '<img src="' + b.src + '"' + dims(b.src) + ' alt="' + E(b.caption || '') + '" loading="lazy" decoding="async">' +
+        '</div>' +
+        (b.caption ? '<figcaption>' + E(b.caption) + '</figcaption>' : '') +
+      '</figure>';
+    },
 
-    duo: (b) => `
-      <div class="cs-block">
-        <div class="duo">
-          ${b.items.map((it) => figure(it.src, it.caption, it.frame, b.long)).join('')}
-        </div>
-      </div>`,
+    duo: function (b) {
+      return '<section class="blk duo reveal">' + (b.items || []).map(function (it) {
+        return '<figure><div class="shot' + (b.long ? ' shot--long' : '') + '">' +
+          '<img src="' + it.src + '"' + dims(it.src) + ' alt="' + E(it.caption || '') + '" loading="lazy" decoding="async">' +
+          '</div><figcaption>' + E(it.caption || '') + '</figcaption></figure>';
+      }).join('') + '</section>';
+    },
 
-    phones: (b) => `
-      <div class="cs-block">
-        <div class="phones">
-          ${b.items.map((it) => `
-            <figure class="phone reveal">
-              <div class="phone__frame"><img src="${it.src}" alt="${escapeHtml(it.caption || p.title)}" loading="lazy" decoding="async"></div>
-              <figcaption>${escapeHtml(it.caption || '')}</figcaption>
-            </figure>`).join('')}
-        </div>
-      </div>`,
+    phones: function (b) {
+      return '<section class="blk phones reveal">' + (b.items || []).map(function (it) {
+        return '<figure class="phone"><div class="phone__frame">' +
+          '<img src="' + it.src + '"' + dims(it.src) + ' alt="' + E(it.caption || '') + '" loading="lazy" decoding="async">' +
+          '</div><figcaption>' + E(it.caption || '') + '</figcaption></figure>';
+      }).join('') + '</section>';
+    },
 
-    mock: (b) => `<div class="cs-block">${mockFigure(b)}</div>`,
+    mock: function (b) {
+      var mobile = b.device === 'mobile';
+      return '<figure class="blk reveal">' +
+        (mobile
+          ? '<div class="phones"><div class="phone"><div class="phone__frame phone__frame--mock">' + b.html + '</div></div></div>'
+          : '<div class="shot shot--mock">' + b.html + '</div>') +
+        (b.caption ? '<figcaption>' + E(b.caption) + '</figcaption>' : '') +
+      '</figure>';
+    },
 
-    mocks: (b) => `
-      <div class="cs-block">
-        <div class="duo duo--mock">${b.items.map(mockFigure).join('')}</div>
-      </div>`,
-
-    quote: (b) => `<blockquote class="pull reveal">“${escapeHtml(b.text)}”</blockquote>`
+    mocks: function (b) {
+      return '<section class="blk duo reveal">' + (b.items || []).map(function (it) {
+        return '<figure><div class="shot shot--mock">' + it.html + '</div>' +
+          '<figcaption>' + E(it.caption || '') + '</figcaption></figure>';
+      }).join('') + '</section>';
+    }
   };
 
-  /* ---------- assemble ---------- */
-
-  const isMobile = /mobile/i.test(p.platform);
-
-  let cover;
-  if (p.coverMock) {
-    cover = `<div class="cs-cover">
-               <figure class="reveal">
-                 <div class="shot shot--browser shot--mock shot--cover">${p.coverMock}</div>
-               </figure>
-             </div>`;
-  } else if (isMobile) {
-    cover = `<div class="cs-cover cs-cover--mobile">
-               <figure class="reveal">
-                 <div class="phone__frame"><img src="${p.cover}" alt="${escapeHtml(p.title)}" fetchpriority="high" decoding="async"></div>
-               </figure>
-             </div>`;
-  } else {
-    cover = `<div class="cs-cover">
-               <figure class="reveal">
-                 <div class="shot shot--browser shot--cover"><img src="${p.cover}" alt="${escapeHtml(p.title)}" fetchpriority="high" decoding="async"></div>
-               </figure>
-             </div>`;
+  function body() {
+    var intro = (P.intro || []).length
+      ? BLOCK.text({ title: 'Context', body: P.intro, note: P.introNote, noteArt: 'arrow-loop-warm' })
+      : '';
+    return '<div class="wrap cs">' + intro +
+      (P.sections || []).map(function (b) {
+        return (BLOCK[b.kind] || function () { return ''; })(b);
+      }).join('') + '</div>';
   }
 
-  const meta = [
-    ['Role', p.role],
-    ['Client', p.client],
-    ['Year', p.year],
-    ['Tools', p.tools.join(', ')],
-    ['Platform', p.platform]
-  ];
+  function nextup() {
+    return '<section class="nextup">' +
+      '<div class="wrap">' +
+        '<p class="eyebrow">Next project</p>' +
+        '<a href="' + projectHref(NEXT) + '">' +
+          '<h2 class="ct ct--lg nextup__title">' + E(NEXT.title) + '</h2>' +
+          '<p class="nextup__row"><span class="lede" style="margin:0">' + E(NEXT.category) + '</span>' +
+            doodle('arrow-red') + '</p>' +
+        '</a>' +
+      '</div>' +
+    '</section>';
+  }
 
-  main.innerHTML = `
-    <article>
-      <header class="cs-hero on-navy">
-        <div class="cs-hero__inner">
-          <p class="eyebrow reveal">${escapeHtml(p.category)}</p>
-          <h1 class="display d-xl reveal" data-delay="1">${escapeHtml(p.title)}</h1>
-          <p class="lede reveal" data-delay="2">${escapeHtml(p.tagline)}</p>
-          <div class="meta reveal" data-delay="3">
-            ${meta.map(([k, v]) => `<div><span class="label">${k}</span><strong>${escapeHtml(v)}</strong></div>`).join('')}
-          </div>
-        </div>
-      </header>
+  document.addEventListener('DOMContentLoaded', function () {
+    var main = document.getElementById('main');
+    if (!main) return;
 
-      ${cover}
+    document.title = P.title + ' — ' + SITE.name;
+    var desc = document.querySelector('meta[name="description"]');
+    if (desc) desc.setAttribute('content', P.tagline);
 
-      <div class="cs-body">
-        <div class="cs-block cs-block--text">
-          <h2 class="display d-md reveal">Overview</h2>
-          <div class="prose lede reveal" data-delay="1">
-            ${p.intro.map((t) => `<p>${escapeHtml(t)}</p>`).join('')}
-          </div>
-        </div>
+    main.innerHTML = hero(idx > -1 ? idx : 0) + body() + nextup();
+    Crayon.paint(main);
+    Crayon.fitWords(main);
+    mountReveals(main);
 
-        <div class="cs-block cs-block--text">
-          <div class="rolebox reveal">
-            <span class="label">My role</span>
-            <p>${escapeHtml(p.roleNote)}</p>
-          </div>
-        </div>
-
-        ${p.sections.map((b) => (BLOCK[b.kind] ? BLOCK[b.kind](b) : '')).join('')}
-      </div>
-
-      <section class="nextup">
-        <div class="nextup__inner">
-          <a href="${projectHref(next)}" data-hot>
-            <p class="eyebrow reveal">Next case study</p>
-            <h2 class="display nextup__title reveal" data-delay="1">${escapeHtml(next.title)}</h2>
-            <span class="nextup__row reveal" data-delay="2">
-              <span class="nextup__cat">${escapeHtml(next.category)}</span>
-              <span class="doodle" data-doodle="arrowRight"></span>
-            </span>
-          </a>
-        </div>
-      </section>
-    </article>`;
-
-  paintDoodles(main);
-  mountReveals(main);
-
-  /* the cover figure has no caption — drop the empty node */
-  main.querySelectorAll('figcaption:empty').forEach((n) => n.remove());
-
-  /* phone screens taller than the handset get a scroll hint */
-  const markScrollable = () => {
-    main.querySelectorAll('.phones .phone').forEach((ph) => {
-      const f = ph.querySelector('.phone__frame');
-      ph.classList.toggle('is-scrollable', f.scrollHeight - f.clientHeight > 24);
-    });
-  };
-  addEventListener('load', markScrollable);
-  setTimeout(markScrollable, 600);
-  main.querySelectorAll('.phones .phone__frame').forEach((f) => {
-    f.addEventListener('scroll', () => {
-      f.closest('.phone').classList.toggle('is-read', f.scrollTop > 20);
-    }, { passive: true });
+    /* reading progress */
+    var barEl = document.getElementById('csProgress');
+    if (barEl) {
+      var tick = function () {
+        var h = document.documentElement.scrollHeight - innerHeight;
+        barEl.style.width = (h > 0 ? Math.min(1, scrollY / h) * 100 : 0).toFixed(2) + '%';
+      };
+      addEventListener('scroll', tick, { passive: true });
+      addEventListener('resize', tick);
+      tick();
+    }
   });
-
-  /* long shots: hide the hint once someone has scrolled inside */
-  main.querySelectorAll('.shot--long').forEach((el) => {
-    el.addEventListener('scroll', () => {
-      const hint = el.querySelector('.shot--scrollhint');
-      if (hint) hint.style.opacity = el.scrollTop > 24 ? '0' : '1';
-    }, { passive: true });
-  });
-
-  /* reading progress, and a nav that flips to light over the navy hero */
-  const bar = document.getElementById('csProgress');
-  const hero = main.querySelector('.cs-hero');
-  const back = document.querySelector('.cs-back');
-  const foot = document.querySelector('[data-foot]');   // class is set later, by common.js
-
-  const tick = () => {
-    if (back && foot) {
-      back.classList.toggle('is-away', foot.getBoundingClientRect().top < innerHeight - 120);
-    }
-    if (bar) {
-      const h = document.documentElement.scrollHeight - innerHeight;
-      bar.style.width = (clamp(scrollY / Math.max(1, h), 0, 1) * 100).toFixed(2) + '%';
-    }
-    if (hero) {
-      document.body.classList.toggle('on-dark-left', scrollY < hero.offsetHeight - 72);
-    }
-  };
-  addEventListener('scroll', tick, { passive: true });
-  addEventListener('resize', tick);
-  tick();
 })();

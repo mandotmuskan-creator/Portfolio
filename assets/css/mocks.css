@@ -1,0 +1,241 @@
+/* =========================================================
+   .mk — Disney Store screens, rebuilt in markup
+
+   Sized in em against a container-relative root font-size, so a
+   mock stays legible whether it is full width or half of a duo.
+   ========================================================= */
+
+.shot--mock,
+.phone__frame--mock { container-type: inline-size; }
+.shot--mock { background: #fff; }
+.duo--mock { align-items: start; }
+
+.mk {
+  --d-blue: #1266DD;
+  --d-blue-dk: #0B3B8C;
+  --d-ink: #1B1B1B;
+  --d-line: #E3E7EC;
+  font-family: var(--f-body);
+  font-size: clamp(7px, 2.05cqi, 14px);
+  line-height: 1.5;
+  color: var(--d-ink);
+  background: #fff;
+  letter-spacing: normal;
+  text-align: center;
+  padding: 2.6em 2.4em 2.4em;
+  position: relative;
+}
+
+.mk-x {
+  position: absolute;
+  top: 1em; right: 1.2em;
+  font-size: 1.6em;
+  line-height: 1;
+  color: #8A9099;
+}
+
+/* the wordmark, set rather than imaged */
+.mk-dsw { display: inline-block; color: var(--d-blue-dk); white-space: nowrap; }
+.mk-dsw em {
+  font-family: var(--f-hand);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.9em;
+  letter-spacing: -.02em;
+  margin-right: .12em;
+  vertical-align: -.08em;
+}
+.mk-dsw { font-size: 1.15em; font-weight: 400; }
+.mk-logo { margin-bottom: 1.4em; }
+.mk-logo--light .mk-dsw { color: #fff; }
+.mk-logo--sm { margin: 0; }
+
+.mk-h {
+  font-family: var(--f-body);
+  font-size: 1.65em;
+  font-weight: 600;
+  line-height: 1.24;
+  letter-spacing: -.018em;
+  margin-bottom: .5em;
+}
+.mk-h--sm { font-size: 1.3em; }
+.mk-h--light { color: #fff; }
+
+.mk-p { font-size: 1em; line-height: 1.55; color: #3D444D; margin-bottom: .9em; }
+.mk-p--sm { font-size: .95em; }
+.mk-p--light { color: rgba(255, 255, 255, .92); }
+
+.mk-note { font-size: .82em; color: #6B727B; line-height: 1.5; margin-top: 1.1em; }
+.mk-note u, .mk-p u { text-underline-offset: .18em; }
+
+.mk-link { display: inline-block; color: var(--d-blue); text-decoration: underline; text-underline-offset: .2em; font-size: .95em; }
+.mk-link--quiet { display: block; margin-top: 1.1em; text-decoration: none; font-weight: 500; }
+
+.mk-btn {
+  display: block;
+  width: fit-content;
+  margin: 1.5em auto 0;
+  padding: .82em 1.9em;
+  font-family: inherit;
+  font-size: 1em;
+  font-weight: 500;
+  color: #fff;
+  background: var(--d-blue);
+  border: 0;
+  border-radius: 100px;
+}
+
+/* Real dialogs are ~660px wide. Capping the content in em keeps that
+   proportion whether the mock is full-bleed or half of a duo. */
+.mk-modal { max-width: 46em; margin-inline: auto; border-radius: 1em; }
+.mk-modal--sm { max-width: 38em; padding-inline: 3.2em; }
+.mk-picker .mk-card { max-width: 46em; margin-inline: auto; }
+.mk-picker > .mk-logo { max-width: 46em; margin-inline: auto; }
+
+.mk-band {
+  margin: 0 0 1.4em;
+  padding: 2em 1.8em 1.8em;
+  border-radius: .7em;
+  background: linear-gradient(105deg, #0F9BF0, #1148CC);
+}
+.mk-band .mk-logo { margin-bottom: 1em; }
+.mk-band .mk-p { margin-bottom: 0; }
+
+.mk-panel {
+  padding: 1.4em 1.4em 1.2em;
+  border-radius: .7em;
+  background: #EDF4FB;
+}
+.mk-panel .mk-p { margin-bottom: 0; }
+
+/* two ears and a sparkle — the shape, not the character */
+.mk-ears {
+  display: block;
+  width: 1.7em; height: 1.2em;
+  margin: 0 auto .7em;
+  background:
+    radial-gradient(circle at 16% 22%, var(--d-blue-dk) 0 .32em, transparent .33em),
+    radial-gradient(circle at 84% 22%, var(--d-blue-dk) 0 .32em, transparent .33em),
+    radial-gradient(circle at 50% 72%, var(--d-blue-dk) 0 .46em, transparent .47em);
+}
+
+.mk-hero-art {
+  height: 6.4em;
+  margin-bottom: 1.3em;
+  border-radius: .6em;
+  background: linear-gradient(105deg, #7FC5F5, #2E6FE0);
+}
+.mk-hero-art--grey { background: linear-gradient(105deg, #D8DEE6, #AFB9C6); }
+
+/* --- the personalisation picker --- */
+
+.mk-picker { padding-bottom: 2.8em; }
+.mk-card {
+  padding: 1.8em 1.6em 1.6em;
+  border: 1px solid #CFE2FA;
+  border-radius: .7em;
+  background: #EAF3FE;
+}
+.mk-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .9em;
+  margin: 1.4em 0 .4em;
+}
+.mk-tile { display: block; }
+.mk-thumb {
+  display: block;
+  aspect-ratio: 5 / 4;
+  border-radius: .35em;
+  background: linear-gradient(150deg, #C9D6E6, #8FA3BC);
+}
+.mk-thumb--1 { background: linear-gradient(150deg, #B9BEC6, #61666E); }
+.mk-thumb--2 { background: linear-gradient(150deg, #7FC9E8, #2F7FA8); }
+.mk-thumb--3 { background: linear-gradient(150deg, #E7A8C4, #9C4E86); }
+.mk-thumb--4 { background: linear-gradient(150deg, #7FB2E8, #2C4C86); }
+.mk-thumb--5 { background: linear-gradient(150deg, #4A5B78, #10161F); }
+.mk-thumb--6 { background: linear-gradient(150deg, #F0C98A, #B87C2E); }
+.mk-pill {
+  display: block;
+  margin-top: .55em;
+  padding: .45em .3em;
+  font-size: .82em;
+  color: var(--d-blue);
+  background: #fff;
+  border: 1px solid #B9D4F5;
+  border-radius: 100px;
+}
+.mk-tile.is-on .mk-pill { background: var(--d-blue); border-color: var(--d-blue); color: #fff; }
+.mk-tile.is-on .mk-thumb { outline: .18em solid var(--d-blue); outline-offset: .14em; }
+
+/* --- my account --- */
+
+.mk-acct { padding: 0; text-align: left; }
+.mk-topbar {
+  padding: .7em 1em;
+  font-size: .82em;
+  text-align: center;
+  color: #fff;
+  background: var(--d-blue);
+}
+.mk-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+  padding: .9em 1.4em;
+  border-bottom: 1px solid var(--d-line);
+}
+.mk-nav__links { font-size: .8em; color: #4A525C; }
+.mk-acct__body { display: grid; grid-template-columns: 15em 1fr; gap: 1.4em; padding: 1.4em; }
+.mk-side__me { display: flex; align-items: center; gap: .7em; font-size: .85em; margin-bottom: 1.1em; }
+.mk-side__me small { color: #6B727B; }
+.mk-avatar { width: 2.4em; height: 2.4em; border-radius: 50%; background: #D7DEE7; flex: none; }
+.mk-side__nav { font-size: .88em; }
+.mk-side__nav li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .6em;
+  padding: .68em .8em;
+  border-radius: .4em;
+  color: #3D444D;
+}
+.mk-side__nav li.is-on { background: #EAF3FE; color: var(--d-blue-dk); font-weight: 600; }
+.mk-badge {
+  font-size: .78em;
+  padding: .16em .6em;
+  border-radius: 100px;
+  background: var(--d-blue);
+  color: #fff;
+  font-weight: 500;
+}
+.mk-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+  padding: 1em 1.2em;
+  font-size: .88em;
+  border: 1px solid var(--d-line);
+  border-radius: .5em;
+  margin-bottom: 1em;
+}
+.mk-strip small { color: #6B727B; }
+.mk-perks { display: grid; grid-template-columns: repeat(3, 1fr); gap: .8em; }
+.mk-perk {
+  padding: 1em;
+  font-size: .85em;
+  border: 1px solid var(--d-line);
+  border-radius: .5em;
+}
+.mk-perk b { display: block; margin-bottom: .25em; }
+.mk-perk small { color: #6B727B; }
+.mk-leave { margin-top: 1.4em; color: #6B727B; text-decoration: underline; }
+
+
+@container (max-width: 380px) {
+  .mk-tiles { grid-template-columns: repeat(2, 1fr); }
+  .mk-acct__body { grid-template-columns: 1fr; }
+  .mk-perks { grid-template-columns: 1fr; }
+}
