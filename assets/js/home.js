@@ -84,8 +84,8 @@
       mountReveals(kit);
     }
 
-    /* the photographs on the About page, and the portrait beside the
-       introduction. Both are skipped entirely when no photos are listed. */
+    /* the photographs under Life outside work, skipped entirely while
+       none are listed */
     var gal = document.getElementById('gallery');
     if (gal && window.GALLERY && GALLERY.length) {
       var shots = GALLERY.filter(function (g) { return !g.bio; });
@@ -100,15 +100,6 @@
       }).join('');
       gal.closest('[data-gallery]').hidden = false;
       mountReveals(gal);
-    }
-
-    var bioHost = document.getElementById('bio');
-    var bio = (window.GALLERY || []).filter(function (g) { return g.bio; })[0];
-    if (bioHost && bio) {
-      var bd = (window.IMG_SIZES || {})[bio.src] || [];
-      bioHost.innerHTML = '<img src="' + bio.src + '"' +
-        (bd.length ? ' width="' + bd[0] + '" height="' + bd[1] + '"' : '') +
-        ' alt="' + escapeHtml(bio.alt || '') + '" loading="lazy" decoding="async">';
     }
 
     var tools = document.getElementById('tools');

@@ -445,8 +445,8 @@ const TOOLS = ['Figma', 'FigJam', 'Adobe Creative Cloud', 'SAP MDK', 'AI tools']
    GALLERY — the photographs on the About page.
 
    Drop files in assets/img/life/, run scripts/image_sizes.py, and list
-   them here. `bio: true` marks the portrait used beside the introduction.
-   An empty array simply hides the gallery.
+   them here. An empty array simply hides the gallery. The portrait beside
+   the introduction is set directly in about.html.
    ========================================================= */
 
 const GALLERY = [];
