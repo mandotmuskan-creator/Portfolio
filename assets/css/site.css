@@ -534,6 +534,24 @@
 .outside__item p { font-size: var(--t-0); line-height: 1.6; color: var(--ink-soft); }
 .outside__close { margin-top: var(--s-6); }
 
+/* the photographs, when there are some */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: var(--s-4);
+  margin-top: var(--s-7);
+}
+.gallery[hidden] { display: none; }
+.shotcard { margin: 0; }
+.shotcard img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: var(--r);
+  border: 1px solid var(--rule);
+}
+.shotcard figcaption { margin-top: var(--s-2); font-size: var(--t--1); color: var(--ink-faint); }
+
 /* an editorial two-column list — used for process and principles */
 .rows { border-top: 1px solid var(--rule); }
 .row {

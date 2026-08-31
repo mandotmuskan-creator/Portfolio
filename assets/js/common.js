@@ -64,7 +64,7 @@ function mountChrome() {
 
   var footHost = document.querySelector('[data-foot]');
   if (footHost) {
-    footHost.className = 'close paper';
+    footHost.className = 'close';
     footHost.innerHTML =
       '<div class="close__art" aria-hidden="true">' +
         crayon('flower', { cls: 'ca-float close-flower', rot: -12 }) +

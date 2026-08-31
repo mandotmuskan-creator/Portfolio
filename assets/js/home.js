@@ -84,6 +84,33 @@
       mountReveals(kit);
     }
 
+    /* the photographs on the About page, and the portrait beside the
+       introduction. Both are skipped entirely when no photos are listed. */
+    var gal = document.getElementById('gallery');
+    if (gal && window.GALLERY && GALLERY.length) {
+      var shots = GALLERY.filter(function (g) { return !g.bio; });
+      gal.innerHTML = shots.map(function (g, i) {
+        var d = (window.IMG_SIZES || {})[g.src] || [];
+        return '<figure class="shotcard reveal" style="--d:' + (i % 4) + '">' +
+          '<img src="' + g.src + '"' +
+          (d.length ? ' width="' + d[0] + '" height="' + d[1] + '"' : '') +
+          ' alt="' + escapeHtml(g.alt || '') + '" loading="lazy" decoding="async">' +
+          (g.caption ? '<figcaption>' + escapeHtml(g.caption) + '</figcaption>' : '') +
+          '</figure>';
+      }).join('');
+      gal.closest('[data-gallery]').hidden = false;
+      mountReveals(gal);
+    }
+
+    var bioHost = document.getElementById('bio');
+    var bio = (window.GALLERY || []).filter(function (g) { return g.bio; })[0];
+    if (bioHost && bio) {
+      var bd = (window.IMG_SIZES || {})[bio.src] || [];
+      bioHost.innerHTML = '<img src="' + bio.src + '"' +
+        (bd.length ? ' width="' + bd[0] + '" height="' + bd[1] + '"' : '') +
+        ' alt="' + escapeHtml(bio.alt || '') + '" loading="lazy" decoding="async">';
+    }
+
     var tools = document.getElementById('tools');
     if (tools && window.TOOLS) {
       tools.innerHTML = '<b>Tools</b>' + TOOLS.map(function (t) {

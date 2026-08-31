@@ -4,6 +4,7 @@ make_textures.py — the two tiling textures the crayon type and the page use.
 crayon-grain.png  a seamless wax-crayon tooth: pale streaks and speckle on
                   transparency, laid over the letterforms with background-clip
 paper.png         a very faint paper tooth for the page ground
+crayon-hatch.png  kept for reference; the display type is a solid fill now
 
 Both are generated with wrapped gaussian blur so the tile has no visible seam.
 Run:  python3 scripts/make_textures.py
@@ -69,40 +70,9 @@ if __name__ == "__main__":
 
 
 # ---------------------------------------------------------------------------
-# Added for the poster-style direction: a folded-paper ground for the title
-# moments, and a dense crayon hatch that lets the paper show through the
-# display type the way a real crayon fill does.
+# A dense crayon hatch. No longer applied to the display type, which is a
+# solid fill, but kept so the texture can be regenerated if it is wanted.
 # ---------------------------------------------------------------------------
-
-def paper_fold(w=1600, h=1000):
-    """A sheet of white paper with two vertical folds and one horizontal."""
-    rng2 = np.random.default_rng(5)
-    y, x = np.mgrid[0:h, 0:w].astype(np.float32)
-    v = np.ones((h, w), np.float32)
-
-    def crease(pos, axis, depth, width, lift):
-        """A soft valley with a lighter ridge on one side."""
-        d = (x - pos) if axis == "v" else (y - pos)
-        val = np.exp(-(d / width) ** 2)
-        ridge = np.exp(-((d - width * 1.5) / (width * 1.4)) ** 2)
-        return -depth * val + lift * ridge
-
-    v += crease(w * 0.335, "v", .075, w * 0.009, .034)
-    v += crease(w * 0.665, "v", .066, w * 0.009, .030)
-    v += crease(h * 0.520, "h", .086, h * 0.011, .040)
-
-    # very broad panel shading so each quarter of the sheet sits differently
-    panel = (np.sin(x / w * 6.1 + 0.7) * 0.016 + np.sin(y / h * 4.3 + 1.9) * 0.018)
-    v += panel
-
-    # paper tooth
-    tooth = norm(wrapped(rng2.random((h, w)), 0.9))
-    v += (tooth - 0.5) * 0.030
-
-    v = np.clip(v, 0, 1.12)
-    rgb = np.dstack([v * 253, v * 251, v * 246]).clip(0, 255).astype(np.uint8)
-    Image.fromarray(rgb, "RGB").save(os.path.join(OUT, "paper-fold.jpg"), quality=88)
-
 
 def crayon_hatch(size=320):
     """Seamless crayon hatching, painted in paper colour.
@@ -143,8 +113,7 @@ def crayon_hatch(size=320):
 
 
 if __name__ == "__main__":
-    paper_fold()
     crayon_hatch()
-    for f in ("paper-fold.jpg", "crayon-hatch.png"):
+    for f in ("crayon-hatch.png",):
         p = os.path.join(OUT, f)
         print(f, os.path.getsize(p) // 1024, "KB")

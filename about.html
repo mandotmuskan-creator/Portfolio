@@ -22,7 +22,7 @@
 <main id="main">
 
   <!-- ============ the title moment ============ -->
-  <section class="ptitle paper">
+  <section class="ptitle">
     <div class="wrap ptitle__stage">
       <div class="poster ptitle__lead">
         <p class="eyebrow eyebrow--red reveal">About</p>
@@ -49,7 +49,7 @@
   <!-- ============ quiet: the long version ============ -->
   <section class="band band--tight">
     <div class="wrap about__grid">
-      <figure class="about__photo reveal">
+      <figure class="about__photo reveal" id="bio">
         <img src="assets/img/muskan.jpg"
              alt="Muskan Mandot, sitting at a café table in front of a hand-drawn mural."
              width="450" height="800" loading="lazy" decoding="async">
@@ -100,7 +100,7 @@
     <div class="wrap">
       <blockquote class="pull reveal">
         <span class="pull__mark" aria-hidden="true" data-doodle="scribble-red" data-rot="-12"></span>
-        <p class="ct ct--sm">Nothing sits on the screen unless it has earned its place.</p>
+        <p class="ct ct--sm">Trust me, I can make things happen.</p>
       </blockquote>
     </div>
   </section>
@@ -172,7 +172,7 @@
   </section>
 
   <!-- ============ expressive again: life outside work ============ -->
-  <section class="band paper">
+  <section class="band">
     <div class="wrap">
       <div class="shead">
         <div class="shead__l">
@@ -219,7 +219,9 @@
         <span class="hand hand--red">Different materials, same instinct.</span>
       </p>
 
-      <p style="margin-top:var(--s-5)">
+      <div class="gallery" id="gallery" data-gallery hidden></div>
+
+      <p style="margin-top:var(--s-6)">
         <a class="btn btn--ghost" href="play.html">See the other things I make</a>
       </p>
     </div>

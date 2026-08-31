@@ -174,12 +174,6 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
    the homepage hero, every page title and the closing panel.
    ========================================================= */
 
-.paper {
-  background-image: url("../img/tex/paper-fold.jpg");
-  background-size: cover;
-  background-position: center;
-}
-
 .poster { position: relative; container-type: inline-size; }
 
 /* The word is sized to fill its container exactly: --em is the width of the

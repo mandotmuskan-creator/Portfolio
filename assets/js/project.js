@@ -47,7 +47,7 @@
       ['Platform', P.platform], ['Year', P.year]
     ].filter(function (r) { return r[1]; });
 
-    return '<section class="cshero paper">' +
+    return '<section class="cshero">' +
       '<div class="wrap">' +
         '<div class="cshero__grid">' +
           '<div class="poster cshero__lead">' +

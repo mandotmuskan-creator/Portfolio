@@ -442,6 +442,16 @@ const TOOLKIT = [
 const TOOLS = ['Figma', 'FigJam', 'Adobe Creative Cloud', 'SAP MDK', 'AI tools'];
 
 /* =========================================================
+   GALLERY — the photographs on the About page.
+
+   Drop files in assets/img/life/, run scripts/image_sizes.py, and list
+   them here. `bio: true` marks the portrait used beside the introduction.
+   An empty array simply hides the gallery.
+   ========================================================= */
+
+const GALLERY = [];
+
+/* =========================================================
    PLAY — smaller things, made for the fun of it.
    ========================================================= */
 
@@ -471,4 +481,5 @@ if (typeof window !== 'undefined') {
   window.TOOLKIT = TOOLKIT;
   window.TOOLS = TOOLS;
   window.PLAY = PLAY;
+  window.GALLERY = GALLERY;
 }
