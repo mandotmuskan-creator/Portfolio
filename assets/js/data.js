@@ -449,7 +449,29 @@ const TOOLS = ['Figma', 'FigJam', 'Adobe Creative Cloud', 'SAP MDK', 'AI tools']
    the introduction is set directly in about.html.
    ========================================================= */
 
-const GALLERY = [];
+const GALLERY = [
+  { src: 'assets/img/life/framed-portraits.webp',
+    caption: 'Line portraits, drawn and framed as gifts.',
+    alt: 'Four framed black and white line drawings of couples and families, held in one hand.' },
+  { src: 'assets/img/life/colouring-book.webp',
+    caption: 'Still filling in colouring books.',
+    alt: 'An open colouring book of small animal characters, coloured in, on a windowsill beside two potted plants.' },
+  { src: 'assets/img/life/digital-illustration.webp',
+    caption: 'Mid character, on the iPad.',
+    alt: 'An iPad showing a half finished illustration of a duck character in a bubble tea cup, with the stylus resting beside it.' },
+  { src: 'assets/img/life/painting-signage.webp',
+    caption: 'Hand painting signage for an event.',
+    alt: 'Muskan sitting cross legged on a mat, painting a large teal wooden sign reading We Came, We Gathered, We Vibed.' },
+  { src: 'assets/img/life/vacation-sign.webp',
+    caption: 'Vacation calories do not count.',
+    alt: 'A hand painted red tomato shaped board reading Vacation Calories Do Not Count, against a fringed backdrop.' },
+  { src: 'assets/img/life/event-install.webp',
+    caption: 'The whole set, installed.',
+    alt: 'An event space filled with hand painted signs, doors, dreamcatchers and a large painted game board.' },
+  { src: 'assets/img/life/mountains.webp',
+    caption: 'Somewhere with a view.',
+    alt: 'A wide green valley below forested mountains under a bright sky with scattered cloud.' }
+];
 
 if (typeof window !== 'undefined') {
   window.PROJECTS = PROJECTS;

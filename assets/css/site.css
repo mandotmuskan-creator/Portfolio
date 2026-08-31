@@ -517,40 +517,56 @@
 
 .outside {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr));
-  gap: var(--s-6) var(--s-6);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: 0 clamp(32px, 5vw, 88px);
+  border-top: 1px solid var(--rule);
 }
-.outside__item { display: flex; flex-direction: column; gap: var(--s-2); }
-/* a fixed art band keeps the headings on one line across the row,
-   whatever shape each illustration happens to be */
-.outside__art {
-  display: flex;
-  align-items: flex-end;
-  height: clamp(58px, 6.6vw, 88px);
-  margin-bottom: var(--s-3);
+.outside > div {
+  padding: var(--s-4) 0;
+  border-bottom: 1px solid var(--rule-soft);
 }
-.outside__art .ca { width: auto; max-height: 100%; }
-.outside__item h3 { font-size: var(--t-1); font-weight: 700; letter-spacing: -.02em; }
-.outside__item p { font-size: var(--t-0); line-height: 1.6; color: var(--ink-soft); }
-.outside__close { margin-top: var(--s-6); }
+.outside dt {
+  font-size: var(--t-1);
+  font-weight: 700;
+  letter-spacing: -.02em;
+}
+.outside dd {
+  margin: 5px 0 0;
+  font-size: var(--t-0);
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 46ch;
+}
 
-/* the photographs, when there are some */
+/* The photographs. Columns rather than a grid, because the set mixes
+   portrait, landscape and one phone screenshot: masonry lets every photo
+   keep its own shape instead of being cropped to fit a cell. */
 .gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-  gap: var(--s-4);
+  columns: 3;
+  column-gap: var(--s-4);
   margin-top: var(--s-7);
 }
-.gallery[hidden] { display: none; }
-.shotcard { margin: 0; }
+.shotcard {
+  break-inside: avoid;
+  display: inline-block;
+  width: 100%;
+  margin: 0 0 var(--s-5);
+}
 .shotcard img {
   width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
+  height: auto;
   border-radius: var(--r);
   border: 1px solid var(--rule);
+  background: var(--paper-warm);
 }
-.shotcard figcaption { margin-top: var(--s-2); font-size: var(--t--1); color: var(--ink-faint); }
+.shotcard figcaption {
+  margin-top: var(--s-2);
+  font-size: var(--t--1);
+  color: var(--ink-faint);
+}
+
+@media (max-width: 900px) { .gallery { columns: 2; } }
+@media (max-width: 560px) { .gallery { columns: 1; } }
 
 /* an editorial two-column list — used for process and principles */
 .rows { border-top: 1px solid var(--rule); }

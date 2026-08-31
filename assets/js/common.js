@@ -33,15 +33,11 @@ function coverMarkup(p, alt, cls) {
 
 function mountChrome() {
   var here = document.body.dataset.page || '';
-  var mark = function (art) {
-    return '<img src="assets/img/doodle/' + art + '.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">';
-  };
-
   var navHost = document.querySelector('[data-nav]');
   if (navHost) {
-    var link = function (href, label, key, art) {
+    var link = function (href, label, key) {
       return '<a href="' + href + '"' + (key === here ? ' aria-current="page"' : '') + '>' +
-        label + mark(art) + '</a>';
+        label + '</a>';
     };
     navHost.className = 'nav';
     navHost.innerHTML =
@@ -51,9 +47,9 @@ function mountChrome() {
         '<span class="sr">— home</span>' +
       '</a>' +
       '<nav class="nav__links" aria-label="Primary">' +
-        link('work.html',  'Work',    'work',  'underline-red') +
-        link('about.html', 'About',   'about', 'underline-blue') +
-        link('mailto:' + SITE.mail, 'Contact', 'contact', 'underline-red') +
+        link('work.html',  'Work',    'work') +
+        link('about.html', 'About',   'about') +
+        link('mailto:' + SITE.mail, 'Contact', 'contact') +
       '</nav>';
 
     var stick = function () { navHost.classList.toggle('is-stuck', window.scrollY > 40); };
