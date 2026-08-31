@@ -451,35 +451,9 @@ const TOOLS = ['Figma', 'FigJam', 'Adobe Creative Cloud', 'SAP MDK', 'AI tools']
 
 const GALLERY = [];
 
-/* =========================================================
-   PLAY — smaller things, made for the fun of it.
-   ========================================================= */
-
-const PLAY = [
-  { title: 'Crayon illustration set', art: 'crayons',    kind: 'crayon',
-    tag: 'Illustration',
-    body: 'The character and the props used across this site. Drawn as separate pieces so they can be placed anywhere.' },
-  { title: 'Type in the wild',        art: 'sketchbook', kind: 'crayon',
-    tag: 'Typography',
-    body: 'Collecting shop signs and hand-painted lettering. Half research, half hoarding.' },
-  { title: 'Micro-interactions',      art: 'phone',      kind: 'crayon',
-    tag: 'Motion',
-    body: 'Small motion tests — a toggle, a loader, an empty state that does not feel empty.' },
-  { title: 'Poster experiments',      art: 'paperplane', kind: 'crayon',
-    tag: 'Layout',
-    body: 'One layout constraint a week. Usually a grid I am not allowed to leave.' },
-  { title: 'Photo walks',             art: 'camera',     kind: 'crayon',
-    tag: 'Photography',
-    body: 'Pune, mostly early mornings. Good for noticing how things are actually arranged.' },
-  { title: 'Badminton',               art: 'target',     kind: 'crayon',
-    tag: 'Not design',
-    body: 'The only place I stop thinking about spacing. Tuesdays and Fridays.' }
-];
-
 if (typeof window !== 'undefined') {
   window.PROJECTS = PROJECTS;
   window.TOOLKIT = TOOLKIT;
   window.TOOLS = TOOLS;
-  window.PLAY = PLAY;
   window.GALLERY = GALLERY;
 }

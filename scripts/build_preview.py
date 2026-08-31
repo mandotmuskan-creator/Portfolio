@@ -21,7 +21,6 @@ PAGES = [
     ("home",    "index.html"),
     ("work",    "work.html"),
     ("about",   "about.html"),
-    ("play",    "play.html"),
     ("p/tdk-invensense", "project.html?p=tdk-invensense"),
     ("p/disney-club",    "project.html?p=disney-club"),
 ]
@@ -109,7 +108,7 @@ def render():
 # --------------------------------------------------------------------------
 
 ROUTES = {"index.html": "#/home", "work.html": "#/work",
-          "about.html": "#/about", "play.html": "#/play"}
+          "about.html": "#/about"}
 
 
 def swap_assets(text, assets):

@@ -33,8 +33,7 @@ Edit a file, save, refresh. There is nothing to compile.
 | `index.html`   | Home — poster hero, selected work, about, toolkit, closing    |
 | `work.html`    | All projects, filterable                                      |
 | `project.html` | Case-study template · `project.html?p=<slug>`                 |
-| `about.html`   | About                                                         |
-| `play.html`    | Experiments and side projects                                 |
+| `about.html`   | About, with the photo gallery                                 |
 
 ---
 
@@ -241,17 +240,6 @@ Keep the writing short and plain. "People could earn rewards, but understanding
 them was harder than it needed to be" — not "leveraging user-centred
 methodologies".
 
-## Adding a Play item
-
-Same file, the `PLAY` array:
-
-```js
-{ title: 'Photo walks', art: 'camera', kind: 'crayon', tag: 'Photography',
-  body: 'One or two sentences.' }
-```
-
-`art` is any file name from `assets/img/crayon/` or `assets/img/doodle/`.
-
 ---
 
 ## Accessibility
@@ -281,18 +269,17 @@ pressed. Nothing loops, nothing parallaxes, and all of it stops under
 assets/css/tokens.css   colour, type scale, spacing, sizing
 assets/css/fonts.css    self-hosted @font-face
 assets/css/base.css     reset, typography, poster, nav, closing, primitives
-assets/css/site.css     page sections — hero, work, toolkit, about, play
+assets/css/site.css     page sections — hero, work, toolkit, about
 assets/css/case.css     the case-study template
 assets/css/mocks.css    the Disney Store screens, rebuilt in markup
 
 assets/js/crayon.js      the illustration system + the headline fitter
 assets/js/crayon-ratio.js  generated — intrinsic sizes of the crayon assets
 assets/js/img-sizes.js     generated — intrinsic sizes of the screenshots
-assets/js/data.js        every project, the toolkit and the Play items
+assets/js/data.js        every project, the toolkit and the About gallery
 assets/js/common.js      nav, closing panel, scroll reveals
 assets/js/home.js        selected-work rows and the toolkit composition
 assets/js/work.js        the filterable index
-assets/js/play.js        the experiments grid
 assets/js/project.js     the case-study renderer
 
 scripts/slice_sheets.py   cut a sprite sheet into individual pieces

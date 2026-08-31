@@ -267,6 +267,11 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .ca--lg { width: var(--ca-lg); }
 .ca--xl { width: var(--ca-xl); }
 
+/* The element an asset is painted into. In a flex row it would otherwise
+   shrink, and the img's max-width:100% would squash the artwork with it —
+   which is how a row of identical ticks ends up at six different sizes. */
+.ca-host { flex: none; }
+
 /* free-floating pieces are positioned by their host section */
 .ca-float { position: absolute; z-index: 2; }
 

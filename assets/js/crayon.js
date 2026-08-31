@@ -119,6 +119,7 @@
         alt: el.dataset.alt,
         eager: el.hasAttribute('data-eager')
       });
+      el.classList.add('ca-host');
       if (!el.dataset.alt) el.setAttribute('aria-hidden', 'true');
       if (el.dataset.rot) el.style.setProperty('--rot', el.dataset.rot + 'deg');
       el.removeAttribute('data-crayon');
