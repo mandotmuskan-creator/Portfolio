@@ -6,8 +6,8 @@
 
 :root {
   /* ---- paper -------------------------------------------------- */
-  --paper:        #FDFBF6;   /* the page */
-  --paper-warm:   #F8F4EA;   /* quiet alternating band */
+  --paper:        #FFFFFF;   /* the page */
+  --paper-warm:   #F7F2E7;   /* the beige band, used sparingly */
   --card:         #FFFFFF;   /* lifted surfaces */
 
   /* ---- ink ---------------------------------------------------- */

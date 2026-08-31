@@ -76,23 +76,11 @@
 
     var kit = document.getElementById('kit');
     if (kit && window.TOOLKIT) {
-      var half = Math.ceil(TOOLKIT.length / 2);
-      var col = function (items, side) {
-        return '<div class="kit__col kit__col--' + side + '">' + items.map(function (t) {
-          return '<div class="kit__item reveal"><b>' + escapeHtml(t.name) + '</b>' +
-            '<span>' + escapeHtml(t.note) + '</span></div>';
-        }).join('') + '</div>';
-      };
-      kit.innerHTML =
-        col(TOOLKIT.slice(0, half), 'l') +
-        '<div class="kit__art" aria-hidden="true">' +
-          crayon('laptop',     { cls: 'ca-float kit-laptop', rot: -4 }) +
-          crayon('sketchbook', { cls: 'ca-float kit-book',   rot: 9 }) +
-          crayon('pen',        { cls: 'ca-float kit-pen',    rot: -22 }) +
-          crayon('phone',      { cls: 'ca-float kit-phone',  rot: 12 }) +
-          crayon('figma',      { cls: 'ca-float kit-figma',  rot: -8 }) +
-        '</div>' +
-        col(TOOLKIT.slice(half), 'r');
+      kit.innerHTML = TOOLKIT.map(function (t, i) {
+        return '<div class="kit__item reveal" style="--d:' + (i % 4) + '">' +
+          '<b>' + escapeHtml(t.name) + '</b>' +
+          '<span>' + escapeHtml(t.note) + '</span></div>';
+      }).join('');
       mountReveals(kit);
     }
 

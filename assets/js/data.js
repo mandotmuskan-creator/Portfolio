@@ -429,12 +429,13 @@ const PROJECTS = [
    ========================================================= */
 
 const TOOLKIT = [
-  { name: 'UI design',              note: 'Layout, hierarchy, states' },
-  { name: 'Design systems',         note: 'Components, variants, and the logic underneath' },
-  { name: 'User flows',             note: 'The path, before the pixels' },
+  { name: 'UI design',                note: 'Layout, hierarchy, states' },
+  { name: 'Design systems',           note: 'Components, variants, and the logic underneath' },
+  { name: 'User flows',               note: 'The path, before the pixels' },
   { name: 'Information architecture', note: 'Where everything lives, and why' },
-  { name: 'Prototyping',            note: 'Test it before you build it' },
-  { name: 'Visual design',          note: 'Where I started' }
+  { name: 'Prototyping',              note: 'Test it before you build it' },
+  { name: 'Visual design',            note: 'Where I started' },
+  { name: 'AI tools',                 note: 'Part of how I work now' }
 ];
 
 /* The tools, kept separate from the craft. */
