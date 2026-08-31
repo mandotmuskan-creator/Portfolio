@@ -429,15 +429,16 @@ const PROJECTS = [
    ========================================================= */
 
 const TOOLKIT = [
-  { name: 'UI Design',             note: 'Layout, hierarchy, states' },
-  { name: 'Design Systems',        note: 'Tokens, components, docs' },
-  { name: 'Figma',                 note: 'My second home' },
-  { name: 'Prototyping',           note: 'Test it before you build it' },
-  { name: 'Responsive Design',     note: '1440 / 800 / 375' },
-  { name: 'Component Architecture',note: 'Variants and edge cases' },
-  { name: 'Visual Design',         note: 'Type, colour, restraint' },
-  { name: 'UX Writing',            note: 'The words are the interface' }
+  { name: 'UI design',              note: 'Layout, hierarchy, states' },
+  { name: 'Design systems',         note: 'Components, variants, and the logic underneath' },
+  { name: 'User flows',             note: 'The path, before the pixels' },
+  { name: 'Information architecture', note: 'Where everything lives, and why' },
+  { name: 'Prototyping',            note: 'Test it before you build it' },
+  { name: 'Visual design',          note: 'Where I started' }
 ];
+
+/* The tools, kept separate from the craft. */
+const TOOLS = ['Figma', 'FigJam', 'Adobe Creative Cloud', 'SAP MDK', 'AI tools'];
 
 /* =========================================================
    PLAY — smaller things, made for the fun of it.
@@ -467,5 +468,6 @@ const PLAY = [
 if (typeof window !== 'undefined') {
   window.PROJECTS = PROJECTS;
   window.TOOLKIT = TOOLKIT;
+  window.TOOLS = TOOLS;
   window.PLAY = PLAY;
 }

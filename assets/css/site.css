@@ -54,22 +54,9 @@
 .hero__facts dt { color: var(--ink-faint); letter-spacing: .1em; text-transform: uppercase; }
 .hero__facts dd { margin: 0; font-weight: 600; }
 
-.hero__cta { position: relative; display: inline-block; margin-bottom: 6px; }
-.hero__cta > img {
-  position: absolute;
-  left: 2%;
-  bottom: -18px;
-  width: 104%;
-  max-width: none;
-  height: 15px;
-  object-fit: fill;
-  pointer-events: none;
-}
-
 @media (max-width: 900px) {
   .hero__stage { padding-bottom: 0; }
   .hero__base { justify-content: center; }
-  .hero__cta { margin-inline: auto; }
 }
 
 /* =========================================================
@@ -84,7 +71,7 @@
   gap: var(--s-4);
   margin-bottom: var(--s-6);
 }
-.shead__l { position: relative; max-width: 30ch; }
+.shead__l { position: relative; max-width: 27rem; }
 .shead__title { margin-top: .18em; }
 .shead__star {
   position: absolute;
@@ -457,6 +444,107 @@
   .about__grid { grid-template-columns: 1fr; }
   .about-note-a, .about-note-b { position: static; margin-top: var(--s-3); }
 }
+
+/* --- a pull quote, for breaking up the longer reading --- */
+
+.pull { position: relative; max-width: 40rem; margin-inline: auto; text-align: center; }
+.pull p { line-height: 1.1; }
+.pull__mark {
+  position: absolute;
+  left: -14%;
+  top: 6%;
+  width: clamp(34px, 3.6vw, 54px);
+}
+@media (max-width: 700px) { .pull__mark { display: none; } }
+
+/* --- the quick-facts table --- */
+
+.specs { border-top: 1px solid var(--rule); }
+.specs div {
+  display: grid;
+  grid-template-columns: minmax(0, .26fr) minmax(0, 1fr);
+  gap: var(--s-3) var(--s-5);
+  padding: var(--s-4) 0;
+  border-bottom: 1px solid var(--rule-soft);
+}
+.specs dt {
+  font-size: var(--t--1);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.specs dd { margin: 0; font-size: var(--t-1); font-weight: 600; letter-spacing: -.015em; }
+@media (max-width: 640px) {
+  .specs div { grid-template-columns: 1fr; gap: 4px; }
+}
+
+/* --- the small true things --- */
+
+.trues {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: var(--s-3) var(--s-6);
+}
+.trues li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-3);
+  padding: var(--s-3) 0;
+  border-bottom: 1px solid var(--rule-soft);
+  font-size: var(--t-0);
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+.trues .ca { width: clamp(16px, 1.8vw, 22px); margin-top: .2em; }
+
+.growing {
+  margin-top: var(--s-7);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--rule);
+  max-width: 62ch;
+}
+.growing h3 { font-size: var(--t-2); font-weight: 700; letter-spacing: -.025em; }
+.growing p { margin-top: .6em; font-size: var(--t-1); line-height: 1.6; color: var(--ink-soft); }
+
+/* --- the tools line under the toolkit --- */
+
+.tools {
+  margin-top: var(--s-6);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--rule-soft);
+  text-align: center;
+  font-size: var(--t--1);
+  color: var(--ink-faint);
+}
+.tools b {
+  display: block;
+  margin-bottom: 8px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.tools span { color: var(--ink); font-weight: 600; }
+.tools span + span::before { content: " · "; color: var(--ink-faint); font-weight: 400; }
+
+/* --- life outside work --- */
+
+.outside {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr));
+  gap: var(--s-6) var(--s-6);
+}
+.outside__item { display: flex; flex-direction: column; gap: var(--s-2); }
+/* a fixed art band keeps the headings on one line across the row,
+   whatever shape each illustration happens to be */
+.outside__art {
+  display: flex;
+  align-items: flex-end;
+  height: clamp(58px, 6.6vw, 88px);
+  margin-bottom: var(--s-3);
+}
+.outside__art .ca { width: auto; max-height: 100%; }
+.outside__item h3 { font-size: var(--t-1); font-weight: 700; letter-spacing: -.02em; }
+.outside__item p { font-size: var(--t-0); line-height: 1.6; color: var(--ink-soft); }
+.outside__close { margin-top: var(--s-6); }
 
 /* an editorial two-column list — used for process and principles */
 .rows { border-top: 1px solid var(--rule); }

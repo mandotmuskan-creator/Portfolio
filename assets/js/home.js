@@ -62,7 +62,7 @@
         '<p class="proj__line">' + escapeHtml(p.tagline) + '</p>' +
         metaRow(p) +
         '<p class="proj__cta"><span class="btn btn--ghost" aria-hidden="true">' +
-          'Read the case study' + doodle('arrow-red', { cls: 'btn__arrow' }) + '</span></p>' +
+          'Read the case study</span></p>' +
       '</div>' +
     '</article>';
   }
@@ -94,6 +94,13 @@
         '</div>' +
         col(TOOLKIT.slice(half), 'r');
       mountReveals(kit);
+    }
+
+    var tools = document.getElementById('tools');
+    if (tools && window.TOOLS) {
+      tools.innerHTML = '<b>Tools</b>' + TOOLS.map(function (t) {
+        return '<span>' + escapeHtml(t) + '</span>';
+      }).join('');
     }
   });
 })();

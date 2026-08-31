@@ -90,7 +90,7 @@ function mountChrome() {
             markWord(SITE.mail, { art: 'underline-red' }) + '</a>' +
         '</div>' +
         '<div class="close__row reveal" style="--d:4">' +
-          '<a class="btn btn--red" href="work.html">See the work' + doodle('arrow-red', { cls: 'btn__arrow' }) + '</a>' +
+          '<a class="btn" href="work.html">See the work</a>' +
           '<a class="btn btn--ghost" href="about.html">About me</a>' +
         '</div>' +
         '<div class="foot__meta">' +

@@ -154,20 +154,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 /* the smaller display sizes wrap more often, so they need the extra room */
 .ct--md, .ct--sm { line-height: 1.08; }
 
-@supports (background-clip: text) or (-webkit-background-clip: text) {
-  .ct {
-    /* the hatch is sized in em, so the stroke density stays the same
-       whether the word is a page title or a section heading */
-    background-image:
-      url("../img/tex/crayon-hatch.png"),
-      linear-gradient(currentColor, currentColor);
-    background-size: 1.4em 1.4em, 100% 100%;
-    background-repeat: repeat, no-repeat;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-}
+/* The letters are a solid, opaque crayon red. The hand comes from the
+   uneven outline below, not from paper showing through the fill. */
 
 /* The wobble. Two strengths, because a displacement that reads as a
    confident crayon edge on a poster word turns a section heading to mush. */
@@ -372,27 +360,26 @@ a:focus-visible .mark > img {
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 14px 26px;
+  padding: 13px 26px;
   border-radius: 999px;
-  background: var(--ink);
+  background: var(--btn);
   color: var(--paper);
   font-size: var(--t-0);
   font-weight: 600;
   letter-spacing: .01em;
-  border: 2px solid var(--ink);
-  transition: transform .16s var(--ease), background .16s var(--ease), color .16s var(--ease);
+  border: 1.5px solid var(--btn);
+  transition: background .16s var(--ease), color .16s var(--ease),
+              border-color .16s var(--ease), transform .16s var(--ease);
 }
-.btn:hover { transform: translateY(-2px); }
-.btn:active { transform: translateY(0) scale(.97); }
+.btn:hover { background: var(--ink); border-color: var(--ink); }
+.btn:active { transform: scale(.98); }
 
-.btn--red   { background: var(--red);  border-color: var(--red); }
-.btn--blue  { background: var(--blue); border-color: var(--blue); }
-.btn--ghost { background: transparent; color: var(--ink); border-color: var(--ink); }
-.btn--ghost:hover { background: var(--ink); color: var(--paper); }
-
-.btn__arrow { width: 1.5em; transition: transform .2s var(--ease); }
-.btn:hover .btn__arrow { transform: translateX(4px); }
+.btn--ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--btn-line);
+}
+.btn--ghost:hover { background: var(--btn); border-color: var(--btn); color: var(--paper); }
 
 /* a text link with a crayon underline that draws on hover */
 .tlink {
