@@ -44,7 +44,7 @@ function mountChrome() {
       '<a class="nav__mark" href="index.html">' +
         '<img class="stamp" src="assets/img/face/neutral.webp" alt="" aria-hidden="true" decoding="async">' +
         '<span>' + SITE.name + '</span>' +
-        '<span class="sr">— home</span>' +
+        '<span class="sr">, home</span>' +
       '</a>' +
       '<nav class="nav__links" aria-label="Primary">' +
         link('work.html',  'Work',    'work') +

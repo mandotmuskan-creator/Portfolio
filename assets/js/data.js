@@ -1,5 +1,5 @@
 /* =========================================================
-   data.js — the single source of truth for every project.
+   data.js, the single source of truth for every project.
 
    TO ADD A PROJECT
    1. Drop images in  assets/img/projects/
@@ -19,12 +19,12 @@
    role      your role, one line
    tools     array of tools
    platform  web / mobile / both
-   tags      array — powers the filters on /work.html
+   tags      array, powers the filters on /work.html
    accent    card colour: "navy" | "blue" | "cream" | "red"
    cover     card image  (or coverMock for a drawn-in-code cover)
    coverFit  "cover" (fill the card) | "top" (pin to the top)
    focus     three short lines shown on the home card
-   intro     array of paragraphs — the overview
+   intro     array of paragraphs, the overview
    roleNote  the one-line "My Role" summary
    sections  array of { kind, ... } blocks, rendered in order:
                { kind:'text',    title, body:[..] }
@@ -55,7 +55,7 @@ const MOCK_JOIN = `
     <span class="mk-x">×</span>
     <div class="mk-logo">${DSW}</div>
     <p class="mk-h">Get extra perks with Disney Club</p>
-    <p class="mk-p">Enjoy exclusive offers, early access and delivery savings — just for being a member.</p>
+    <p class="mk-p">Enjoy exclusive offers, early access and delivery savings, just for being a member.</p>
     <span class="mk-link">See All Benefits</span>
     <span class="mk-btn">Join Disney Store Club</span>
     <p class="mk-note">By joining, you agree to <u>Disney Store terms</u>.</p>
@@ -160,7 +160,7 @@ const PROJECTS = [
     faceCue: 'thinking',
     ringCue: 'circle-blue',
     client: 'TDK · InvenSense',
-    tagline: 'A sensor catalogue nobody could navigate, rebuilt around the three people who actually use it.',
+    tagline: 'A sensor catalogue nobody could navigate, restructured around the engineers, partners and distributors who actually use it.',
     category: 'End-to-end web redesign & design system',
     year: '2025',
     role: 'UX / UI Designer',
@@ -176,7 +176,7 @@ const PROJECTS = [
     ],
     intro: [
       'InvenSense makes the motion and sound sensors inside drones, cars, headsets, hearing aids and smart homes. The catalogue is enormous and deeply technical, and the old site asked every visitor to already know what they were looking for. Engineers, procurement partners and distributors all landed in the same undifferentiated place.',
-      'I worked across the whole arc of the redesign — auditing the existing experience, restructuring the information architecture, wireframing, writing the interface copy, and taking the visual design through to a signed-off, fully responsive build. Alongside it I helped build the design system the site now runs on.'
+      'I worked across the whole arc of the redesign: auditing the existing experience, restructuring the information architecture, wireframing, writing the interface copy, and taking the visual design through to a signed-off, fully responsive build. Alongside it I helped build the design system the site now runs on.'
     ],
     roleNote: 'IA, wireframes, UX writing, responsive UI, and the component library engineering builds from.',
     introNote: 'Three audiences. One front door. That was the whole problem.',
@@ -188,7 +188,7 @@ const PROJECTS = [
         noteArt: 'arrow-loop',
         body: [
           'A sensor company sells to at least three very different people. An engineer wants a datasheet and an evaluation board. A partner wants roadmap and supply confidence. A distributor wants stock, pricing and collateral. The old homepage tried to speak to all three at once, so it spoke to none of them clearly.',
-          'The redesign starts by admitting that. Instead of one funnel, the site opens into recognisable routes — browse by what you are building, or by the sensor you already know you need — and then names the three audiences outright, low on the page, where someone who has not yet found their way can self-select.'
+          'The redesign starts by admitting that. Instead of one funnel, the site opens into recognisable routes. Browse by what you are building, or by the sensor you already know you need. It then names the three audiences outright, low on the page, where someone who has not yet found their way can self-select.'
         ]
       },
       {
@@ -206,7 +206,7 @@ const PROJECTS = [
             phase: 'OEM / Partner',
             doing: 'Assessing whether TDK can support a product line at volume.',
             feeling: 'Cautious. Needs proof before a conversation starts.',
-            move: 'A measurable-success band — 8+ billion sensors shipped, 500+ products, 15,000+ patents — plus named partner brands.'
+            move: 'A measurable-success band: 8+ billion sensors shipped, 500+ products, 15,000+ patents, plus named partner brands.'
           },
           {
             phase: 'Distributor',
@@ -222,17 +222,17 @@ const PROJECTS = [
         items: [
           'Audited the existing site and restructured the information architecture around tasks rather than internal org structure.',
           'Wireframed desktop, tablet and mobile, then ran the layouts through feedback iterations with stakeholders and engineering.',
-          'Ran a UX-writing pass over the whole page — every heading, helper line and empty state annotated in-file for the build team.',
+          'Ran a UX-writing pass over the whole page. Every heading, helper line and empty state annotated in-file for the build team.',
           'Designed the signed-off responsive UI at 1440, 800 and 375, with behaviour notes on each breakpoint.',
-          'Built and documented components — colour, type, badges, checkboxes, buttons — with every state and edge case.'
+          'Built and documented components (colour, type, badges, checkboxes, buttons) with every state and edge case.'
         ]
       },
-      { kind: 'full', src: 'assets/img/projects/tdk-06.jpg', caption: 'Signed-off homepage — the full desktop scroll', frame: 'browser', long: true },
+      { kind: 'full', src: 'assets/img/projects/tdk-06.jpg', caption: 'Signed-off homepage, the full desktop scroll', frame: 'browser', long: true },
       {
         kind: 'text',
         title: 'A bento grid that does real work',
         body: [
-          'The middle of the page had to carry the breadth of the catalogue without turning into a wall of categories. The answer was a bento grid where each tile is an application — presence detection, smart locks, automotive safety, wearables — rather than a product family.',
+          'The middle of the page had to carry the breadth of the catalogue without turning into a wall of categories. The answer was a bento grid where each tile is an application (presence detection, smart locks, automotive safety, wearables) rather than a product family.',
           'People rarely arrive thinking "I need a six-axis IMU". They arrive thinking "I am building a smart lock". The tabs above the grid let you switch to browsing by sensor once you do know, so the expert route is never buried under the beginner one.'
         ]
       },
@@ -240,7 +240,7 @@ const PROJECTS = [
         kind: 'split',
         title: 'Decisions worth defending',
         items: [
-          { head: 'Proof before pitch', body: 'The stats band sits immediately under the hero. For a partner evaluating supply risk, scale is the argument — so it leads, before any product copy.' },
+          { head: 'Proof before pitch', body: 'The stats band sits immediately under the hero. For a partner evaluating supply risk, scale is the argument, so it leads, before any product copy.' },
           { head: 'Specs on the card', body: 'Part cards carry the two or three specs an engineer actually filters on, so comparison happens in the grid instead of across five open tabs.' },
           { head: 'One remembered choice', body: 'The role selector remembers what you picked. A distributor should not have to re-declare themselves on every visit.' },
           { head: 'Filters, not a search box', body: 'The sensor selector asks for application type and sensor type. Free-text search assumes vocabulary the visitor may not share with us.' }
@@ -249,7 +249,7 @@ const PROJECTS = [
       {
         kind: 'duo',
         items: [
-          { src: 'assets/img/projects/tdk-07.jpg', caption: 'Product detail — specs, variants and comparison' },
+          { src: 'assets/img/projects/tdk-07.jpg', caption: 'Product detail: specs, variants and comparison' },
           { src: 'assets/img/projects/tdk-08.jpg', caption: 'The same page reflowed for narrow screens' }
         ],
         long: true
@@ -260,7 +260,7 @@ const PROJECTS = [
         note: 'This is the part I expect to outlast the visual design.',
         noteArt: 'star-yellow',
         body: [
-          'A redesign that stops at screens comes undone within a year. So alongside the pages we built the vocabulary — colour, type, spacing, and every component in every state, annotated for the engineers who had to build it.',
+          'A redesign that stops at screens comes undone within a year. So alongside the pages we built the vocabulary: colour, type, spacing, and every component in every state, annotated for the engineers who had to build it.',
           'Each component was documented with its variants, its behaviour and its edge cases: not a swatch page, a working reference. It is the part of this project I expect to outlast the visual design.'
         ]
       },
@@ -275,11 +275,11 @@ const PROJECTS = [
       {
         kind: 'duo',
         items: [
-          { src: 'assets/img/projects/tdk-01.jpg', caption: 'Badges — variants and annotations' },
-          { src: 'assets/img/projects/tdk-02.jpg', caption: 'Checkboxes — default, checked, error, disabled' }
+          { src: 'assets/img/projects/tdk-01.jpg', caption: 'Badges: variants and annotations' },
+          { src: 'assets/img/projects/tdk-02.jpg', caption: 'Checkboxes: default, checked, error, disabled' }
         ]
       },
-      { kind: 'full', src: 'assets/img/projects/tdk-03.jpg', caption: 'Buttons — primary, secondary and ghost, across every state', frame: 'plain', long: true },
+      { kind: 'full', src: 'assets/img/projects/tdk-03.jpg', caption: 'Buttons: primary, secondary and ghost, across every state', frame: 'plain', long: true },
       { kind: 'quote', text: 'Consistency is not a coat of paint you add at the end. It is the thing you build first, and then get to keep.' }
     ]
   },
@@ -291,8 +291,8 @@ const PROJECTS = [
     faceCue: 'happy',
     ringCue: 'circle-red',
     client: 'Disney Store · UK',
-    tagline: 'People could earn rewards. Understanding them was harder than it needed to be — so joining takes one tap, and leaving is never a trap.',
-    category: 'Loyalty programme — UX research & design',
+    tagline: 'People could earn rewards. Understanding them was harder than it needed to be, so joining takes one tap, and leaving is never a trap.',
+    category: 'Loyalty programme, UX research and design',
     year: '2026',
     role: 'UX / UI Designer',
     tools: ['Figma', 'FigJam'],
@@ -306,7 +306,7 @@ const PROJECTS = [
       'Designed the way out as carefully as the way in'
     ],
     intro: [
-      'Disney Store wanted a free membership club: member pricing, early access to drops, and delivery savings. The commercial case was straightforward. The design problem was not — loyalty schemes tend to be sold hard at the door and made deliberately difficult to leave, and neither of those behaviours belongs on a Disney property.',
+      'Disney Store wanted a free membership club: member pricing, early access to drops, and delivery savings. The commercial case was straightforward. The design problem was not. Loyalty schemes tend to be sold hard at the door and made deliberately difficult to leave, and neither of those behaviours belongs on a Disney property.',
       'I worked on the research and the design together: what a member is actually joining, how much we are allowed to ask them for, what personalisation earns its keep, and what happens on the day they want out. The result is a five-state flow that runs on both desktop and mobile.'
     ],
     roleNote: 'Research through to a signed-off flow: join, onboard, personalise, manage and leave.',
@@ -318,14 +318,14 @@ const PROJECTS = [
         note: 'Sold hard at the door, then made difficult to leave.',
         noteArt: 'squiggle-red',
         body: [
-          'The research kept turning up the same two failures. The first is the onboarding wall: a scheme that asks for a profile, preferences and consent before it has demonstrated a single benefit. The second is the exit trap — leaving buried three levels into settings, or hidden behind a support conversation.',
+          'The research kept turning up the same two failures. The first is the onboarding wall: a scheme that asks for a profile, preferences and consent before it has demonstrated a single benefit. The second is the exit trap: leaving buried three levels into settings, or hidden behind a support conversation.',
           'Both come from the same mistake, which is treating membership as something extracted from the customer rather than offered to them. So the brief I set myself was narrow: make joining free of homework, and make leaving a normal, visible, one-screen thing.'
         ]
       },
       {
         kind: 'flow',
         title: 'The five states',
-        note: 'Every state exists at desktop and mobile. The dotted step is optional — a member can skip it and stay a full member.',
+        note: 'Every state exists at desktop and mobile. The dotted step is optional. A member can skip it and stay a full member.',
         steps: [
           { label: 'Invitation', sub: 'A prompt with benefits stated plainly' },
           { label: 'Joined', sub: 'Membership active before anything is asked' },
@@ -342,14 +342,14 @@ const PROJECTS = [
           {
             phase: 'Sees the invitation',
             doing: 'Mid-shop, hits a prompt offering a free club.',
-            feeling: '"What is this going to cost me — money, or my inbox?"',
+            feeling: '"What is this going to cost me, money or my inbox?"',
             move: 'Benefits listed in one line each. Free stated up front. Terms linked, not buried.'
           },
           {
             phase: 'Joins',
             doing: 'One tap. Membership is live immediately.',
             feeling: 'Relief that nothing else was demanded.',
-            move: 'The confirmation leads with "You\'re in" — the reward arrives before any request does.'
+            move: 'The confirmation leads with "You\'re in". The reward arrives before any request does.'
           },
           {
             phase: 'Personalises',
@@ -374,7 +374,7 @@ const PROJECTS = [
       {
         kind: 'mocks',
         items: [
-          { device: 'desktop', html: MOCK_JOIN, caption: 'The invitation — benefits first, one action, terms visible' },
+          { device: 'desktop', html: MOCK_JOIN, caption: 'The invitation: benefits first, one action, terms visible' },
           { device: 'desktop', html: MOCK_WELCOME, caption: 'Membership is already active before personalisation is offered' }
         ]
       },
@@ -384,16 +384,16 @@ const PROJECTS = [
         note: 'Every extra field costs a member, right when they were happiest to say yes.',
         noteArt: 'arrow-loop-warm',
         body: [
-          'The commercial ask was a preference profile. The research said every extra field would cost us members at exactly the moment they were most willing to say yes. So the profile became a single question — "Who\'s your favourite in the Disney universe?" — answered by picking one of six worlds rather than filling anything in.',
+          'The commercial ask was a preference profile. The research said every extra field would cost us members at exactly the moment they were most willing to say yes. So the profile became a single question, "Who\'s your favourite in the Disney universe?", answered by picking one of six worlds rather than filling anything in.',
           'Six options was the ceiling: enough to feel like a real choice, few enough to scan in one pass. The sixth, "A Bit of Everything", exists so that nobody has to lie to get past the screen. And "Skip for now" is given the same visual weight as Continue, because a member who skips is still a member.'
         ]
       },
-      { kind: 'mock', device: 'desktop', html: MOCK_PICKER, caption: 'The personalisation picker — one question, six worlds, an honest way past it' },
+      { kind: 'mock', device: 'desktop', html: MOCK_PICKER, caption: 'The personalisation picker: one question, six worlds, an honest way past it' },
       {
         kind: 'points',
         title: 'Decisions I would defend in a review',
         items: [
-          'Membership activates before personalisation is requested — the benefit is never held hostage to the data.',
+          'Membership activates before personalisation is requested. The benefit is never held hostage to the data.',
           '"Skip for now" is styled as a peer of the primary action, not as a grey afterthought.',
           'The confirmation screen says what the answer will be used for, in one sentence, in plain language.',
           'Communications consent is surfaced with a link to preferences rather than pre-ticked and hoped for.',
@@ -403,19 +403,19 @@ const PROJECTS = [
       {
         kind: 'mocks',
         items: [
-          { device: 'desktop', html: MOCK_DONE, caption: 'Confirmation — closes the loop on what the choice does' },
-          { device: 'desktop', html: MOCK_LEAVE, caption: 'Offboarding — honest about the loss, and rejoining offered in the same breath' }
+          { device: 'desktop', html: MOCK_DONE, caption: 'Confirmation, closing the loop on what the choice does' },
+          { device: 'desktop', html: MOCK_LEAVE, caption: 'Offboarding: honest about the loss, and rejoining offered in the same breath' }
         ]
       },
       {
         kind: 'text',
         title: 'Where the club actually lives',
         body: [
-          'Day to day, Disney Club is not a modal — it is a row in My Account, sitting alongside order history and the wish list. That is where the chosen theme can be changed, where the three active perks are restated, and where leaving is one visible link rather than a hunt.',
+          'Day to day, Disney Club is not a modal. It is a row in My Account, sitting alongside order history and the wish list. That is where the chosen theme can be changed, where the three active perks are restated, and where leaving is one visible link rather than a hunt.',
           'Putting the exit on the same screen as the benefits was the argument I had to make most often. It reads as risky. In practice it is the thing that makes the rest of the club believable.'
         ]
       },
-      { kind: 'mock', device: 'desktop', html: MOCK_ACCOUNT, caption: 'My Account — theme, perks and the way out, all on one screen' },
+      { kind: 'mock', device: 'desktop', html: MOCK_ACCOUNT, caption: 'My Account: theme, perks and the way out, all on one screen' },
       { kind: 'quote', text: 'A membership you can leave in one tap is one people feel safe joining in one tap. The exit is part of the offer.' }
     ]
   }
@@ -445,7 +445,26 @@ const PROJECTS = [
 ];
 
 /* =========================================================
-   TOOLKIT — what shows up in the "My design toolkit" section.
+   PROCESS, the five steps shown on the home page.
+
+   One line each. The longer descriptions belong on About, not here.
+   ========================================================= */
+
+const PROCESS = [
+  { no: '01', name: 'Understand',
+    line: 'Before anything gets drawn, I work out who this is for and what they came to do.' },
+  { no: '02', name: 'Map',
+    line: 'I lay out the journey before I make it look like anything.' },
+  { no: '03', name: 'Design',
+    line: 'The interface itself. Clean, considered, and built to the brand rather than to my taste.' },
+  { no: '04', name: 'Systemise',
+    line: 'I build the structure that keeps it consistent once I have moved on.' },
+  { no: '05', name: 'Ship and refine',
+    line: 'I stay with the work through build, review and whatever comes after.' }
+];
+
+/* =========================================================
+   TOOLKIT, what shows up in the design toolkit section.
    No percentage bars. Just the work, named.
    ========================================================= */
 
@@ -463,7 +482,7 @@ const TOOLKIT = [
 const TOOLS = ['Figma', 'FigJam', 'Adobe Creative Cloud', 'SAP MDK', 'AI tools'];
 
 /* =========================================================
-   GALLERY — the photographs on the About page.
+   GALLERY, the photographs on the About page.
 
    Drop files in assets/img/life/, run scripts/image_sizes.py, and list
    them here. An empty array simply hides the gallery. The portrait beside
@@ -496,6 +515,7 @@ const GALLERY = [
 
 if (typeof window !== 'undefined') {
   window.PROJECTS = PROJECTS;
+  window.PROCESS = PROCESS;
   window.TOOLKIT = TOOLKIT;
   window.TOOLS = TOOLS;
   window.GALLERY = GALLERY;

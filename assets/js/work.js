@@ -11,7 +11,7 @@
       ? '<article class="tile reveal" ' + tag + '>'
       : '<a class="tile reveal" href="' + projectHref(p) + '" ' + tag + '>';
     return open +
-      coverMarkup(p, p.title + ' — ' + p.category) +
+      coverMarkup(p, p.title + ', ' + p.category) +
       '<p class="tile__no">PROJECT ' + String(i + 1).padStart(2, '0') + '</p>' +
       '<h2 class="tile__title">' + escapeHtml(p.title) + '</h2>' +
       '<p class="tile__line">' + escapeHtml(p.tagline) + '</p>' +

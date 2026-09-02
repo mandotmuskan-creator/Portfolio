@@ -31,7 +31,7 @@
     }
     if (!P.cover) return '';
     return '<figure class="cshero__cover reveal" style="--d:3"><img src="' + P.cover +
-      '"' + dims(P.cover) + ' alt="' + E(P.title + ' — ' + P.category) + '" decoding="async"></figure>';
+      '"' + dims(P.cover) + ' alt="' + E(P.title + ', ' + P.category) + '" decoding="async"></figure>';
   }
 
   /* ---------- the opening ---------- */
@@ -219,7 +219,7 @@
     var main = document.getElementById('main');
     if (!main) return;
 
-    document.title = P.title + ' — ' + SITE.name;
+    document.title = P.title + ' · ' + SITE.name;
     var desc = document.querySelector('meta[name="description"]');
     if (desc) desc.setAttribute('content', P.tagline);
 

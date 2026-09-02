@@ -1,5 +1,5 @@
 /* =========================================================
-   home.js — Selected Work rows and the toolkit composition.
+   home.js, Selected Work rows, the process strip and the toolkit.
 
    The decoration around each project deliberately differs:
    the system is shared, the composition is not.
@@ -25,7 +25,7 @@
     var n = String(i + 1).padStart(2, '0');
     return '<article class="proj reveal">' +
       '<div class="proj__media">' +
-        coverMarkup(p, p.title + ' — ' + p.category, 'proj__shot') +
+        coverMarkup(p, p.title + ', ' + p.category, 'proj__shot') +
       '</div>' +
       '<div class="proj__body">' +
         '<p class="proj__no">PROJECT ' + n + '</p>' +
@@ -48,6 +48,17 @@
     if (host) {
       host.innerHTML = PROJECTS.map(row).join('');
       mountReveals(host);
+    }
+
+    var steps = document.getElementById('steps');
+    if (steps && window.PROCESS) {
+      steps.innerHTML = PROCESS.map(function (t, i) {
+        return '<li class="step reveal" style="--d:' + i + '">' +
+          '<span class="step__no">' + escapeHtml(t.no) + '</span>' +
+          '<h3>' + escapeHtml(t.name) + '</h3>' +
+          '<p>' + escapeHtml(t.line) + '</p></li>';
+      }).join('');
+      mountReveals(steps);
     }
 
     var kit = document.getElementById('kit');

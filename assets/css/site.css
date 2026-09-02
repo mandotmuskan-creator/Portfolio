@@ -99,6 +99,9 @@
   gap: clamp(24px, 4.4vw, 68px);
   align-items: center;
 }
+/* Alternating rows swap sides. The column widths have to swap with them,
+   or every second cover is rendered in the narrower column. */
+.proj:nth-child(even) { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); }
 .proj:nth-child(even) .proj__media { order: 2; }
 
 .proj__media { position: relative; min-width: 0; }
@@ -219,6 +222,42 @@
   margin-top: 3px;
   font-size: var(--t--1);
   color: var(--ink-soft);
+}
+
+/* =========================================================
+   4b · HOW I WORK, the process strip
+   ========================================================= */
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: var(--s-5) clamp(20px, 3vw, 44px);
+}
+.step { padding-top: var(--s-4); border-top: 2px solid var(--ink); }
+.step__no {
+  display: block;
+  font-size: var(--t--1);
+  font-weight: 700;
+  letter-spacing: .16em;
+  color: var(--red-ink);
+}
+.step h3 {
+  margin-top: .5em;
+  font-size: var(--t-1);
+  font-weight: 700;
+  letter-spacing: -.02em;
+}
+.step p {
+  margin-top: .45em;
+  font-size: var(--t--1);
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+.steps__note {
+  margin-top: var(--s-6);
+  font-size: var(--t-0);
+  color: var(--ink-faint);
+  max-width: 52ch;
 }
 
 /* =========================================================
