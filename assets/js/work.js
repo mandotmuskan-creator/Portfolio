@@ -5,21 +5,21 @@
 (function () {
   'use strict';
 
-  var PINS = ['pin', 'clip', 'star-solid'];
-
   function tile(p, i) {
-    var pinKind = i % 3 === 2 ? 'doodle' : 'crayon';
-    return '<a class="tile reveal" href="' + projectHref(p) + '" data-tags="' +
-        escapeHtml((p.tags || []).join('|')) + '">' +
-      Crayon.asset({ kind: pinKind, name: PINS[i % 3], cls: 'ca-float tile__pin', rot: i % 2 ? 9 : -8 }) +
+    var tag = 'data-tags="' + escapeHtml((p.tags || []).join('|')) + '"';
+    var open = p.wip
+      ? '<article class="tile reveal" ' + tag + '>'
+      : '<a class="tile reveal" href="' + projectHref(p) + '" ' + tag + '>';
+    return open +
       coverMarkup(p, p.title + ' — ' + p.category) +
       '<p class="tile__no">PROJECT ' + String(i + 1).padStart(2, '0') + '</p>' +
       '<h2 class="tile__title">' + escapeHtml(p.title) + '</h2>' +
       '<p class="tile__line">' + escapeHtml(p.tagline) + '</p>' +
       '<p class="tile__tags">' + (p.tags || []).map(function (t) {
         return '<span>' + escapeHtml(t) + '</span>';
-      }).join('') + '</p>' +
-    '</a>';
+      }).join('') +
+      (p.wip ? '<span class="tag-soft">Case study in progress</span>' : '') + '</p>' +
+      (p.wip ? '</article>' : '</a>');
   }
 
   document.addEventListener('DOMContentLoaded', function () {

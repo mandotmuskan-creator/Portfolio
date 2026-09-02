@@ -8,31 +8,6 @@
 (function () {
   'use strict';
 
-  var DECOR = [
-    /* project 1 — an arrow into the UI, the character beside the title */
-    function () {
-      return '<div class="proj__art" aria-hidden="true">' +
-        doodle('arrow-red',  { cls: 'ca-float proj-arrow', rot: -12 }) +
-        '<img class="ca ca-float proj-face stamp" src="assets/img/face/thinking.webp" alt="" aria-hidden="true" loading="lazy" style="--rot:8deg;transform:rotate(8deg)">' +
-        '</div>';
-    },
-    /* project 2 — an arrow back toward the copy, a flower at the edge */
-    function () {
-      return '<div class="proj__art" aria-hidden="true">' +
-        doodle('arrow-blue', { cls: 'ca-float proj-arrow', rot: 168 }) +
-        crayon('flower',     { cls: 'ca-float proj-flower', rot: -14 }) +
-        '</div>';
-    },
-    /* project 3 onwards — one quiet arrow, nothing else */
-    function () {
-      return '<div class="proj__art" aria-hidden="true">' +
-        doodle('arrow-loop', { cls: 'ca-float proj-arrow', rot: -4 }) +
-        '</div>';
-    }
-  ];
-
-  var NUM_STAR = ['star-black', 'star-yellow', 'star-solid'];
-
   function metaRow(p) {
     var rows = [
       ['Role', p.role],
@@ -48,21 +23,22 @@
 
   function row(p, i) {
     var n = String(i + 1).padStart(2, '0');
-    var slot = ['a', 'b', 'c'][Math.min(i, 2)];
-    return '<article class="proj proj--' + slot + ' reveal">' +
-      DECOR[Math.min(i, DECOR.length - 1)]() +
+    return '<article class="proj reveal">' +
       '<div class="proj__media">' +
         coverMarkup(p, p.title + ' — ' + p.category, 'proj__shot') +
       '</div>' +
       '<div class="proj__body">' +
-        '<p class="proj__no">' + doodle(NUM_STAR[i % 3], { size: 'xs' }) +
-          '<span>PROJECT ' + n + '</span></p>' +
-        '<h3 class="proj__title"><a class="stretch" href="' + projectHref(p) + '">' +
-          markWord(p.title, { art: i % 2 ? 'underline-blue' : 'underline-red' }) + '</a></h3>' +
+        '<p class="proj__no">PROJECT ' + n + '</p>' +
+        '<h3 class="proj__title">' + (p.wip
+          ? escapeHtml(p.title)
+          : '<a class="stretch" href="' + projectHref(p) + '">' + escapeHtml(p.title) + '</a>') +
+        '</h3>' +
         '<p class="proj__line">' + escapeHtml(p.tagline) + '</p>' +
         metaRow(p) +
-        '<p class="proj__cta"><span class="btn btn--ghost" aria-hidden="true">' +
-          'Read the case study</span></p>' +
+        '<p class="proj__cta">' + (p.wip
+          ? '<span class="tag-soft">Case study in progress</span>'
+          : '<span class="btn btn--ghost" aria-hidden="true">Read the case study</span>') +
+        '</p>' +
       '</div>' +
     '</article>';
   }

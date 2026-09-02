@@ -168,8 +168,7 @@ const PROJECTS = [
     platform: 'Responsive web',
     tags: ['UX/UI', 'Web', 'Design System'],
     accent: 'navy',
-    cover: 'assets/img/projects/tdk-06.jpg',
-    coverFit: 'top',
+    cover: 'assets/img/covers/tdk-invensense.webp',
     focus: [
       'Audit, IA and wireframes through to signed-off UI',
       'Three role-based paths: engineer, partner, distributor',
@@ -300,7 +299,7 @@ const PROJECTS = [
     platform: 'Responsive web',
     tags: ['UX/UI', 'Web', 'Research'],
     accent: 'blue',
-    coverMock: MOCK_WELCOME,
+    cover: 'assets/img/covers/disney-club.webp',
     focus: [
       'Research through to a signed-off membership flow',
       'Personalisation that costs the member one question',
@@ -419,6 +418,28 @@ const PROJECTS = [
       { kind: 'mock', device: 'desktop', html: MOCK_ACCOUNT, caption: 'My Account — theme, perks and the way out, all on one screen' },
       { kind: 'quote', text: 'A membership you can leave in one tap is one people feel safe joining in one tap. The exit is part of the offer.' }
     ]
+  }
+,
+
+  {
+    slug: 'pregnancy-app',
+    title: 'Pregnancy App',
+    hero: ['Designing for', 'a body that', 'changes weekly.'],
+    faceCue: 'calm',
+    ringCue: 'circle-red',
+    client: 'Healthymama',
+    tagline: 'A week-by-week companion for pregnancy: health tracking, personalised guidance and a check-in that takes minutes, not forms.',
+    category: 'Mobile app design',
+    year: '2026',
+    role: 'Product Designer',
+    tools: ['Figma', 'FigJam'],
+    platform: 'Mobile',
+    tags: ['UX/UI', 'Mobile'],
+    accent: 'red',
+    cover: 'assets/img/covers/pregnancy-app.webp',
+    wip: true,
+    intro: [],
+    sections: []
   }
 
 ];

@@ -23,6 +23,7 @@ PAGES = [
     ("about",   "about.html"),
     ("p/tdk-invensense", "project.html?p=tdk-invensense"),
     ("p/disney-club",    "project.html?p=disney-club"),
+    ("p/pregnancy-app",  "project.html?p=pregnancy-app"),
 ]
 
 CSS = ["tokens.css", "fonts.css", "base.css", "site.css", "case.css", "mocks.css"]

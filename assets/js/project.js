@@ -51,8 +51,7 @@
       '<div class="wrap">' +
         '<div class="cshero__grid">' +
           '<div class="poster cshero__lead">' +
-            '<p class="cshero__no">' + doodle('star-black', { size: 'xs' }) +
-              '<span>PROJECT ' + String(i + 1).padStart(2, '0') + '</span></p>' +
+            '<p class="cshero__no">PROJECT ' + String(i + 1).padStart(2, '0') + '</p>' +
             '<h1 class="ct poster__word cshero__title reveal">' + lines + '</h1>' +
           '</div>' +
           '<div class="cshero__side reveal" style="--d:1">' +
@@ -97,16 +96,14 @@
       return '<section class="blk reveal">' +
         (b.title ? '<h2 class="blk__title">' + E(b.title) + '</h2>' : '') +
         '<ul class="points">' + (b.items || []).map(function (it, i) {
-          return '<li>' + doodle(i === 0 ? 'star-yellow' : 'check', { size: 'xs' }) +
+          return '<li>' + doodle('check', { size: 'xs' }) +
             '<span>' + E(it) + '</span></li>';
         }).join('') + '</ul>' +
       '</section>';
     },
 
     quote: function (b) {
-      return '<blockquote class="quote reveal">' +
-        doodle('scribble-red', { cls: 'ca-float quote__mark', rot: -12 }) +
-        '<p>' + E(b.text) + '</p></blockquote>';
+      return '<blockquote class="quote reveal"><p>' + E(b.text) + '</p></blockquote>';
     },
 
     stats: function (b) {
@@ -212,7 +209,7 @@
         '<a href="' + projectHref(NEXT) + '">' +
           '<h2 class="ct ct--lg nextup__title">' + E(NEXT.title) + '</h2>' +
           '<p class="nextup__row"><span class="lede" style="margin:0">' + E(NEXT.category) + '</span>' +
-            doodle('arrow-red') + '</p>' +
+            '<span class="nextup__arrow" aria-hidden="true">\u2192</span></p>' +
         '</a>' +
       '</div>' +
     '</section>';

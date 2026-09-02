@@ -108,10 +108,10 @@
   border-radius: var(--r);
   border: 1px solid var(--rule);
   background: var(--card);
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
   transition: transform .4s var(--ease), box-shadow .4s var(--ease);
 }
-.proj__shot img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+.proj__shot img { width: 100%; height: 100%; object-fit: cover; }
 .proj__shot--mock {
   container-type: inline-size;
   display: grid;
@@ -119,7 +119,7 @@
   padding: clamp(16px, 3vw, 40px);
   background: var(--blue-wash);
 }
-.proj:hover .proj__shot { transform: translateY(-4px); box-shadow: 0 18px 44px -28px rgba(25,24,22,.42); }
+.proj:has(a):hover .proj__shot { transform: translateY(-4px); box-shadow: 0 18px 44px -28px rgba(25,24,22,.42); }
 
 .proj__body { min-width: 0; }
 .proj__no {
@@ -150,8 +150,8 @@
 
 .meta {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: var(--s-3) var(--s-4);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-4);
   margin-top: var(--s-5);
   padding-top: var(--s-4);
   border-top: 1px solid var(--rule);
@@ -164,6 +164,19 @@
 }
 .meta dd { margin: 4px 0 0; font-size: var(--t-0); font-weight: 600; }
 
+/* work that is live but whose write-up is not */
+.tag-soft {
+  display: inline-block;
+  padding: 5px 12px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  font-size: var(--t--1);
+  font-weight: 600;
+  color: var(--ink-faint);
+  letter-spacing: .01em;
+}
+.tile__tags .tag-soft { text-transform: none; letter-spacing: .01em; padding: 4px 10px; }
+
 .proj__cta { margin-top: var(--s-5); }
 
 /* One link covers the whole row, so the card is a single tab stop and the
@@ -173,24 +186,10 @@
 .proj:focus-within .proj__shot { transform: translateY(-4px); }
 .proj__title a:focus-visible { outline-offset: 4px; }
 
-/* the annotation layer — different on each project, same vocabulary */
-.proj__art { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
-.proj__art > * { position: absolute; }
-.proj__art .proj-arrow  { width: clamp(48px, 6vw, 92px); }
-.proj__art .proj-face   { width: clamp(56px, 7vw, 104px); }
-.proj__art .proj-flower { width: clamp(36px, 4.4vw, 62px); }
-
-.proj--a .proj__art .proj-arrow  { left: -3%;  top: 34%;  --rot: -12deg; }
-.proj--a .proj__art .proj-face   { right: 2%;  top: -7%;  --rot: 8deg; }
-.proj--b .proj__art .proj-arrow  { right: -2%; bottom: 16%; --rot: 168deg; }
-.proj--b .proj__art .proj-flower { left: -3%;  bottom: -4%; --rot: -14deg; }
-.proj--c .proj__art .proj-arrow  { left: -3%;  bottom: 18%; --rot: -4deg; }
-
 @media (max-width: 880px) {
   .proj { grid-template-columns: 1fr; gap: var(--s-4); }
   .proj:nth-child(even) .proj__media { order: 0; }
-  .proj__art { display: none; }
-  .proj__shot { aspect-ratio: 16 / 11; }
+  .proj__shot { aspect-ratio: 16 / 9; }
 }
 
 /* =========================================================
@@ -223,26 +222,32 @@
 }
 
 /* =========================================================
-   5 · FACTS — the small illustrated statements on About
+   5 · FACTS — the short version, as plain data
    ========================================================= */
 
 .facts {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: var(--s-5) var(--s-6);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 0 clamp(32px, 5vw, 88px);
+  border-top: 1px solid var(--rule);
 }
-.fact { display: flex; gap: var(--s-3); align-items: flex-start; }
-.fact .ca { width: clamp(42px, 5vw, 66px); margin-top: 2px; }
-.fact b {
-  display: block;
-  font-family: var(--f-display);
-  font-size: var(--t-2);
-  font-weight: 400;
-  letter-spacing: .005em;
-  line-height: 1;
-  color: var(--ink);
+.facts > div {
+  display: grid;
+  grid-template-columns: 8.5em 1fr;
+  gap: var(--s-3);
+  padding: var(--s-4) 0;
+  border-bottom: 1px solid var(--rule-soft);
 }
-.fact span { display: block; margin-top: .4em; font-size: var(--t-0); color: var(--ink-soft); }
+.facts dt {
+  font-size: var(--t--1);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.facts dd { margin: 0; font-size: var(--t-0); font-weight: 600; }
+@media (max-width: 560px) {
+  .facts > div { grid-template-columns: 1fr; gap: 4px; }
+}
 
 /* =========================================================
    6 · WORK INDEX + PLAY GRID
@@ -319,8 +324,7 @@
 
 .tiles {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 440px));
-  justify-content: start;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
   gap: var(--s-6) var(--s-5);
   margin-top: var(--s-6);
 }
@@ -331,10 +335,10 @@
   border-radius: var(--r);
   border: 1px solid var(--rule);
   background: var(--card);
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
   transition: transform .35s var(--ease), box-shadow .35s var(--ease);
 }
-.tile__shot img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+.tile__shot img { width: 100%; height: 100%; object-fit: cover; }
 .tile__shot--mock {
   container-type: inline-size;
   display: grid;
@@ -342,7 +346,7 @@
   padding: clamp(14px, 2.6vw, 30px);
   background: var(--blue-wash);
 }
-.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px -26px rgba(25,24,22,.4); }
+a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px -26px rgba(25,24,22,.4); }
 .tile__no {
   font-size: var(--t--1);
   font-weight: 700;
@@ -362,7 +366,6 @@
   text-transform: uppercase;
   color: var(--ink-faint);
 }
-.tile .tile__pin { position: absolute; top: -14px; right: -10px; width: clamp(30px, 3.4vw, 46px); z-index: 3; }
 
 .empty { display: flex; align-items: center; gap: var(--s-3); padding: var(--s-7) 0; }
 
@@ -617,12 +620,17 @@
   margin-top: var(--s-5);
 }
 .close__mail {
-  position: relative;
   display: inline-block;
   font-size: var(--t-2);
   font-weight: 700;
   letter-spacing: -.02em;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+  text-decoration-color: var(--rule);
+  transition: text-decoration-color .16s var(--ease);
 }
+.close__mail:hover { text-decoration-color: var(--ink); }
 .close__art > * { position: absolute; pointer-events: none; }
 .close__art .close-flower { left: 5%;  top: 14%;   width: clamp(40px, 5vw, 78px);  --rot: -12deg; }
 .close__art .close-star   { right: 7%; top: 11%;   width: clamp(28px, 3.4vw, 50px); --rot: 9deg; }

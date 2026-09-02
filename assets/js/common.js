@@ -61,12 +61,6 @@ function mountChrome() {
   if (footHost) {
     footHost.className = 'close';
     footHost.innerHTML =
-      '<div class="close__art" aria-hidden="true">' +
-        crayon('flower', { cls: 'ca-float close-flower', rot: -12 }) +
-        doodle('star-yellow', { cls: 'ca-float close-star', rot: 9 }) +
-        crayon('laptop', { cls: 'ca-float close-laptop', rot: 8 }) +
-        doodle('arrow-loop-warm', { cls: 'ca-float close-arrow', rot: -8 }) +
-      '</div>' +
       '<div class="wrap close__inner">' +
         '<div class="close__stamp reveal">' +
           stampRing('happy', { ring: 'circle-red', size: 'lg', rot: -5 }) +
@@ -82,7 +76,7 @@ function mountChrome() {
           'If any of this looked like the thing you need, tell me about it.</p>' +
         '<div class="close__row reveal" style="--d:3">' +
           '<a class="close__mail" href="mailto:' + SITE.mail + '">' +
-            markWord(SITE.mail, { art: 'underline-red' }) + '</a>' +
+            escapeHtml(SITE.mail) + '</a>' +
         '</div>' +
         '<div class="close__row reveal" style="--d:4">' +
           '<a class="btn" href="work.html">See the work</a>' +
