@@ -66,7 +66,7 @@
 
 .shead {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: var(--s-4);
@@ -233,7 +233,7 @@
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
   gap: var(--s-5) clamp(20px, 3vw, 44px);
 }
-.step { padding-top: var(--s-4); border-top: 2px solid var(--ink); }
+.step { padding-top: var(--s-4); border-top: 1px solid var(--ink); }
 .step__no {
   display: block;
   font-size: var(--t--1);
@@ -266,10 +266,11 @@
 
 .facts {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0 clamp(32px, 5vw, 88px);
   border-top: 1px solid var(--rule);
 }
+@media (max-width: 700px) { .facts { grid-template-columns: 1fr; } }
 .facts > div {
   display: grid;
   grid-template-columns: 8.5em 1fr;
@@ -470,7 +471,7 @@ a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px 
 
 /* --- a pull quote, for breaking up the longer reading --- */
 
-.pull { position: relative; max-width: 40rem; margin-inline: auto; text-align: center; }
+.pull { position: relative; max-width: 52rem; margin-inline: auto; text-align: center; }
 .pull p { line-height: 1.1; }
 .pull__mark {
   position: absolute;

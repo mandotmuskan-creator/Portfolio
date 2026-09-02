@@ -285,8 +285,8 @@ const PROJECTS = [
   },
 
   {
-    slug: 'disney-club',
-    title: 'Disney Club',
+    slug: 'disney-store',
+    title: 'Disney Store',
     hero: ['Loyalty,', 'made less', 'boring.'],
     faceCue: 'happy',
     ringCue: 'circle-red',
@@ -299,7 +299,7 @@ const PROJECTS = [
     platform: 'Responsive web',
     tags: ['UX/UI', 'Web', 'Research'],
     accent: 'blue',
-    cover: 'assets/img/covers/disney-club.webp',
+    cover: 'assets/img/covers/disney-store.webp',
     focus: [
       'Research through to a signed-off membership flow',
       'Personalisation that costs the member one question',

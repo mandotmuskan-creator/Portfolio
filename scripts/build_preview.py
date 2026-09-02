@@ -22,7 +22,7 @@ PAGES = [
     ("work",    "work.html"),
     ("about",   "about.html"),
     ("p/tdk-invensense", "project.html?p=tdk-invensense"),
-    ("p/disney-club",    "project.html?p=disney-club"),
+    ("p/disney-store",   "project.html?p=disney-store"),
     ("p/pregnancy-app",  "project.html?p=pregnancy-app"),
 ]
 
