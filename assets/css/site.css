@@ -64,6 +64,9 @@
    2 · section heads — the quiet way in
    ========================================================= */
 
+/* Both columns start on the same line. Baseline alignment reads as wrong
+   here, because the larger supporting line then sits 7px above the eyebrow;
+   what has to match is the top of the type, not the baseline. */
 .shead {
   display: flex;
   align-items: flex-start;
@@ -471,8 +474,18 @@ a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px 
 
 /* --- a pull quote, for breaking up the longer reading --- */
 
-.pull { position: relative; max-width: 52rem; margin-inline: auto; text-align: center; }
-.pull p { line-height: 1.1; }
+/* A light serif in the character's hair colour. Set in the crayon face and
+   red, it was indistinguishable from a section title. */
+.pull { position: relative; max-width: 46rem; margin-inline: auto; text-align: center; }
+.pull p {
+  font-family: var(--f-quote);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 1.05rem + 2vw, 2.6rem);
+  line-height: 1.24;
+  letter-spacing: .002em;
+  color: var(--brown);
+  text-wrap: balance;
+}
 .pull__mark {
   position: absolute;
   left: -14%;
