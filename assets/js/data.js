@@ -43,6 +43,18 @@
                { kind:'phones',  items:[{src,caption}] }
                { kind:'mock',    device:'desktop'|'mobile', html, caption }
                { kind:'mocks',   items:[{ device, html, caption }] }
+               { kind:'method',    title, note, items:[{ head, body, found }] }
+               { kind:'personas',  title, note, items:[{ tag, name, who,
+                                                         goal, pain, answer, quote }] }
+               { kind:'versus',    title, note, rows:[{ issue, fix }] }
+               { kind:'ia',        title, note, nodes:[{ label, note, kids:[..] }] }
+               { kind:'swatches',  title, note, groups:[{ name, use,
+                                     items:[{ name, hex, line }] }] }
+                                   `line` outlines a swatch too pale to
+                                   read against the page
+               { kind:'typescale', title, note, items:[{ role, spec, px,
+                                                         weight, lh, sample }] }
+               { kind:'live',      eyebrow, title, body, label, href }
    ========================================================= */
 
 /* ---------------------------------------------------------
@@ -165,7 +177,7 @@ const PROJECTS = [
     ringCue: 'circle-blue',
     client: 'TDK · InvenSense',
     tagline: 'A sensor catalogue nobody could navigate, restructured around the engineers, partners and distributors who actually use it.',
-    category: 'End-to-end web redesign & design system',
+    category: 'Responsive website redesign & design system',
     year: '2025',
     role: 'UI and design system',
     team: '8 people',
@@ -182,67 +194,320 @@ const PROJECTS = [
       'A component library documented for handoff'
     ],
     intro: [
-      'InvenSense makes the motion and sound sensors inside drones, cars, headsets, hearing aids and smart homes. The catalogue is enormous and deeply technical, and the old site asked every visitor to already know what they were looking for. Engineers, procurement partners and distributors all landed in the same undifferentiated place.',
-      'I worked on the UI and the design system. The interface was built from scratch across every breakpoint and state, and I worked alongside the design system designer on the component library the site now runs on. Eight of us, eight months, delivered ahead of schedule.'
+      'InvenSense makes the motion, sound and pressure sensors inside drones, cars, headsets, hearing aids and smart homes. The catalogue is enormous and deeply technical, and the old site asked every visitor to already know what they were looking for. Engineers, procurement partners and distributors all landed in the same undifferentiated place.',
+      'The redesign covered the whole public site: homepage, applications, product detail, developer community, and the design system underneath all of it. Eight of us, eight months, delivered ahead of schedule.'
     ],
     roleNote: 'Supporting the design system, and building the UI from scratch.',
     introNote: 'Three audiences. One front door. That was the whole problem.',
     sections: [
+
+      /* ---------- brand ---------- */
       {
         kind: 'text',
-        title: 'The problem was not the catalogue. It was the front door.',
-        note: 'Nobody arrives thinking "I need a six-axis IMU".',
-        noteArt: 'arrow-loop',
+        title: 'Understanding the brand before touching a screen',
+        note: 'Precision is the product. The interface had to feel like it too.',
+        noteArt: 'arrow-loop-warm',
         body: [
-          'A sensor company sells to at least three very different people. An engineer wants a datasheet and an evaluation board. A partner wants roadmap and supply confidence. A distributor wants stock, pricing and collateral. The old homepage tried to speak to all three at once, so it spoke to none of them clearly.',
-          'The redesign starts by admitting that. Instead of one funnel, the site opens into recognisable routes. Browse by what you are building, or by the sensor you already know you need. It then names the three audiences outright, low on the page, where someone who has not yet found their way can self-select.'
+          'TDK is a Japanese electronics manufacturer whose whole promise is precision at scale. InvenSense is the sensor arm: components measured in millimetres and microamps, sold to people who will read a datasheet before they read a headline. The brand line, "In Everything, Better", is an engineering claim, not a marketing one.',
+          'That set the tone for every decision. No decorative motion, no illustration standing in for information, no hero copy that delays the specification. The visual language stays deliberately restrained: a blue system carrying almost all the weight, one accent reserved for sensing itself, and generous white space so dense technical content has room to be read.',
+          'The one place the brand gets to be expressive is the sensing metaphor. Signal-wave icons in a bright violet run through the applications and feature sections. It is the only saturated colour on the page, so it always means the same thing: this is where the sensor does its work.'
         ]
       },
+
+      /* ---------- research ---------- */
       {
-        kind: 'journey',
-        title: 'Who we were designing for',
-        note: 'Three audiences, mapped in FigJam before a single screen was drawn. The homepage sections map one-to-one onto these.',
-        stages: [
+        kind: 'method',
+        title: 'The research the redesign was built on',
+        note: 'Run by the UX lead across the discovery phase, with the whole team in the synthesis sessions. I sat in on the sessions and worked from the findings; the parts below marked "what it turned up" are the ones that changed screens I went on to design.',
+        items: [
           {
-            phase: 'Developer / Engineer',
-            doing: 'Comparing part numbers, hunting datasheets, checking whether an eval board exists.',
-            feeling: 'Impatient. Already knows the domain, resents marketing pages.',
-            move: 'Sensor selector with application and sensor-type filters. Specs surfaced on the card, not two clicks in.'
+            head: 'Stakeholder interviews',
+            body: 'Sessions with product marketing, field application engineers and the sales team, covering who actually contacts TDK and what they ask for first.',
+            found: 'Three distinct buyers were being served one page. The field engineers described the same phone call over and over: someone who knew their application but not the part number.'
           },
           {
-            phase: 'OEM / Partner',
-            doing: 'Assessing whether TDK can support a product line at volume.',
-            feeling: 'Cautious. Needs proof before a conversation starts.',
-            move: 'A measurable-success band: 8+ billion sensors shipped, 500+ products, 15,000+ patents, plus named partner brands.'
+            head: 'Analytics and search-log review',
+            body: 'Where visitors landed, where they left, and what they typed into the old site search.',
+            found: 'Search queries were overwhelmingly application words ("drone", "hearing aid", "presence detection") rather than part numbers. The site was organised by part family.'
           },
           {
-            phase: 'Distributor',
-            doing: 'Finding inventory, pricing and ready-made collateral to sell on.',
-            feeling: 'Transactional. Wants the shortest path to assets.',
-            move: 'A dedicated resource path with its own entry card and a remembered choice for return visits.'
+            head: 'Content and IA audit',
+            body: 'Every page, template and PDF on the existing site catalogued, with duplicates and orphans flagged.',
+            found: 'Datasheets lived several clicks deep and in more than one place. The same product appeared under different names in different sections.'
+          },
+          {
+            head: 'Competitor and comparator review',
+            body: 'How other component manufacturers, and a handful of non-competitors with hard catalogue problems, let people find parts.',
+            found: 'The strongest examples offered two routes in parallel: browse by what you are building, or filter by spec if you already know. Sites with only one route lost whichever audience it did not suit.'
+          },
+          {
+            head: 'Usability testing on the prototypes',
+            body: 'Task-based sessions on the clickable flows: find a sensor for a stated application, then find its datasheet and evaluation board.',
+            found: 'People used the application route first even when they knew the part number, then switched to specs to compare. That ordering is why the application tab is the default and the spec tab sits beside it, not behind it.'
           }
         ]
       },
+
+      /* ---------- analysis ---------- */
       {
-        kind: 'points',
-        title: 'What I did',
-        items: [
-          'Built the interface from scratch, working from the flows and structure the UX team set.',
-          'Designed the signed-off responsive UI at 1440, 800 and 375, with behaviour notes on each breakpoint.',
-          'Built and documented components (colour, type, badges, checkboxes, buttons) with every state and edge case.',
-          'Worked with the design system designer on the library the rest of the team now builds from.',
-          'Ran consistency passes across the page set as it grew.'
+        kind: 'versus',
+        title: 'What the analysis actually changed',
+        note: 'Findings only matter if you can point at the screen they moved. Left, what the research surfaced. Right, what we did about it.',
+        rows: [
+          { issue: 'Visitors searched by application; the site was organised by part family.', fix: 'Applications became a top-level route with its own landing page and detail pages, and the homepage grid leads with applications, not families.' },
+          { issue: 'Three audiences shared one undifferentiated homepage.', fix: 'A role band names all three outright, low on the page, and remembers what you picked.' },
+          { issue: 'Engineers opened five tabs to compare parts.', fix: 'Key specs moved onto the product card, and the product page gained a compare table with its own filter tabs.' },
+          { issue: 'Datasheets were buried and duplicated.', fix: 'A documentation section on every product page, with versions, dates and a direct download on each row.' },
+          { issue: 'Partners had no way to judge scale before contacting sales.', fix: 'A stats band directly under the hero: sensors shipped, products equipped, patents held.' },
+          { issue: 'Developers had questions with nowhere to ask them.', fix: 'A community hub with threads, categories and a solved state, so answers accumulate instead of going back to support each time.' }
         ]
       },
-      { kind: 'full', src: 'assets/img/projects/tdk-06.jpg', caption: 'Signed-off homepage, the full desktop scroll', frame: 'browser', long: true },
+
+      /* ---------- audience ---------- */
+      {
+        kind: 'personas',
+        title: 'Three people, one front door',
+        note: 'The personas the team worked from. Everything on the homepage below the hero maps onto one of these three.',
+        items: [
+          {
+            tag: 'Primary',
+            name: 'The design engineer',
+            who: 'Embedded or hardware engineer at an OEM, mid-career, deep domain knowledge.',
+            goal: 'Find a part that meets a spec, confirm it with a datasheet, and get an evaluation board on order the same day.',
+            pain: 'Marketing pages between them and the numbers. Datasheets that take four clicks and a form.',
+            answer: 'Specs on the card, a spec-driven filter route, a compare table, and documentation with direct downloads.',
+            quote: 'I know what I need it to do. I do not know what you call it.'
+          },
+          {
+            tag: 'Secondary',
+            name: 'The OEM partner',
+            who: 'Product or procurement lead assessing whether TDK can support a line at volume.',
+            goal: 'Judge scale, reliability and roadmap before starting a commercial conversation.',
+            pain: 'No way to assess credibility without booking a call with sales.',
+            answer: 'The measurable-success band under the hero, named partner brands, and a partner path in the role selector.',
+            quote: 'Before I take this to my board, show me you can ship at our volume.'
+          },
+          {
+            tag: 'Secondary',
+            name: 'The distributor',
+            who: 'Channel partner reselling components, working across many manufacturers at once.',
+            goal: 'Get to inventory, pricing and ready-made sales collateral in as few steps as possible.',
+            pain: 'Hunting for assets designed for engineers, not for selling.',
+            answer: 'A distributor entry card with its own resource path, and a remembered choice so it is one click on every return visit.',
+            quote: 'I sell nine brands. Make yours the easy one.'
+          }
+        ]
+      },
+
+      {
+        kind: 'flow',
+        title: 'The discovery journey',
+        note: 'Two routes in, converging on the same product page. Testing showed people take the left route first even when they could take the right one, so the application tab is the default.',
+        steps: [
+          { label: 'Land', sub: 'Home or a search result' },
+          { label: 'Choose a route', sub: 'By application, or by spec' },
+          { label: 'Narrow', sub: 'Application page or filtered list' },
+          { label: 'Compare', sub: 'Specs side by side' },
+          { label: 'Confirm', sub: 'Datasheet, variants, eval board' },
+          { label: 'Act', sub: 'Contact sales or buy from a distributor' }
+        ]
+      },
+
+      /* ---------- structure ---------- */
+      {
+        kind: 'ia',
+        title: 'The structure we landed on',
+        note: 'Five top-level routes instead of a single product tree. Applications and Products are deliberately parallel: the same catalogue, entered two different ways.',
+        nodes: [
+          { label: 'Solutions', note: 'sensor fusion, machine learning, navigation' },
+          { label: 'Applications', note: 'the route for people who know the problem, not the part', kids: [
+            { label: 'Applications landing', note: 'all application areas' },
+            { label: 'Application detail', note: 'smart home, gaming, wearables, automotive, robotics' },
+            { label: 'Product families in that application' }
+          ] },
+          { label: 'Products & Sensors', note: 'the route for people who know the spec', kids: [
+            { label: 'Filtered product list', note: 'by sensor type, interface, package' },
+            { label: 'Product detail', note: 'specs, variants, compare, documentation' }
+          ] },
+          { label: 'Tools & Support', kids: [
+            { label: 'Developer community', note: 'threads, categories, solved answers' },
+            { label: 'Knowledge base' },
+            { label: 'Software downloads and SDKs' }
+          ] },
+          { label: 'Technology', note: 'the engineering story, kept out of the finding path' }
+        ]
+      },
+
+      /* ---------- wireframes ---------- */
       {
         kind: 'text',
-        title: 'A bento grid that does real work',
+        title: 'Wireframes: structure before surface',
         body: [
-          'The middle of the page had to carry the breadth of the catalogue without turning into a wall of categories. The answer was a bento grid where each tile is an application (presence detection, smart locks, automotive safety, wearables) rather than a product family.',
-          'People rarely arrive thinking "I need a six-axis IMU". They arrive thinking "I am building a smart lock". The tabs above the grid let you switch to browsing by sensor once you do know, so the expert route is never buried under the beginner one.'
+          'Every page was resolved in greyscale first. No colour, no photography, no brand: just the order of the information and the weight each block carries. It is much easier to argue about whether the stats band should sit above the applications grid when nothing on the page is pretty enough to defend on other grounds.',
+          'These went through several rounds with the client and through usability testing before a single colour was applied.'
         ]
       },
+      { kind: 'full', src: 'assets/img/projects/tdk/wf-home.webp', caption: 'Homepage wireframe: hero, proof, application discovery, role selection, sensor selector', frame: 'plain', long: true },
+      {
+        kind: 'duo',
+        items: [
+          { src: 'assets/img/projects/tdk/wf-applications.webp', caption: 'Applications landing: highlights, the application grid, product spotlight' },
+          { src: 'assets/img/projects/tdk/wf-application-detail.webp', caption: 'Application detail: one application, its product families and media' }
+        ],
+        long: true
+      },
+      {
+        kind: 'duo',
+        items: [
+          { src: 'assets/img/projects/tdk/wf-product.webp', caption: 'Product detail: variants, compare table, applications in action, documentation' },
+          { src: 'assets/img/projects/tdk/wf-community.webp', caption: 'Developer community: categories, thread list, solved and pinned states' }
+        ],
+        long: true
+      },
+
+      /* ---------- typography ---------- */
+      {
+        kind: 'typescale',
+        title: 'Typography',
+        note: 'Two grotesques from the TDK brand set: a geometric face for display, a neutral one for text. The sizes below are the desktop scale as it shipped, at 1440. Specimens here are set in the portfolio’s own fallback stack, so what you are judging is the scale and the weight relationships, not the letterforms.',
+        items: [
+          { role: 'Display', spec: '44 / 56 · 600', px: 44, weight: 600, lh: 1.25, sample: 'Applications powered by smart sensors' },
+          { role: 'Section heading', spec: '30 / 40 · 700', px: 30, weight: 700, lh: 1.3, sample: 'Driving measurable success' },
+          { role: 'Sub heading', spec: '20 / 28 · 700', px: 20, weight: 700, lh: 1.35, sample: 'Product spotlight' },
+          { role: 'Card title', spec: '16 / 24 · 700', px: 16, weight: 700, lh: 1.4, sample: 'InvenSense ICM-42688-P' },
+          { role: 'Body', spec: '14 / 22 · 400', px: 14, weight: 400, lh: 1.6, sample: 'A six-axis MEMS motion sensor family with the world’s first BalancedGyro technology and lowest power consumption.' },
+          { role: 'Label and chip', spec: '12 / 16 · 600', px: 12, weight: 600, lh: 1.4, sample: 'Recommended sensors' }
+        ]
+      },
+      {
+        kind: 'text',
+        body: [
+          'The scale halves roughly every second step, which is what keeps a page this dense readable: a visitor scanning for a part number can tell a section heading from a card title from a spec line without reading a word of any of them. On mobile the display drops to 28 and the section heading to 22, but every other step holds, so the hierarchy survives the reflow rather than collapsing into one size.'
+        ]
+      },
+
+      /* ---------- colour ---------- */
+      {
+        kind: 'swatches',
+        title: 'Colour',
+        note: 'Sampled from the signed-off screens. The system is deliberately narrow: one blue family doing almost all of the work, a single accent that only ever means "sensing", and status colours that appear nowhere else.',
+        groups: [
+          {
+            name: 'Brand blue',
+            use: 'Navigation, primary actions, links and headings. The header runs as a gradient from the deep end to the bright end, which is the only gradient anywhere in the system.',
+            items: [
+              { name: 'Navy 900', hex: '#113176' },
+              { name: 'Navy 800', hex: '#00409D' },
+              { name: 'Blue 700', hex: '#1B45A7' },
+              { name: 'Blue 600', hex: '#0152BC' },
+              { name: 'Blue 500', hex: '#0383FA' }
+            ]
+          },
+          {
+            name: 'Signal violet',
+            use: 'Reserved for sensing: the wave icons, product tags and category chips. It appears nowhere else, so it never has to compete with an action.',
+            items: [
+              { name: 'Violet 500', hex: '#C818F4' },
+              { name: 'Violet 200', hex: '#E8C4FB' },
+              { name: 'Violet 50', hex: '#FCF2FF', line: true }
+            ]
+          },
+          {
+            name: 'Surface and ink',
+            use: 'A single pale blue carries every alternating band and every card ground, so the page has rhythm without needing borders everywhere.',
+            items: [
+              { name: 'Blue wash', hex: '#E6EDF7', line: true },
+              { name: 'White', hex: '#FFFFFF', line: true },
+              { name: 'Ink 900', hex: '#0A0D12' },
+              { name: 'Grey 600', hex: '#525252' }
+            ]
+          },
+          {
+            name: 'Status',
+            use: 'Only on validation and state: a solved thread, a field in error. Never decorative.',
+            items: [
+              { name: 'Success wash', hex: '#E5F8EF', line: true },
+              { name: 'Success line', hex: '#9BE7C3' },
+              { name: 'Error wash', hex: '#F7EAEA', line: true },
+              { name: 'Error line', hex: '#E3AEB2' }
+            ]
+          }
+        ]
+      },
+
+      /* ---------- design system ---------- */
+      {
+        kind: 'text',
+        title: 'The system underneath',
+        note: 'This is the part I expect to outlast the visual design.',
+        noteArt: 'star-yellow',
+        body: [
+          'A redesign that stops at screens comes undone within a year. So alongside the pages we built the vocabulary: colour, type, spacing, iconography, and every component in every state, annotated for the engineers who had to build it.',
+          'I worked on this with the design system designer. Each component is documented with its variants, its interaction states and its edge cases, and the annotations are written for someone implementing it rather than someone admiring it. Where a component behaves differently on a narrow screen, that behaviour is drawn, not described.'
+        ]
+      },
+      {
+        kind: 'duo',
+        items: [
+          { src: 'assets/img/projects/tdk/ds-buttons.webp', caption: 'Buttons: primary, secondary and ghost, in three sizes, across default, hover, active and disabled' },
+          { src: 'assets/img/projects/tdk/ds-textinput.webp', caption: 'Text input: label, placeholder, icon and helper variants, with error messaging' }
+        ],
+        long: true
+      },
+      {
+        kind: 'duo',
+        items: [
+          { src: 'assets/img/projects/tdk/ds-badges.webp', caption: 'Badges: three sizes and five semantic tones, annotated' },
+          { src: 'assets/img/projects/tdk/ds-checkboxes.webp', caption: 'Checkboxes: default, hover, checked, disabled and error, with helper text' }
+        ],
+        long: true
+      },
+      { kind: 'full', src: 'assets/img/projects/tdk/ds-iconography.webp', caption: 'The icon set: one weight, one grid, drawn for scannability at small sizes', frame: 'plain', long: true },
+      {
+        kind: 'duo',
+        items: [
+          { src: 'assets/img/projects/tdk/ds-microinteractions.webp', caption: 'Microinteractions: the eight icons that change state on interaction, paired with their active form' },
+          { src: 'assets/img/projects/tdk/ds-homepage-components.webp', caption: 'Page-level patterns: segmented tabs, stats, partner brands, pagination, carousels' }
+        ],
+        long: true
+      },
+
+      /* ---------- responsive ---------- */
+      {
+        kind: 'text',
+        title: 'Responsive: not a smaller desktop',
+        body: [
+          'The site was designed at 1440, 800 and 375, and the narrow layout was drawn rather than derived. A four-across application grid does not become a good phone screen by stacking: the cards get taller than the viewport and the eye loses the pattern, so on narrow screens the same content moves into a carousel with a visible pagination dot row and the section heading shortens to match.',
+          'The compare table was the hardest. A spec table cannot reflow into a stack without losing the comparison, which is the entire point of it, so on narrow screens it keeps its structure and scrolls horizontally inside its own container while the page itself never does.'
+        ]
+      },
+      {
+        kind: 'duo',
+        items: [
+          { src: 'assets/img/projects/tdk/ui-applications-desktop.webp', caption: 'Applications landing at 1440' },
+          { src: 'assets/img/projects/tdk/ui-applications-mobile.webp', caption: 'The same page at 375: grid becomes carousel, buttons go full width' }
+        ],
+        long: true
+      },
+      {
+        kind: 'duo',
+        items: [
+          { src: 'assets/img/projects/tdk/ui-application-detail-desktop.webp', caption: 'Application detail at 1440: one application, end to end' },
+          { src: 'assets/img/projects/tdk/ui-application-detail-mobile.webp', caption: 'Application detail at 375' }
+        ],
+        long: true
+      },
+      {
+        kind: 'duo',
+        items: [
+          { src: 'assets/img/projects/tdk/ui-community-desktop.webp', caption: 'Developer community at 1440: filter rail, thread list, solved state' },
+          { src: 'assets/img/projects/tdk/ui-community-mobile.webp', caption: 'Community at 375: the rail collapses into a filter control' }
+        ],
+        long: true
+      },
+      { kind: 'full', src: 'assets/img/projects/tdk/ui-product-mobile.webp', caption: 'Product detail at 375: variants, specs, features, documentation and support, in one scroll', frame: 'plain', long: true },
+
+      /* ---------- decisions ---------- */
       {
         kind: 'split',
         title: 'Decisions worth defending',
@@ -250,44 +515,31 @@ const PROJECTS = [
           { head: 'Proof before pitch', body: 'The stats band sits immediately under the hero. For a partner evaluating supply risk, scale is the argument, so it leads, before any product copy.' },
           { head: 'Specs on the card', body: 'Part cards carry the two or three specs an engineer actually filters on, so comparison happens in the grid instead of across five open tabs.' },
           { head: 'One remembered choice', body: 'The role selector remembers what you picked. A distributor should not have to re-declare themselves on every visit.' },
-          { head: 'Filters, not a search box', body: 'The sensor selector asks for application type and sensor type. Free-text search assumes vocabulary the visitor may not share with us.' }
+          { head: 'Filters, not a search box', body: 'The sensor selector asks for application type and sensor type. Free-text search assumes vocabulary the visitor may not share with us.' },
+          { head: 'One accent, one meaning', body: 'Violet only ever marks sensing. The moment an accent starts decorating, it stops being able to point at anything.' },
+          { head: 'Documentation as a first-class section', body: 'Datasheets, app notes and firmware get their own table on the product page, with version and date. For this audience that table is the page.' }
         ]
       },
+
       {
-        kind: 'duo',
+        kind: 'stats',
         items: [
-          { src: 'assets/img/projects/tdk-07.jpg', caption: 'Product detail: specs, variants and comparison' },
-          { src: 'assets/img/projects/tdk-08.jpg', caption: 'The same page reflowed for narrow screens' }
-        ],
-        long: true
-      },
-      {
-        kind: 'text',
-        title: 'Then: the system underneath',
-        note: 'This is the part I expect to outlast the visual design.',
-        noteArt: 'star-yellow',
-        body: [
-          'A redesign that stops at screens comes undone within a year. So alongside the pages we built the vocabulary: colour, type, spacing, and every component in every state, annotated for the engineers who had to build it.',
-          'Each component was documented with its variants, its behaviour and its edge cases: not a swatch page, a working reference. It is the part of this project I expect to outlast the visual design.'
+          { figure: '5', label: 'templates redesigned end to end' },
+          { figure: '3', label: 'breakpoints drawn, not derived' },
+          { figure: '8', label: 'months, delivered ahead of schedule' }
         ]
       },
+
+      { kind: 'quote', text: 'Consistency is not a coat of paint you add at the end. It is the thing you build first, and then get to keep.' },
+
       {
-        kind: 'duo',
-        items: [
-          { src: 'assets/img/projects/tdk-04.jpg', caption: 'Colour foundations and usage rules' },
-          { src: 'assets/img/projects/tdk-05.jpg', caption: 'Type scale across desktop and mobile' }
-        ],
-        long: true
-      },
-      {
-        kind: 'duo',
-        items: [
-          { src: 'assets/img/projects/tdk-01.jpg', caption: 'Badges: variants and annotations' },
-          { src: 'assets/img/projects/tdk-02.jpg', caption: 'Checkboxes: default, checked, error, disabled' }
-        ]
-      },
-      { kind: 'full', src: 'assets/img/projects/tdk-03.jpg', caption: 'Buttons: primary, secondary and ghost, across every state', frame: 'plain', long: true },
-      { kind: 'quote', text: 'Consistency is not a coat of paint you add at the end. It is the thing you build first, and then get to keep.' }
+        kind: 'live',
+        eyebrow: 'It shipped',
+        title: 'See it in the wild',
+        body: 'The redesign is live. The structure, the component library and the responsive behaviour described above are all running in production.',
+        label: 'Open invensense.tdk.com',
+        href: 'https://www.invensense.tdk.com/en-us'
+      }
     ]
   },
 

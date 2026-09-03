@@ -34,6 +34,14 @@
       '"' + dims(P.cover) + ' alt="' + E(P.title + ', ' + P.category) + '" decoding="async"></figure>';
   }
 
+  /* A tall screenshot sits in a scroll box. That box has to be reachable
+     from the keyboard, or everything below the fold of it is mouse-only. */
+  function scrollable(isLong, label) {
+    if (!isLong) return '';
+    return ' tabindex="0" role="group" aria-label="' +
+      E((label || 'Screenshot') + ', scrollable') + '"';
+  }
+
   /* ---------- the opening ---------- */
 
   function hero(i) {
@@ -152,7 +160,7 @@
     full: function (b) {
       return '<figure class="blk reveal">' +
         '<div class="shot' + (b.frame === 'plain' ? ' shot--plain' : '') +
-          (b.long ? ' shot--long' : '') + '">' +
+          (b.long ? ' shot--long' : '') + '"' + scrollable(b.long, b.caption) + '>' +
           '<img src="' + b.src + '"' + dims(b.src) + ' alt="' + E(b.caption || '') + '" loading="lazy" decoding="async">' +
         '</div>' +
         (b.caption ? '<figcaption>' + E(b.caption) + '</figcaption>' : '') +
@@ -161,7 +169,8 @@
 
     duo: function (b) {
       return '<section class="blk duo reveal">' + (b.items || []).map(function (it) {
-        return '<figure><div class="shot' + (b.long ? ' shot--long' : '') + '">' +
+        return '<figure><div class="shot' + (b.long ? ' shot--long' : '') + '"' +
+          scrollable(b.long, it.caption) + '>' +
           '<img src="' + it.src + '"' + dims(it.src) + ' alt="' + E(it.caption || '') + '" loading="lazy" decoding="async">' +
           '</div><figcaption>' + E(it.caption || '') + '</figcaption></figure>';
       }).join('') + '</section>';
@@ -183,6 +192,127 @@
           : '<div class="shot shot--mock">' + b.html + '</div>') +
         (b.caption ? '<figcaption>' + E(b.caption) + '</figcaption>' : '') +
       '</figure>';
+    },
+
+    /* Research: what we did, and what it turned up. */
+    method: function (b) {
+      return '<section class="blk reveal">' +
+        (b.title ? '<h2 class="blk__title">' + E(b.title) + '</h2>' : '') +
+        (b.note ? '<p class="blk__note">' + E(b.note) + '</p>' : '') +
+        '<ol class="method">' + (b.items || []).map(function (it, i) {
+          return '<li class="method__step">' +
+            '<span class="method__n">' + String(i + 1).padStart(2, '0') + '</span>' +
+            '<div><h3>' + E(it.head) + '</h3><p>' + E(it.body) + '</p>' +
+            (it.found ? '<p class="method__found"><b>What it turned up</b> ' + E(it.found) + '</p>' : '') +
+            '</div></li>';
+        }).join('') + '</ol>' +
+      '</section>';
+    },
+
+    /* Personas. One card each: who they are, what they need, what
+       stopped them, and the thing in the design that answers it. */
+    personas: function (b) {
+      return '<section class="blk reveal">' +
+        (b.title ? '<h2 class="blk__title">' + E(b.title) + '</h2>' : '') +
+        (b.note ? '<p class="blk__note">' + E(b.note) + '</p>' : '') +
+        '<div class="personas">' + (b.items || []).map(function (p) {
+          return '<article class="persona">' +
+            '<header class="persona__head">' +
+              '<span class="persona__tag">' + E(p.tag) + '</span>' +
+              '<h3 class="persona__name">' + E(p.name) + '</h3>' +
+              '<p class="persona__who">' + E(p.who) + '</p>' +
+            '</header>' +
+            '<dl class="persona__rows">' +
+              '<div><dt>Goal</dt><dd>' + E(p.goal) + '</dd></div>' +
+              '<div><dt>Frustration</dt><dd>' + E(p.pain) + '</dd></div>' +
+              '<div class="persona__ans"><dt>What the redesign gives them</dt><dd>' + E(p.answer) + '</dd></div>' +
+            '</dl>' +
+            (p.quote ? '<p class="persona__quote">\u201C' + E(p.quote) + '\u201D</p>' : '') +
+          '</article>';
+        }).join('') + '</div>' +
+      '</section>';
+    },
+
+    /* The palette, drawn as live swatches rather than a screenshot of
+       one, so it stays sharp and the hex values can be selected. */
+    swatches: function (b) {
+      return '<section class="blk reveal">' +
+        (b.title ? '<h2 class="blk__title">' + E(b.title) + '</h2>' : '') +
+        (b.note ? '<p class="blk__note">' + E(b.note) + '</p>' : '') +
+        (b.groups || []).map(function (g) {
+          return '<div class="swgroup">' +
+            '<h3 class="swgroup__name">' + E(g.name) + '</h3>' +
+            (g.use ? '<p class="swgroup__use">' + E(g.use) + '</p>' : '') +
+            '<ul class="swatches">' + (g.items || []).map(function (c) {
+              return '<li class="sw' + (c.line ? ' sw--line' : '') + '" style="--c:' + c.hex + '">' +
+                '<span class="sw__chip"></span>' +
+                '<span class="sw__name">' + E(c.name) + '</span>' +
+                '<span class="sw__hex">' + E(c.hex) + '</span>' +
+              '</li>';
+            }).join('') + '</ul>' +
+          '</div>';
+        }).join('') +
+      '</section>';
+    },
+
+    /* The type scale, set in the sizes it actually shipped at. */
+    typescale: function (b) {
+      return '<section class="blk reveal">' +
+        (b.title ? '<h2 class="blk__title">' + E(b.title) + '</h2>' : '') +
+        (b.note ? '<p class="blk__note">' + E(b.note) + '</p>' : '') +
+        '<div class="tscale">' + (b.items || []).map(function (t) {
+          return '<div class="tsrow">' +
+            '<p class="tsrow__spec"><b>' + E(t.role) + '</b>' +
+              '<span>' + E(t.spec) + '</span></p>' +
+            '<p class="tsrow__demo" style="font-size:' + t.px + 'px;font-weight:' + (t.weight || 400) +
+              ';line-height:' + (t.lh || 1.2) + '">' + E(t.sample) + '</p>' +
+          '</div>';
+        }).join('') + '</div>' +
+      '</section>';
+    },
+
+    /* Site structure, as a plain nested list. */
+    ia: function (b) {
+      function branch(nodes) {
+        return '<ul class="ia__list">' + nodes.map(function (n) {
+          return '<li class="ia__node' + (n.kids ? '' : ' ia__node--leaf') + '">' +
+            '<span class="ia__label">' + E(n.label) + '</span>' +
+            (n.note ? '<span class="ia__note">' + E(n.note) + '</span>' : '') +
+            (n.kids ? branch(n.kids) : '') +
+          '</li>';
+        }).join('') + '</ul>';
+      }
+      return '<section class="blk reveal">' +
+        (b.title ? '<h2 class="blk__title">' + E(b.title) + '</h2>' : '') +
+        (b.note ? '<p class="blk__note">' + E(b.note) + '</p>' : '') +
+        '<div class="ia">' + branch(b.nodes || []) + '</div>' +
+      '</section>';
+    },
+
+    /* Two things set against each other: before and after, old and new. */
+    versus: function (b) {
+      return '<section class="blk reveal">' +
+        (b.title ? '<h2 class="blk__title">' + E(b.title) + '</h2>' : '') +
+        (b.note ? '<p class="blk__note">' + E(b.note) + '</p>' : '') +
+        '<div class="versus">' + (b.rows || []).map(function (r) {
+          return '<div class="vrow">' +
+            '<p class="vrow__q">' + E(r.issue) + '</p>' +
+            '<p class="vrow__a">' + E(r.fix) + '</p>' +
+          '</div>';
+        }).join('') + '</div>' +
+      '</section>';
+    },
+
+    /* A closing link out to the thing that shipped. */
+    live: function (b) {
+      return '<section class="blk live reveal">' +
+        '<p class="live__eyebrow">' + E(b.eyebrow || 'Live site') + '</p>' +
+        '<h2 class="live__title">' + E(b.title) + '</h2>' +
+        (b.body ? '<p class="live__body">' + E(b.body) + '</p>' : '') +
+        '<a class="btn btn--ghost live__btn" href="' + b.href + '" target="_blank" rel="noopener noreferrer">' +
+          E(b.label || 'Visit the site') + '</a>' +
+        '<p class="live__url">' + E(b.href.replace(/^https?:\/\//, '')) + '</p>' +
+      '</section>';
     },
 
     mocks: function (b) {

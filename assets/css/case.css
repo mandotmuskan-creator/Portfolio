@@ -235,6 +235,8 @@
 }
 .shot img { width: 100%; }
 .shot--long { max-height: 78vh; overflow-y: auto; overscroll-behavior: contain; }
+/* the scroll box takes keyboard focus, so it needs to show it */
+.shot--long:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
 .shot--plain { border: 0; background: none; }
 .shot--mock { container-type: inline-size; display: grid; place-items: center; padding: clamp(18px, 3vw, 44px); background: var(--blue-wash); }
 figure > figcaption,
@@ -297,4 +299,221 @@ figure > figcaption,
 
 @media (max-width: 640px) {
   .shot--long { max-height: 58vh; }
+}
+
+/* =========================================================
+   Case-study blocks added for the TDK study.
+
+   These are the parts of a UX write-up that read badly as
+   screenshots: research method, personas, palette, type
+   scale, site structure. All of them are set as real text so
+   they stay sharp, stay selectable and stay accessible.
+   ========================================================= */
+
+.blk__note {
+  margin-top: .7em;
+  max-width: 62ch;
+  font-size: var(--t-0);
+  line-height: 1.6;
+  color: var(--ink-faint);
+}
+
+/* --- research method --- */
+
+.method { margin-top: var(--s-5); display: grid; gap: 0; border-top: 1px solid var(--rule); }
+.method__step {
+  display: grid;
+  grid-template-columns: 3.4rem minmax(0, 1fr);
+  gap: var(--s-4);
+  padding-block: var(--s-5);
+  border-bottom: 1px solid var(--rule);
+}
+.method__n {
+  font-size: var(--t-1);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-faint);
+  letter-spacing: -.02em;
+}
+.method__step h3 { font-size: var(--t-1); font-weight: 700; letter-spacing: -.02em; }
+.method__step p { margin-top: .45em; font-size: var(--t-0); line-height: 1.6; color: var(--ink-soft); max-width: 62ch; }
+.method__found {
+  margin-top: .8em !important;
+  padding-left: var(--s-4);
+  border-left: 2px solid var(--red);
+}
+.method__found b { color: var(--ink); font-weight: 700; }
+
+/* --- personas --- */
+
+.personas {
+  margin-top: var(--s-5);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr));
+  gap: var(--s-4);
+}
+.persona {
+  display: flex;
+  flex-direction: column;
+  padding: var(--s-5);
+  background: var(--paper);
+  border: 1px solid var(--rule);
+}
+.persona__tag {
+  display: inline-block;
+  font-size: var(--t--2, .74rem);
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+.persona__name { margin-top: .5em; font-size: var(--t-2); font-weight: 700; letter-spacing: -.025em; }
+.persona__who { margin-top: .25em; font-size: var(--t--1); color: var(--ink-faint); }
+.persona__rows { margin-top: var(--s-4); display: grid; gap: var(--s-3); }
+.persona__rows dt {
+  font-size: var(--t--2, .74rem);
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.persona__rows dd { margin: .3em 0 0; font-size: var(--t--1); line-height: 1.55; color: var(--ink-soft); }
+.persona__ans dd { color: var(--ink); }
+.persona__quote {
+  /* pushed to the foot of the card so the quotes sit on one line across
+     the row, whatever length the rows above them ran to */
+  margin-top: auto;
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--rule);
+  font-family: var(--f-display);
+  font-size: var(--t-0);
+  line-height: 1.4;
+  color: var(--brown);
+}
+
+/* --- colour --- */
+
+.swgroup { margin-top: var(--s-5); }
+.swgroup__name { font-size: var(--t-0); font-weight: 700; letter-spacing: -.01em; }
+.swgroup__use { margin-top: .3em; font-size: var(--t--1); color: var(--ink-faint); max-width: 62ch; }
+.swatches {
+  margin-top: var(--s-3);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(50%, 140px), 1fr));
+  gap: var(--s-3);
+}
+.sw { display: flex; flex-direction: column; }
+.sw__chip {
+  height: clamp(56px, 6vw, 76px);
+  background: var(--c);
+  border-radius: 3px;
+}
+/* pale values need an edge or they float on the page */
+.sw--line .sw__chip { box-shadow: inset 0 0 0 1px var(--rule); }
+.sw__name { margin-top: .55em; font-size: var(--t--1); font-weight: 600; }
+.sw__hex {
+  margin-top: .1em;
+  font-size: var(--t--1);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+}
+
+/* --- type scale --- */
+
+.tscale { margin-top: var(--s-5); border-top: 1px solid var(--rule); }
+.tsrow {
+  display: grid;
+  grid-template-columns: minmax(0, 13rem) minmax(0, 1fr);
+  gap: var(--s-4);
+  align-items: baseline;
+  padding-block: var(--s-4);
+  border-bottom: 1px solid var(--rule);
+}
+.tsrow__spec b { display: block; font-size: var(--t-0); font-weight: 700; }
+.tsrow__spec span {
+  display: block;
+  margin-top: .2em;
+  font-size: var(--t--1);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-faint);
+}
+.tsrow__demo { letter-spacing: -.02em; color: var(--ink); overflow-wrap: anywhere; }
+
+@media (max-width: 700px) {
+  .tsrow { grid-template-columns: 1fr; gap: var(--s-2); }
+  .method__step { grid-template-columns: 2.6rem minmax(0, 1fr); gap: var(--s-3); }
+}
+
+/* --- site structure --- */
+
+.ia { margin-top: var(--s-5); font-size: var(--t--1); }
+.ia__list { display: grid; gap: var(--s-2); }
+.ia__node { position: relative; }
+.ia__node > .ia__list {
+  margin-top: var(--s-2);
+  margin-left: var(--s-4);
+  padding-left: var(--s-4);
+  border-left: 1px solid var(--rule);
+}
+.ia__label { font-weight: 600; color: var(--ink); }
+.ia__note { color: var(--ink-faint); }
+.ia__note::before { content: " — "; }
+/* only nested leaves step back; a top-level route is a route whether or
+   not it has children under it */
+.ia__list .ia__list .ia__node--leaf > .ia__label { font-weight: 400; color: var(--ink-soft); }
+
+/* --- problem set against fix --- */
+
+.versus { margin-top: var(--s-5); border-top: 1px solid var(--rule); }
+.vrow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: var(--s-3) var(--s-5);
+  padding-block: var(--s-4);
+  border-bottom: 1px solid var(--rule);
+}
+.vrow__q { font-size: var(--t-0); font-weight: 600; color: var(--ink); }
+.vrow__a { font-size: var(--t-0); line-height: 1.6; color: var(--ink-soft); }
+.vrow__a::before {
+  content: "→";
+  margin-right: .6em;
+  color: var(--red);
+  font-weight: 700;
+}
+
+/* --- the closing link out to the live site --- */
+
+.live {
+  padding: var(--s-7) var(--s-5);
+  text-align: center;
+  background: var(--paper-warm);
+}
+.live__eyebrow {
+  font-size: var(--t--1);
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.live__title {
+  margin-top: .4em;
+  font-family: var(--f-display);
+  font-size: clamp(1.7rem, 1.2rem + 2.2vw, 3rem);
+  line-height: 1.1;
+  color: var(--red-ink);
+}
+.live__body {
+  margin: var(--s-3) auto 0;
+  max-width: 46ch;
+  font-size: var(--t-0);
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+.live__btn { margin-top: var(--s-5); }
+.live__url {
+  margin-top: var(--s-3);
+  font-size: var(--t--1);
+  color: var(--ink-faint);
+  word-break: break-all;
 }

@@ -8,6 +8,7 @@ Run from the repo root:  python3 scripts/image_sizes.py
 """
 import os, glob, json
 from PIL import Image
+Image.MAX_IMAGE_PIXELS = None
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 OUT = os.path.join(ROOT, "assets", "js", "img-sizes.js")
