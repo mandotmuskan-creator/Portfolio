@@ -502,6 +502,33 @@ figure > figcaption,
   font-weight: 700;
 }
 
+/* --- a grid of small boards --- */
+
+.gridshots {
+  margin-top: var(--s-5);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-5) var(--s-4);
+  align-items: start;
+}
+.gridshot--span { grid-column: 1 / -1; }
+/* A tile is a window on a taller board: same height across the row, each
+   one scrolling on its own. */
+/* One height for every tile, so captions across a row sit on one line.
+   A board shorter than the window simply ends; they are white-ground
+   boards, so the remainder reads as the sheet rather than as a gap. */
+.shot--tile { height: 28rem; overflow-y: auto; overscroll-behavior: contain; }
+.gridshot--span .shot--tile { height: 22rem; }
+.gridshot figcaption { margin-top: var(--s-2); }
+
+@media (max-width: 900px) {
+  .gridshots { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .gridshots { grid-template-columns: 1fr; }
+  .shot--tile { height: 22rem; }
+}
+
 /* --- the closing link out to the live site --- */
 
 .live {

@@ -329,6 +329,26 @@
       '</section>';
     },
 
+    /* Small boards, several to a row. Design-system sheets are screenshots
+       of a working file: shown large they magnify their own softness, so
+       they run three-up and every one lands well under its own width. */
+    grid: function (b) {
+      return '<section class="blk reveal">' +
+        (b.title ? '<h2 class="blk__title">' + E(b.title) + '</h2>' : '') +
+        (b.note ? '<p class="blk__note">' + E(b.note) + '</p>' : '') +
+        '<div class="gridshots">' + (b.items || []).map(function (it) {
+          return '<figure class="gridshot' + (it.span ? ' gridshot--span' : '') + '">' +
+            '<div class="shot shot--tile"' + capStyle(it.src, it.device) +
+              scrollable(true, it.caption) + '>' +
+              '<img src="' + it.src + '"' + dims(it.src) + ' alt="' + E(it.caption || '') +
+                '" loading="lazy" decoding="async">' +
+            '</div>' +
+            '<figcaption>' + E(it.caption || '') + '</figcaption>' +
+          '</figure>';
+        }).join('') + '</div>' +
+      '</section>';
+    },
+
     /* A closing link out to the thing that shipped. */
     live: function (b) {
       return '<section class="blk live reveal">' +

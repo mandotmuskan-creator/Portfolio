@@ -450,29 +450,17 @@ const PROJECTS = [
         ]
       },
       {
-        kind: 'duo',
+        kind: 'grid',
+        note: 'Pages from the library. Each tile scrolls on its own; the boards are taller than the room a row can give them.',
         items: [
           { src: 'assets/img/projects/tdk/ds-buttons.webp', caption: 'Buttons: primary, secondary and ghost, in three sizes, across default, hover, active and disabled' },
-          { src: 'assets/img/projects/tdk/ds-textinput.webp', caption: 'Text input: label, placeholder, icon and helper variants, with error messaging' }
-        ],
-        long: true
-      },
-      {
-        kind: 'duo',
-        items: [
+          { src: 'assets/img/projects/tdk/ds-textinput.webp', caption: 'Text input: label, placeholder, icon and helper variants, with error messaging' },
+          { src: 'assets/img/projects/tdk/ds-checkboxes.webp', caption: 'Checkboxes: default, hover, checked, disabled and error, with helper text' },
           { src: 'assets/img/projects/tdk/ds-badges.webp', caption: 'Badges: three sizes and five semantic tones, annotated' },
-          { src: 'assets/img/projects/tdk/ds-checkboxes.webp', caption: 'Checkboxes: default, hover, checked, disabled and error, with helper text' }
-        ],
-        long: true
-      },
-      { kind: 'full', src: 'assets/img/projects/tdk/ds-iconography.webp', caption: 'The icon set: one weight, one grid, drawn for scannability at small sizes', frame: 'plain', long: true },
-      {
-        kind: 'duo',
-        items: [
-          { src: 'assets/img/projects/tdk/ds-microinteractions.webp', caption: 'Microinteractions: the eight icons that change state on interaction, paired with their active form' },
-          { src: 'assets/img/projects/tdk/ds-homepage-components.webp', caption: 'Page-level patterns: segmented tabs, stats, partner brands, pagination, carousels' }
-        ],
-        long: true
+          { src: 'assets/img/projects/tdk/ds-iconography.webp', caption: 'The icon set: one weight, one grid, drawn for scannability at small sizes' },
+          { src: 'assets/img/projects/tdk/ds-homepage-components.webp', caption: 'Page-level patterns: segmented tabs, stats, partner brands, pagination, carousels' },
+          { src: 'assets/img/projects/tdk/ds-microinteractions.webp', caption: 'Microinteractions: the eight icons that change state on interaction, paired with their active form', span: true }
+        ]
       },
 
       /* ---------- responsive ---------- */
