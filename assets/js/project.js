@@ -287,10 +287,19 @@
         (b.title ? '<h2 class="blk__title">' + E(b.title) + '</h2>' : '') +
         (b.note ? '<p class="blk__note">' + E(b.note) + '</p>' : '') +
         '<div class="tscale">' + (b.items || []).map(function (t) {
+          /* Rows whose face is self-hosted are set in it. Rows naming a
+             licensed face fall back and say so, rather than being passed
+             off as the real letterforms. */
+          /* single quotes: this goes inside a double-quoted style attribute */
+          var fam = t.face === 'noto'
+            ? "'Noto Sans', system-ui, sans-serif"
+            : 'var(--f-body)';
           return '<div class="tsrow">' +
             '<p class="tsrow__spec"><b>' + E(t.role) + '</b>' +
-              '<span>' + E(t.spec) + '</span></p>' +
-            '<p class="tsrow__demo" style="font-size:' + t.px + 'px;font-weight:' + (t.weight || 400) +
+              '<span>' + E(t.spec) + '</span>' +
+              (t.face === 'noto' ? '' : '<em>shown in a stand-in</em>') + '</p>' +
+            '<p class="tsrow__demo" style="font-family:' + fam +
+              ';font-size:' + t.px + 'px;font-weight:' + (t.weight || 400) +
               ';line-height:' + (t.lh || 1.2) + '">' + E(t.sample) + '</p>' +
           '</div>';
         }).join('') + '</div>' +

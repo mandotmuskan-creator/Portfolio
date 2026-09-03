@@ -470,6 +470,15 @@ figure > figcaption,
   font-variant-numeric: tabular-nums;
   color: var(--ink-faint);
 }
+.tsrow__spec em {
+  display: block;
+  margin-top: .35em;
+  font-size: var(--t--1);
+  font-style: normal;
+  color: var(--ink-faint);
+  opacity: .8;
+}
+.tsrow__spec em::before { content: "↳ "; }
 .tsrow__demo { letter-spacing: -.02em; color: var(--ink); overflow-wrap: anywhere; }
 
 @media (max-width: 700px) {

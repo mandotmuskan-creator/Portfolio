@@ -366,14 +366,14 @@ const PROJECTS = [
       {
         kind: 'typescale',
         title: 'Typography',
-        note: 'Two faces. Obvia Expanded carries the headings: a wide geometric with enough character to hold a page that is otherwise all specification. Noto Sans does everything that has to be read rather than scanned, and it covers the scripts a global catalogue needs. Sizes below are the desktop scale as it shipped, at 1440. The specimens are set in the portfolio’s own stack, so what you are judging here is the scale and the weight relationships, not the letterforms.',
+        note: 'Two faces. Obvia Expanded carries the headings: a wide geometric with enough character to hold a page that is otherwise all specification. Noto Sans does everything that has to be read rather than scanned, and it covers the scripts a global catalogue needs. Sizes are the desktop scale as it shipped, at 1440. The Noto Sans rows below are set in Noto Sans. Obvia Expanded is a licensed face, so those three rows are shown in a stand-in and marked as such: judge the scale and the weights there, not the letterforms.',
         items: [
           { role: 'Display', spec: 'Obvia Expanded · 44 / 56 · 600', px: 44, weight: 600, lh: 1.25, sample: 'Applications powered by smart sensors' },
           { role: 'Section heading', spec: 'Obvia Expanded · 30 / 40 · 700', px: 30, weight: 700, lh: 1.3, sample: 'Driving measurable success' },
           { role: 'Sub heading', spec: 'Obvia Expanded · 20 / 28 · 700', px: 20, weight: 700, lh: 1.35, sample: 'Product spotlight' },
-          { role: 'Card title', spec: 'Noto Sans · 16 / 24 · 700', px: 16, weight: 700, lh: 1.4, sample: 'InvenSense ICM-42688-P' },
-          { role: 'Body', spec: 'Noto Sans · 14 / 22 · 400', px: 14, weight: 400, lh: 1.6, sample: 'A six-axis MEMS motion sensor family with the world’s first BalancedGyro technology and lowest power consumption.' },
-          { role: 'Label and chip', spec: 'Noto Sans · 12 / 16 · 600', px: 12, weight: 600, lh: 1.4, sample: 'Recommended sensors' }
+          { role: 'Card title', face: 'noto', spec: 'Noto Sans · 16 / 24 · 700', px: 16, weight: 700, lh: 1.4, sample: 'InvenSense ICM-42688-P' },
+          { role: 'Body', face: 'noto', spec: 'Noto Sans · 14 / 22 · 400', px: 14, weight: 400, lh: 1.6, sample: 'A six-axis MEMS motion sensor family with the world’s first BalancedGyro technology and lowest power consumption.' },
+          { role: 'Label and chip', face: 'noto', spec: 'Noto Sans · 12 / 16 · 600', px: 12, weight: 600, lh: 1.4, sample: 'Recommended sensors' }
         ]
       },
       {
