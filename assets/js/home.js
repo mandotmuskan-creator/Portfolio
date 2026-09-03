@@ -11,7 +11,7 @@
   function metaRow(p) {
     var rows = [
       ['Role', p.role],
-      ['Tools', (p.tools || []).join(' · ')],
+      ['Team', p.team],
       ['Year', p.year],
       ['Platform', p.platform]
     ].filter(function (r) { return r[1]; });

@@ -25,6 +25,10 @@
    coverFit  "cover" (fill the card) | "top" (pin to the top)
    focus     three short lines shown on the home card
    intro     array of paragraphs, the overview
+   role      your role, one line
+   team      team size, one line
+   teamNote  who was on it
+   duration  how long it ran
    roleNote  the one-line "My Role" summary
    sections  array of { kind, ... } blocks, rendered in order:
                { kind:'text',    title, body:[..] }
@@ -163,7 +167,10 @@ const PROJECTS = [
     tagline: 'A sensor catalogue nobody could navigate, restructured around the engineers, partners and distributors who actually use it.',
     category: 'End-to-end web redesign & design system',
     year: '2025',
-    role: 'UX / UI Designer',
+    role: 'UI and design system',
+    team: '8 people',
+    teamNote: 'Two UI designers, a design system designer, a UX designer, a UX writer and an associate creative director.',
+    duration: '8 months, delivered ahead of schedule',
     tools: ['Figma', 'FigJam'],
     platform: 'Responsive web',
     tags: ['UX/UI', 'Web', 'Design System'],
@@ -176,9 +183,9 @@ const PROJECTS = [
     ],
     intro: [
       'InvenSense makes the motion and sound sensors inside drones, cars, headsets, hearing aids and smart homes. The catalogue is enormous and deeply technical, and the old site asked every visitor to already know what they were looking for. Engineers, procurement partners and distributors all landed in the same undifferentiated place.',
-      'I worked across the whole arc of the redesign: auditing the existing experience, restructuring the information architecture, wireframing, writing the interface copy, and taking the visual design through to a signed-off, fully responsive build. Alongside it I helped build the design system the site now runs on.'
+      'I worked on the UI and the design system. The interface was built from scratch across every breakpoint and state, and I worked alongside the design system designer on the component library the site now runs on. Eight of us, eight months, delivered ahead of schedule.'
     ],
-    roleNote: 'IA, wireframes, UX writing, responsive UI, and the component library engineering builds from.',
+    roleNote: 'Supporting the design system, and building the UI from scratch.',
     introNote: 'Three audiences. One front door. That was the whole problem.',
     sections: [
       {
@@ -220,11 +227,11 @@ const PROJECTS = [
         kind: 'points',
         title: 'What I did',
         items: [
-          'Audited the existing site and restructured the information architecture around tasks rather than internal org structure.',
-          'Wireframed desktop, tablet and mobile, then ran the layouts through feedback iterations with stakeholders and engineering.',
-          'Ran a UX-writing pass over the whole page. Every heading, helper line and empty state annotated in-file for the build team.',
+          'Built the interface from scratch, working from the flows and structure the UX team set.',
           'Designed the signed-off responsive UI at 1440, 800 and 375, with behaviour notes on each breakpoint.',
-          'Built and documented components (colour, type, badges, checkboxes, buttons) with every state and edge case.'
+          'Built and documented components (colour, type, badges, checkboxes, buttons) with every state and edge case.',
+          'Worked with the design system designer on the library the rest of the team now builds from.',
+          'Ran consistency passes across the page set as it grew.'
         ]
       },
       { kind: 'full', src: 'assets/img/projects/tdk-06.jpg', caption: 'Signed-off homepage, the full desktop scroll', frame: 'browser', long: true },
@@ -294,7 +301,9 @@ const PROJECTS = [
     tagline: 'People could earn rewards. Understanding them was harder than it needed to be, so joining takes one tap, and leaving is never a trap.',
     category: 'Loyalty programme, UX research and design',
     year: '2026',
-    role: 'UX / UI Designer',
+    role: 'UI and visual design',
+    team: '4 people',
+    teamNote: 'Two UX designers, a design director, and me on UI and visual.',
     tools: ['Figma', 'FigJam'],
     platform: 'Responsive web',
     tags: ['UX/UI', 'Web', 'Research'],
@@ -307,9 +316,9 @@ const PROJECTS = [
     ],
     intro: [
       'Disney Store wanted a free membership club: member pricing, early access to drops, and delivery savings. The commercial case was straightforward. The design problem was not. Loyalty schemes tend to be sold hard at the door and made deliberately difficult to leave, and neither of those behaviours belongs on a Disney property.',
-      'I worked on the research and the design together: what a member is actually joining, how much we are allowed to ask them for, what personalisation earns its keep, and what happens on the day they want out. The result is a five-state flow that runs on both desktop and mobile.'
+      'I worked on the UI and the visual design: the five states as they are actually built, the components behind them, and the extensions to the Disney library that made them possible. Gradients, the small magical touches the brand needs, and new components where the library did not have one yet. The research and the flow came from the UX designers alongside me.'
     ],
-    roleNote: 'Research through to a signed-off flow: join, onboard, personalise, manage and leave.',
+    roleNote: 'Working inside the Disney component library, and the visual design on top of it.',
     introNote: 'The exit is part of the offer.',
     sections: [
       {
@@ -427,19 +436,29 @@ const PROJECTS = [
     hero: ['Designing for', 'a body that', 'changes weekly.'],
     faceCue: 'calm',
     ringCue: 'circle-red',
-    client: 'Healthymama',
     tagline: 'A week-by-week companion for pregnancy: health tracking, personalised guidance and a check-in that takes minutes, not forms.',
     category: 'Mobile app design',
     year: '2026',
-    role: 'Product Designer',
+    role: 'End to end product design',
+    team: '3 people',
+    teamNote: 'A UX designer, a principal architect, and me on design.',
     tools: ['Figma', 'FigJam'],
     platform: 'Mobile',
     tags: ['UX/UI', 'Mobile'],
     accent: 'red',
     cover: 'assets/img/covers/pregnancy-app.webp',
     wip: true,
+    roleNote: 'The design system, the visual theme and every screen, start to finish.',
     intro: [],
-    sections: []
+    sections: [
+      {
+        kind: 'text',
+        title: 'Where it stands',
+        body: [
+          'The client is a doctor. She has been close to the work throughout, and she is delighted with how it turned out.'
+        ]
+      }
+    ]
   }
 
 ];

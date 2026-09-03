@@ -43,6 +43,7 @@
 
     var facts = [
       ['Client', P.client], ['Role', P.role],
+      ['Team', P.team], ['Duration', P.duration],
       ['Tools', (P.tools || []).join(' · ')],
       ['Platform', P.platform], ['Year', P.year]
     ].filter(function (r) { return r[1]; });
@@ -192,11 +193,28 @@
     }
   };
 
+  /* Who was on it, and which part was mine. */
+  function roleBlock() {
+    if (!P.roleNote && !P.teamNote) return '';
+    var rows = [
+      ['My role', P.roleNote],
+      ['The team', P.teamNote ? (P.team ? P.team + '. ' : '') + P.teamNote : ''],
+      ['Duration', P.duration]
+    ].filter(function (r) { return r[1]; });
+
+    return '<section class="blk reveal">' +
+      '<h2 class="blk__title">My role and the team</h2>' +
+      '<dl class="rolegrid">' + rows.map(function (r) {
+        return '<div><dt>' + E(r[0]) + '</dt><dd>' + E(r[1]) + '</dd></div>';
+      }).join('') + '</dl>' +
+    '</section>';
+  }
+
   function body() {
     var intro = (P.intro || []).length
       ? BLOCK.text({ title: 'Context', body: P.intro, note: P.introNote, noteArt: 'arrow-loop-warm' })
       : '';
-    return '<div class="wrap cs">' + intro +
+    return '<div class="wrap cs">' + intro + roleBlock() +
       (P.sections || []).map(function (b) {
         return (BLOCK[b.kind] || function () { return ''; })(b);
       }).join('') + '</div>';
