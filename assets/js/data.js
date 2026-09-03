@@ -464,6 +464,32 @@ const PROJECTS = [
 ];
 
 /* =========================================================
+   CLIENTS, the brands the work was for.
+
+   `w` is the one sizing knob: the width the mark is drawn at, in px.
+   Height follows the artwork's own ratio, so the numbers are tuned for
+   optical weight rather than a shared cap height. A nine-to-one wordmark
+   like TDK needs far more width than a two-to-one block like SAP to read
+   as the same size on the page.
+
+   Order is set for rhythm, not alphabetically: the heavy marks are spaced
+   out so no part of the wall clumps.
+   ========================================================= */
+
+const CLIENTS = [
+  { name: 'Disney store', logo: 'assets/img/clients/disney-store.png', w: 132 },
+  { name: 'SAP',          logo: 'assets/img/clients/sap.svg',          w: 64 },
+  { name: 'TDK',          logo: 'assets/img/clients/tdk.svg',          w: 178 },
+  { name: 'Abbott',       logo: 'assets/img/clients/abbott.png',       w: 124 },
+  { name: 'TVS',          logo: 'assets/img/clients/tvs.svg',          w: 132 },
+  { name: 'Parle',        logo: 'assets/img/clients/parle.png',        w: 82 },
+  { name: 'Hero',         logo: 'assets/img/clients/hero.svg',         w: 96 },
+  { name: 'CEA',          logo: 'assets/img/clients/cea.png',          w: 148 },
+  { name: 'OnMed',        logo: 'assets/img/clients/onmed.png',        w: 112 },
+  { name: 'Popular Bank', logo: 'assets/img/clients/popular.png',      w: 130 }
+];
+
+/* =========================================================
    PROCESS, the five steps shown on the home page.
 
    One line each. The longer descriptions belong on About, not here.
@@ -534,6 +560,7 @@ const GALLERY = [
 
 if (typeof window !== 'undefined') {
   window.PROJECTS = PROJECTS;
+  window.CLIENTS = CLIENTS;
   window.PROCESS = PROCESS;
   window.TOOLKIT = TOOLKIT;
   window.TOOLS = TOOLS;

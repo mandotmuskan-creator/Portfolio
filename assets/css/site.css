@@ -245,6 +245,58 @@
 }
 
 /* =========================================================
+   4a · WORKED WITH, the client roster
+   ========================================================= */
+
+/* A logo wall, not a table of boxes. Flex rather than grid so a ragged
+   last row stays centred at every width, and hairlines top and bottom so
+   the roster reads as one quiet band between two sections.
+
+   The marks are held back to grey at rest. Ten brand palettes at full
+   strength would out-shout the work above them; colour returns on hover
+   and on keyboard focus. */
+
+.clients {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(26px, 3.6vw, 44px) clamp(30px, 4.6vw, 66px);
+  max-width: 60rem;
+  margin-inline: auto;
+  padding-block: clamp(30px, 3.6vw, 46px);
+  border-block: 1px solid var(--rule-soft);
+}
+.client {
+  display: grid;
+  place-items: center;
+  width: var(--w, 120px);
+}
+.client img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: grayscale(1);
+  opacity: .58;
+  transition: filter .3s ease, opacity .3s ease;
+}
+.client:hover img,
+.client:focus-within img { filter: none; opacity: 1; }
+
+/* Fallback for any entry with no artwork yet. */
+.client__name {
+  font-size: .95rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .client img { transition: none; }
+}
+
+/* =========================================================
    4b · HOW I WORK, the process strip
    ========================================================= */
 

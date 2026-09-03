@@ -50,6 +50,16 @@
       mountReveals(host);
     }
 
+    var clients = document.getElementById('clients');
+    if (clients && window.CLIENTS) {
+      clients.innerHTML = CLIENTS.map(function (c) {
+        var w = c.w ? ' style="--w:' + c.w + 'px"' : '';
+        return '<li class="client"' + w + '>' + (c.logo
+          ? '<img src="' + c.logo + '" alt="' + escapeHtml(c.name) + '" loading="lazy" decoding="async">'
+          : '<span class="client__name">' + escapeHtml(c.name) + '</span>') + '</li>';
+      }).join('');
+    }
+
     var steps = document.getElementById('steps');
     if (steps && window.PROCESS) {
       steps.innerHTML = PROCESS.map(function (t, i) {
