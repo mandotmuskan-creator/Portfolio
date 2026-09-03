@@ -114,6 +114,13 @@
 
 .projects { display: grid; gap: var(--s-8); }
 
+/* The "browse all work" link centres under the rows rather than sitting in
+   the left column, where it left the right half of the line empty. It also
+   sits closer to the last project and closer to the rule below, so the two
+   sections read as neighbours instead of drifting apart. */
+.work__more { margin-top: var(--s-6); text-align: center; }
+#work { padding-bottom: var(--s-6); }
+
 .proj {
   position: relative;
   display: grid;
@@ -251,12 +258,21 @@
    ========================================================= */
 
 /* A logo wall, not a table of boxes. Flex rather than grid so a ragged
-   last row stays centred at every width, and hairlines top and bottom so
-   the roster reads as one quiet band between two sections.
+   last row stays centred at every width.
+
+   One rule separates this band from the work above it and that is the
+   whole set: rules around the logos as well would have fenced off a group
+   that white space already reads as a group.
 
    Every mark keeps its own colour. That puts ten palettes on one line, so
    the balance is carried by size instead: see the `w` numbers in data.js,
    which are tuned by optical weight rather than a shared cap height. */
+
+/* The roster belongs to the work above it, so it sits closer than a
+   standalone band would: half the air of a normal section, and the
+   heading held near the marks it introduces. */
+.band--clients { padding-block: var(--s-6); }
+.band--clients .shead { margin-bottom: var(--s-5); }
 
 .clients {
   display: flex;
@@ -266,8 +282,6 @@
   gap: clamp(26px, 3.6vw, 44px) clamp(30px, 4.6vw, 66px);
   max-width: 60rem;
   margin-inline: auto;
-  padding-block: clamp(30px, 3.6vw, 46px);
-  border-block: 1px solid var(--rule-soft);
 }
 .client {
   display: grid;
