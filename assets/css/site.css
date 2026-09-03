@@ -76,7 +76,13 @@
   margin-bottom: var(--s-6);
 }
 .shead__l { position: relative; max-width: 27rem; }
-.shead__title { margin-top: .18em; }
+/* The display face carries less optical weight than Inter Bold at the same
+   pixel size, so a section heading needs a little more than the items under
+   it, not the same. */
+.shead__title {
+  margin-top: .18em;
+  font-size: clamp(2.1rem, 1.58rem + 2.3vw, 3.9rem);
+}
 .shead__star {
   position: absolute;
   left: -2.1em;
@@ -141,14 +147,14 @@
 
 .proj__title {
   margin-top: .22em;
-  font-size: var(--t-4);
+  font-size: var(--t-3);
   font-weight: 700;
   letter-spacing: -.03em;
   line-height: 1.02;
 }
 .proj__line {
   margin-top: .55em;
-  font-size: var(--t-1);
+  font-size: var(--t-lede);
   line-height: 1.5;
   color: var(--ink-soft);
   max-width: 40ch;
@@ -310,8 +316,10 @@
 
 /* the word is fitted to the left column, not to the page */
 .ptitle__lead { min-width: 0; }
+/* Page titles fit their column, but the cap keeps a short title from
+   towering over a long one on the next page. */
 .ptitle__word {
-  --cap: 11rem;
+  --cap: 8.5rem;
   text-align: left;
   color: var(--red-ink);
   margin-top: .16em;

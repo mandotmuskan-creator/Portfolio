@@ -44,7 +44,7 @@
   text-align: left;
   color: var(--red-ink);
 }
-.cshero__line { margin-top: var(--s-5); font-size: var(--t-1); color: var(--ink-soft); max-width: 46ch; }
+.cshero__line { margin-top: var(--s-5); font-size: var(--t-lede); color: var(--ink-soft); max-width: 46ch; }
 
 .cshero__grid {
   display: grid;
@@ -104,7 +104,7 @@
   max-width: 22ch;
 }
 .blk__body { margin-top: var(--s-4); }
-.blk__body p { font-size: var(--t-1); line-height: 1.62; color: var(--ink-soft); max-width: 64ch; }
+.blk__body p { font-size: var(--t-lede); line-height: 1.62; color: var(--ink-soft); max-width: 64ch; }
 .blk__body p + p { margin-top: .95em; }
 
 /* an annotation parked in the margin on wide screens */
@@ -130,7 +130,7 @@
   text-transform: uppercase;
   color: var(--ink-faint);
 }
-.rolegrid dd { margin: 0; font-size: var(--t-1); line-height: 1.55; color: var(--ink-soft); max-width: 58ch; }
+.rolegrid dd { margin: 0; font-size: var(--t-lede); line-height: 1.55; color: var(--ink-soft); max-width: 58ch; }
 @media (max-width: 640px) { .rolegrid > div { grid-template-columns: 1fr; gap: 4px; } }
 
 .points { margin-top: var(--s-4); display: grid; gap: var(--s-3); max-width: 64ch; }

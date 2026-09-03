@@ -30,10 +30,11 @@ Edit a file, save, refresh. There is nothing to compile.
 
 | File           | What it is                                                   |
 | -------------- | ------------------------------------------------------------ |
-| `index.html`   | Home — poster hero, selected work, about, toolkit, closing    |
+| `index.html`   | Home: poster hero, a line, projects, about, how I work        |
 | `work.html`    | All projects, filterable                                      |
 | `project.html` | Case-study template · `project.html?p=<slug>`                 |
 | `about.html`   | About, with the photo gallery                                 |
+| `photobooth.html` | The photographs, on two auto-rolling strips                |
 
 ---
 
@@ -72,7 +73,7 @@ Three faces, all self-hosted in `assets/fonts/`:
 A crayon headline is real text:
 
 ```html
-<h1 class="ct ct--xl">Selected work</h1>
+<h1 class="ct ct--xl">Projects</h1>
 ```
 
 `.ct` clips a crayon hatch texture to the glyphs with `background-clip: text`
@@ -161,9 +162,9 @@ python3 scripts/make_textures.py
 python3 scripts/image_sizes.py
 ```
 
-`make_textures.py` generates `crayon-hatch.png` (the fill inside the display
-type), `paper-fold.jpg` (the folded-sheet ground under the title moments) and
-`paper.png` (the faint tooth on every page). All seamless, all procedural.
+`make_textures.py` generates `paper.png`, the faint tooth on every page, and
+keeps `crayon-hatch.png` around in case the hatched fill is ever wanted again.
+The display type is a solid fill now. Both are seamless and procedural.
 
 ---
 
@@ -269,16 +270,18 @@ pressed. Nothing loops, nothing parallaxes, and all of it stops under
 assets/css/tokens.css   colour, type scale, spacing, sizing
 assets/css/fonts.css    self-hosted @font-face
 assets/css/base.css     reset, typography, poster, nav, closing, primitives
-assets/css/site.css     page sections — hero, work, toolkit, about
+assets/css/site.css     page sections: hero, projects, process, about
+assets/css/booth.css    the photo booth rolls
 assets/css/case.css     the case-study template
 assets/css/mocks.css    the Disney Store screens, rebuilt in markup
 
 assets/js/crayon.js      the illustration system + the headline fitter
 assets/js/crayon-ratio.js  generated — intrinsic sizes of the crayon assets
 assets/js/img-sizes.js     generated — intrinsic sizes of the screenshots
-assets/js/data.js        every project, the toolkit and the About gallery
+assets/js/data.js        every project, the process, the toolkit and the photos
 assets/js/common.js      nav, closing panel, scroll reveals
-assets/js/home.js        selected-work rows and the toolkit composition
+assets/js/home.js        project rows, the process strip and the toolkit
+assets/js/booth.js       the photo booth rolls
 assets/js/work.js        the filterable index
 assets/js/project.js     the case-study renderer
 

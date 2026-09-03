@@ -49,6 +49,7 @@ function mountChrome() {
       '<nav class="nav__links" aria-label="Primary">' +
         link('work.html',  'Work',    'work') +
         link('about.html', 'About',   'about') +
+        link('photobooth.html', 'Photo booth', 'booth') +
         link('mailto:' + SITE.mail, 'Contact', 'contact') +
       '</nav>';
 

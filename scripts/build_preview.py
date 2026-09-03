@@ -21,6 +21,7 @@ PAGES = [
     ("home",    "index.html"),
     ("work",    "work.html"),
     ("about",   "about.html"),
+    ("booth",   "photobooth.html"),
     ("p/tdk-invensense", "project.html?p=tdk-invensense"),
     ("p/disney-store",   "project.html?p=disney-store"),
     ("p/pregnancy-app",  "project.html?p=pregnancy-app"),
@@ -109,7 +110,8 @@ def render():
 # --------------------------------------------------------------------------
 
 ROUTES = {"index.html": "#/home", "work.html": "#/work",
-          "about.html": "#/about"}
+          "about.html": "#/about",
+          "photobooth.html": "#/booth"}
 
 
 def swap_assets(text, assets):
@@ -137,6 +139,31 @@ def swap_links(html):
     html = re.sub(r'href="project\.html\?p=([a-z0-9-]+)"',
                   r'href="#/p/\1"', html)
     return html
+
+
+def dedupe_images(doc):
+    """Each photo appears several times in the rolls. Inlining every copy as
+    its own data URI is what pushed the bundle past 15 MB, so emit each image
+    once into a lookup and let a line of script hand it back out."""
+    uris = re.findall(r'src="(data:image/[^"]+)"', doc)
+    if not uris:
+        return doc
+    order, seen = [], {}
+    for u in uris:
+        if u not in seen:
+            seen[u] = "i%d" % len(order)
+            order.append(u)
+    if len(uris) == len(order):
+        return doc                      # nothing repeats, leave it alone
+
+    doc = re.sub(r'src="(data:image/[^"]+)"',
+                 lambda m: 'data-img="%s"' % seen[m.group(1)], doc)
+    table = "{" + ",".join('"%s":"%s"' % (seen[u], u) for u in order) + "}"
+    loader = ("<script>(function(){var M=" + table + ";"
+              "document.querySelectorAll('[data-img]').forEach(function(e){"
+              "e.src=M[e.getAttribute('data-img')];});})();</script>")
+    # at the very end, so the closing panel below </main> is parsed by then
+    return doc + "\n" + loader
 
 
 def build(out_path):
@@ -168,6 +195,7 @@ def build(out_path):
                   .replace("__PAGES__", pages_html) \
                   .replace("__FOOT__", foot)
     doc = swap_assets(doc, assets)
+    doc = dedupe_images(doc)
 
     with open(out_path, "w") as f:
         f.write(doc)

@@ -41,6 +41,7 @@
   --t--1:  clamp(0.80rem, 0.78rem + 0.10vw, 0.86rem);
   --t-0:   clamp(0.98rem, 0.95rem + 0.16vw, 1.07rem);
   --t-1:   clamp(1.09rem, 1.03rem + 0.28vw, 1.28rem);
+  --t-lede:clamp(1.02rem, 0.97rem + 0.22vw, 1.18rem);  /* supporting copy under a heading */
   --t-2:   clamp(1.28rem, 1.17rem + 0.52vw, 1.66rem);
   --t-3:   clamp(1.55rem, 1.33rem + 1.02vw, 2.30rem);
   --t-4:   clamp(1.95rem, 1.52rem + 1.98vw, 3.40rem);
