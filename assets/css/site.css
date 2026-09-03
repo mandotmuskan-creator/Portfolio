@@ -67,15 +67,26 @@
 /* Both columns start on the same line. Baseline alignment reads as wrong
    here, because the larger supporting line then sits 7px above the eyebrow;
    what has to match is the top of the type, not the baseline. */
+/* The same two columns as a project row, with the same gap and the same
+   breakpoint. As a flex row with space-between, the supporting line's left
+   edge floated with its own width and never lined up with the project text
+   underneath it. */
 .shead {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: var(--s-4);
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(24px, 4.4vw, 68px);
+  align-items: start;
   margin-bottom: var(--s-6);
 }
 .shead__l { position: relative; max-width: 27rem; }
+
+/* a centred head, for sections with nothing in the right column */
+.shead--center { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+.shead--center .shead__l { max-width: 34rem; }
+
+@media (max-width: 880px) {
+  .shead { grid-template-columns: 1fr; gap: var(--s-4); }
+}
 /* The display face carries less optical weight than Inter Bold at the same
    pixel size, so a section heading needs a little more than the items under
    it, not the same. */
@@ -89,7 +100,7 @@
   top: 1.7em;
   width: clamp(20px, 2.4vw, 32px);
 }
-.shead .lede { max-width: 42ch; }
+.shead .lede { max-width: none; }
 
 @media (max-width: 760px) {
   .shead__star { display: none; }
