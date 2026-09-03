@@ -90,7 +90,7 @@
 }
 
 /* =========================================================
-   3 · SELECTED WORK — the projects, as real UI
+   3 · PROJECTS, as real UI
    ========================================================= */
 
 .projects { display: grid; gap: var(--s-8); }

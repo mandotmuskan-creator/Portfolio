@@ -1,5 +1,5 @@
 /* =========================================================
-   home.js, Selected Work rows, the process strip and the toolkit.
+   home.js, the project rows, the process strip and the toolkit.
 
    The decoration around each project deliberately differs:
    the system is shared, the composition is not.
