@@ -647,7 +647,6 @@ a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px 
 .growing {
   margin-top: var(--s-7);
   padding-top: var(--s-5);
-  border-top: 1px solid var(--rule);
   max-width: 62ch;
 }
 .growing h3 { font-size: var(--t-2); font-weight: 700; letter-spacing: -.025em; }
@@ -658,7 +657,6 @@ a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px 
 .tools {
   margin-top: var(--s-6);
   padding-top: var(--s-4);
-  border-top: 1px solid var(--rule-soft);
   text-align: center;
   font-size: var(--t--1);
   color: var(--ink-faint);
