@@ -350,22 +350,16 @@ const PROJECTS = [
           'The redesign ran to more than thirty screens across the site, at three breakpoints each. What is shown from here on is a handful of the templates that carry the most of the thinking: the homepage, the two application layouts, product detail and the developer community. The whole thing is on the live site, linked at the end.'
         ]
       },
-      { kind: 'full', src: 'assets/img/projects/tdk/wf-home.webp', caption: 'Homepage wireframe: hero, proof, application discovery, role selection, sensor selector', frame: 'plain', long: true },
       {
-        kind: 'duo',
+        kind: 'grid',
+        note: 'The five templates the rest of the site was built from. Each tile scrolls; the pages are far taller than a row can show.',
         items: [
+          { src: 'assets/img/projects/tdk/wf-home.webp', caption: 'Homepage: hero, proof, application discovery, role selection, sensor selector' },
           { src: 'assets/img/projects/tdk/wf-applications.webp', caption: 'Applications landing: highlights, the application grid, product spotlight' },
-          { src: 'assets/img/projects/tdk/wf-application-detail.webp', caption: 'Application detail: one application, its product families and media' }
-        ],
-        long: true
-      },
-      {
-        kind: 'duo',
-        items: [
+          { src: 'assets/img/projects/tdk/wf-application-detail.webp', caption: 'Application detail: one application, its product families and media' },
           { src: 'assets/img/projects/tdk/wf-product.webp', caption: 'Product detail: variants, compare table, applications in action, documentation' },
           { src: 'assets/img/projects/tdk/wf-community.webp', caption: 'Developer community: categories, thread list, solved and pinned states' }
-        ],
-        long: true
+        ]
       },
 
       /* ---------- typography ---------- */
