@@ -82,7 +82,9 @@
 
 /* a centred head, for sections with nothing in the right column */
 .shead--center { grid-template-columns: 1fr; justify-items: center; text-align: center; }
-.shead--center .shead__l { max-width: 34rem; }
+/* Wide enough to hold the longest centred title on one line, so the
+   quiet bands keep the same single-line rhythm as the rest. */
+.shead--center .shead__l { max-width: 54rem; }
 
 @media (max-width: 880px) {
   .shead { grid-template-columns: 1fr; gap: var(--s-4); }
@@ -252,9 +254,9 @@
    last row stays centred at every width, and hairlines top and bottom so
    the roster reads as one quiet band between two sections.
 
-   The marks are held back to grey at rest. Ten brand palettes at full
-   strength would out-shout the work above them; colour returns on hover
-   and on keyboard focus. */
+   Every mark keeps its own colour. That puts ten palettes on one line, so
+   the balance is carried by size instead: see the `w` numbers in data.js,
+   which are tuned by optical weight rather than a shared cap height. */
 
 .clients {
   display: flex;
@@ -276,12 +278,7 @@
   display: block;
   width: 100%;
   height: auto;
-  filter: grayscale(1);
-  opacity: .58;
-  transition: filter .3s ease, opacity .3s ease;
 }
-.client:hover img,
-.client:focus-within img { filter: none; opacity: 1; }
 
 /* Fallback for any entry with no artwork yet. */
 .client__name {
@@ -292,9 +289,6 @@
   color: var(--ink-soft);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .client img { transition: none; }
-}
 
 /* =========================================================
    4b · HOW I WORK, the process strip
