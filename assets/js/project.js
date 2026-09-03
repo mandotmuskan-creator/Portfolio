@@ -34,6 +34,30 @@
       '"' + dims(P.cover) + ' alt="' + E(P.title + ', ' + P.category) + '" decoding="async"></figure>';
   }
 
+  /* No screenshot is ever drawn larger than the file behind it, which is
+     what was pixelating the phone screens. Phone artwork is capped at a
+     phone's own width: it was exported at 2x, so drawing it at 390 gives a
+     retina screen a true 2x image and everyone else a phone-sized phone. */
+  var PHONE_CAP = 390;
+  function capWidth(src, device) {
+    var d = (window.IMG_SIZES || {})[src];
+    var natural = d ? d[0] : 0;
+    if (device === 'mobile') return Math.min(PHONE_CAP, natural || PHONE_CAP);
+    return natural || 0;
+  }
+  function capStyle(src, device) {
+    var w = capWidth(src, device);
+    return w ? ' style="--shotw:' + w + 'px"' : '';
+  }
+
+  /* Two screens side by side get columns in proportion to the artwork, so a
+     phone next to a desktop reads as a phone rather than as an equal half. */
+  function duoCols(items) {
+    var ws = items.map(function (it) { return capWidth(it.src, it.device); });
+    if (ws.length !== 2 || ws.some(function (w) { return !w; })) return '';
+    return ' style="--cols:' + ws[0] + 'fr ' + ws[1] + 'fr"';
+  }
+
   /* A tall screenshot sits in a scroll box. That box has to be reachable
      from the keyboard, or everything below the fold of it is mouse-only. */
   function scrollable(isLong, label) {
@@ -158,9 +182,10 @@
     },
 
     full: function (b) {
-      return '<figure class="blk reveal">' +
+      return '<figure class="blk' + (b.device === 'mobile' ? ' blk--phone' : '') + ' reveal">' +
         '<div class="shot' + (b.frame === 'plain' ? ' shot--plain' : '') +
-          (b.long ? ' shot--long' : '') + '"' + scrollable(b.long, b.caption) + '>' +
+          (b.long ? ' shot--long' : '') + '"' + capStyle(b.src, b.device) +
+          scrollable(b.long, b.caption) + '>' +
           '<img src="' + b.src + '"' + dims(b.src) + ' alt="' + E(b.caption || '') + '" loading="lazy" decoding="async">' +
         '</div>' +
         (b.caption ? '<figcaption>' + E(b.caption) + '</figcaption>' : '') +
@@ -168,9 +193,10 @@
     },
 
     duo: function (b) {
-      return '<section class="blk duo reveal">' + (b.items || []).map(function (it) {
+      return '<section class="blk duo reveal"' + duoCols(b.items || []) + '>' +
+        (b.items || []).map(function (it) {
         return '<figure><div class="shot' + (b.long ? ' shot--long' : '') + '"' +
-          scrollable(b.long, it.caption) + '>' +
+          capStyle(it.src, it.device) + scrollable(b.long, it.caption) + '>' +
           '<img src="' + it.src + '"' + dims(it.src) + ' alt="' + E(it.caption || '') + '" loading="lazy" decoding="async">' +
           '</div><figcaption>' + E(it.caption || '') + '</figcaption></figure>';
       }).join('') + '</section>';

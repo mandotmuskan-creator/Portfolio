@@ -226,7 +226,11 @@
 }
 
 /* imagery */
+/* --shotw is the artwork's own width, set per image by project.js. A
+   screenshot drawn wider than its file is just a blurry screenshot. */
 .shot {
+  max-width: var(--shotw, none);
+  margin-inline: auto;
   margin: 0;
   border-radius: var(--r);
   overflow: hidden;
@@ -245,7 +249,23 @@ figure > figcaption,
   font-size: var(--t--1);
   color: var(--ink-faint);
 }
-.duo { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: var(--s-4); }
+/* A lone phone screen is far narrower than the column it sits in, so it
+   and its caption centre together rather than stranding the caption
+   against a wall of white. */
+.blk--phone { display: grid; justify-items: center; }
+.blk--phone > figcaption { text-align: center; max-width: 46ch; }
+
+/* --cols is set from the two images' widths, so a phone beside a desktop
+   gets a phone's share of the row. Below 700 they stack regardless. */
+.duo {
+  display: grid;
+  grid-template-columns: var(--cols, repeat(auto-fit, minmax(min(100%, 280px), 1fr)));
+  gap: var(--s-4);
+  align-items: start;
+}
+@media (max-width: 700px) {
+  .duo { grid-template-columns: 1fr; }
+}
 .phones { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--s-5); }
 .phone { width: min(280px, 60vw); }
 .phone__frame {

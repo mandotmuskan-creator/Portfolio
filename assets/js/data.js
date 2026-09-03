@@ -342,9 +342,12 @@ const PROJECTS = [
       {
         kind: 'text',
         title: 'Wireframes: structure before surface',
+        note: 'What follows is a selection, not the set.',
+        noteArt: 'arrow-loop',
         body: [
           'Every page was resolved in greyscale first. No colour, no photography, no brand: just the order of the information and the weight each block carries. It is much easier to argue about whether the stats band should sit above the applications grid when nothing on the page is pretty enough to defend on other grounds.',
-          'These went through several rounds with the client and through usability testing before a single colour was applied.'
+          'These went through several rounds with the client and through usability testing before a single colour was applied.',
+          'The redesign ran to more than thirty screens across the site, at three breakpoints each. What is shown from here on is a handful of the templates that carry the most of the thinking: the homepage, the two application layouts, product detail and the developer community. The whole thing is on the live site, linked at the end.'
         ]
       },
       { kind: 'full', src: 'assets/img/projects/tdk/wf-home.webp', caption: 'Homepage wireframe: hero, proof, application discovery, role selection, sensor selector', frame: 'plain', long: true },
@@ -369,14 +372,14 @@ const PROJECTS = [
       {
         kind: 'typescale',
         title: 'Typography',
-        note: 'Two grotesques from the TDK brand set: a geometric face for display, a neutral one for text. The sizes below are the desktop scale as it shipped, at 1440. Specimens here are set in the portfolio’s own fallback stack, so what you are judging is the scale and the weight relationships, not the letterforms.',
+        note: 'Two faces. Obvia Expanded carries the headings: a wide geometric with enough character to hold a page that is otherwise all specification. Noto Sans does everything that has to be read rather than scanned, and it covers the scripts a global catalogue needs. Sizes below are the desktop scale as it shipped, at 1440. The specimens are set in the portfolio’s own stack, so what you are judging here is the scale and the weight relationships, not the letterforms.',
         items: [
-          { role: 'Display', spec: '44 / 56 · 600', px: 44, weight: 600, lh: 1.25, sample: 'Applications powered by smart sensors' },
-          { role: 'Section heading', spec: '30 / 40 · 700', px: 30, weight: 700, lh: 1.3, sample: 'Driving measurable success' },
-          { role: 'Sub heading', spec: '20 / 28 · 700', px: 20, weight: 700, lh: 1.35, sample: 'Product spotlight' },
-          { role: 'Card title', spec: '16 / 24 · 700', px: 16, weight: 700, lh: 1.4, sample: 'InvenSense ICM-42688-P' },
-          { role: 'Body', spec: '14 / 22 · 400', px: 14, weight: 400, lh: 1.6, sample: 'A six-axis MEMS motion sensor family with the world’s first BalancedGyro technology and lowest power consumption.' },
-          { role: 'Label and chip', spec: '12 / 16 · 600', px: 12, weight: 600, lh: 1.4, sample: 'Recommended sensors' }
+          { role: 'Display', spec: 'Obvia Expanded · 44 / 56 · 600', px: 44, weight: 600, lh: 1.25, sample: 'Applications powered by smart sensors' },
+          { role: 'Section heading', spec: 'Obvia Expanded · 30 / 40 · 700', px: 30, weight: 700, lh: 1.3, sample: 'Driving measurable success' },
+          { role: 'Sub heading', spec: 'Obvia Expanded · 20 / 28 · 700', px: 20, weight: 700, lh: 1.35, sample: 'Product spotlight' },
+          { role: 'Card title', spec: 'Noto Sans · 16 / 24 · 700', px: 16, weight: 700, lh: 1.4, sample: 'InvenSense ICM-42688-P' },
+          { role: 'Body', spec: 'Noto Sans · 14 / 22 · 400', px: 14, weight: 400, lh: 1.6, sample: 'A six-axis MEMS motion sensor family with the world’s first BalancedGyro technology and lowest power consumption.' },
+          { role: 'Label and chip', spec: 'Noto Sans · 12 / 16 · 600', px: 12, weight: 600, lh: 1.4, sample: 'Recommended sensors' }
         ]
       },
       {
@@ -485,7 +488,7 @@ const PROJECTS = [
         kind: 'duo',
         items: [
           { src: 'assets/img/projects/tdk/ui-applications-desktop.webp', caption: 'Applications landing at 1440' },
-          { src: 'assets/img/projects/tdk/ui-applications-mobile.webp', caption: 'The same page at 375: grid becomes carousel, buttons go full width' }
+          { src: 'assets/img/projects/tdk/ui-applications-mobile.webp', device: 'mobile', caption: 'The same page at 375: grid becomes carousel, buttons go full width' }
         ],
         long: true
       },
@@ -493,7 +496,7 @@ const PROJECTS = [
         kind: 'duo',
         items: [
           { src: 'assets/img/projects/tdk/ui-application-detail-desktop.webp', caption: 'Application detail at 1440: one application, end to end' },
-          { src: 'assets/img/projects/tdk/ui-application-detail-mobile.webp', caption: 'Application detail at 375' }
+          { src: 'assets/img/projects/tdk/ui-application-detail-mobile.webp', device: 'mobile', caption: 'Application detail at 375' }
         ],
         long: true
       },
@@ -501,11 +504,11 @@ const PROJECTS = [
         kind: 'duo',
         items: [
           { src: 'assets/img/projects/tdk/ui-community-desktop.webp', caption: 'Developer community at 1440: filter rail, thread list, solved state' },
-          { src: 'assets/img/projects/tdk/ui-community-mobile.webp', caption: 'Community at 375: the rail collapses into a filter control' }
+          { src: 'assets/img/projects/tdk/ui-community-mobile.webp', device: 'mobile', caption: 'Community at 375: the rail collapses into a filter control' }
         ],
         long: true
       },
-      { kind: 'full', src: 'assets/img/projects/tdk/ui-product-mobile.webp', caption: 'Product detail at 375: variants, specs, features, documentation and support, in one scroll', frame: 'plain', long: true },
+      { kind: 'full', src: 'assets/img/projects/tdk/ui-product-mobile.webp', device: 'mobile', caption: 'Product detail at 375: variants, specs, features, documentation and support, in one scroll', long: true },
 
       /* ---------- decisions ---------- */
       {
@@ -524,7 +527,7 @@ const PROJECTS = [
       {
         kind: 'stats',
         items: [
-          { figure: '5', label: 'templates redesigned end to end' },
+          { figure: '30+', label: 'screens designed across the site' },
           { figure: '3', label: 'breakpoints drawn, not derived' },
           { figure: '8', label: 'months, delivered ahead of schedule' }
         ]
@@ -536,7 +539,7 @@ const PROJECTS = [
         kind: 'live',
         eyebrow: 'It shipped',
         title: 'See it in the wild',
-        body: 'The redesign is live. The structure, the component library and the responsive behaviour described above are all running in production.',
+        body: 'The redesign is live, and it is the only place to see all of it. This case study shows a handful of templates out of more than thirty screens; the structure, the component library and the responsive behaviour described above are all running in production.',
         label: 'Open invensense.tdk.com',
         href: 'https://www.invensense.tdk.com/en-us'
       }
