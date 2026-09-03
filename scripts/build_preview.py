@@ -200,7 +200,7 @@ def build(out_path):
     print("%s — %.2f MB" % (out_path, os.path.getsize(out_path) / 1e6))
 
 
-TEMPLATE = r"""<title>Muskan Mandot Portfolio</title>
+TEMPLATE = r"""<title>Muskan Mandot · Product Designer</title>
 <meta name="description" content="A white editorial design portfolio with a hand-drawn crayon illustration system.">
 <style>
 __CSS__
@@ -326,7 +326,7 @@ __FOOT__
 
     var live = pages.filter(function (p) { return !p.hidden; })[0];
     if (live) { fitWords(live); reveals(live); }
-    document.title = 'Muskan Mandot Portfolio';
+    document.title = 'Muskan Mandot · Product Designer';
   }
 
   addEventListener('hashchange', function () { route(); scrollTo(0, 0); });
