@@ -119,7 +119,7 @@
    sits closer to the last project and closer to the rule below, so the two
    sections read as neighbours instead of drifting apart. */
 .work__more { margin-top: var(--s-6); text-align: center; }
-#work { padding-bottom: var(--s-6); }
+#work { padding-bottom: var(--s-5); }
 
 .proj {
   position: relative;
@@ -271,8 +271,8 @@
 /* The roster belongs to the work above it, so it sits closer than a
    standalone band would: half the air of a normal section, and the
    heading held near the marks it introduces. */
-.band--clients { padding-block: var(--s-6); }
-.band--clients .shead { margin-bottom: var(--s-5); }
+.band--clients { padding-block: var(--s-5) var(--s-6); }
+.band--clients .shead { margin-bottom: clamp(48px, 4.6vw, 72px); }
 
 .clients {
   display: flex;
@@ -556,7 +556,12 @@ a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px 
 /* The display face again, but in sentence case, smaller than a section
    title and in the character's hair colour, so the two never read as the
    same thing. */
-.pull { position: relative; max-width: 44rem; margin-inline: auto; text-align: center; }
+.pull { position: relative; max-width: 54rem; margin-inline: auto; text-align: center; }
+
+/* The line is written as two sentences and reads as two lines, so the
+   break is set rather than left to the measure. Each half still wraps on
+   its own when the screen is too narrow to hold it. */
+.pull__line { display: block; }
 .pull p {
   font-family: var(--f-display);
   font-weight: 400;
