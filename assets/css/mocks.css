@@ -37,10 +37,10 @@
 /* the wordmark, set rather than imaged */
 .mk-dsw { display: inline-block; color: var(--d-blue-dk); white-space: nowrap; }
 .mk-dsw em {
-  font-family: var(--f-hand);
+  font-family: var(--f-display);
   font-style: normal;
-  font-weight: 700;
-  font-size: 1.9em;
+  font-weight: 400;
+  font-size: 1.5em;
   letter-spacing: -.02em;
   margin-right: .12em;
   vertical-align: -.08em;

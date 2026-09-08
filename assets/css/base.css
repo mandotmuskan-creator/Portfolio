@@ -116,10 +116,10 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .body p { color: var(--ink-soft); max-width: 68ch; }
 
 .hand {
-  font-family: var(--f-hand);
-  font-weight: 700;
-  font-size: clamp(1.15rem, 1.5vw, 1.5rem);
-  line-height: 1.25;
+  font-family: var(--f-display);
+  font-weight: 400;
+  font-size: clamp(1rem, 1.25vw, 1.25rem);
+  line-height: 1.3;
   color: var(--blue);
 }
 .hand--red { color: var(--red); }
@@ -337,10 +337,10 @@ a:focus-visible .mark > img {
   max-width: 30ch;
 }
 .note__text {
-  font-family: var(--f-hand);
-  font-weight: 700;
-  font-size: clamp(1.05rem, 1.35vw, 1.35rem);
-  line-height: 1.22;
+  font-family: var(--f-display);
+  font-weight: 400;
+  font-size: clamp(.92rem, 1.1vw, 1.12rem);
+  line-height: 1.3;
   color: var(--blue);
 }
 .note--red .note__text { color: var(--red); }

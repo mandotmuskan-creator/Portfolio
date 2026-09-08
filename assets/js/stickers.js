@@ -20,14 +20,17 @@
       host.className = 'stickers stickers--empty';
       host.innerHTML =
         '<li class="stickers__soon reveal">' +
-          '<p class="stickers__soonTitle">Being scanned in</p>' +
-          '<p class="stickers__soonBody">The drawings exist. Getting them off ' +
-            'paper and onto this page is the part I keep putting off.</p>' +
+          '<p class="stickers__soonTitle">Currently in the sticker factory</p>' +
+          '<p class="stickers__soonBody">They exist. They are just not here yet. ' +
+            'Turns out I will happily make forty of these and then completely ' +
+            'forget to put them anywhere.</p>' +
+          '<p class="stickers__soonKicker">Back soon, probably with too many.</p>' +
         '</li>';
       mountReveals(host);
       return;
     }
 
+    host.className = 'stickers';
     host.innerHTML = list.map(function (s, i) {
       /* A repeating set of small angles, so the grid looks placed by hand
          without any one sticker being knocked far enough to look wrong. */

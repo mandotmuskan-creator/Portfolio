@@ -22,10 +22,21 @@
   }
 
   /* The client's own mark, where the work was for a brand with one. A
-     private client gets nothing here rather than a placeholder. */
+     private client gets nothing here rather than a placeholder.
+
+     Sized from the same optical widths the roster uses, so a nine-to-one
+     wordmark and a three-to-one script carry equal weight instead of the
+     wide one looking twice the size. One source of truth: the `w` in
+     CLIENTS, scaled down for this smaller context. */
+  var MARK_SCALE = 0.72;
+
   function clientMark(p) {
     if (!p.clientLogo) return '';
-    return '<p class="proj__client">' +
+    var entry = (window.CLIENTS || []).filter(function (c) {
+      return c.logo === p.clientLogo;
+    })[0];
+    var w = entry && entry.w ? Math.round(entry.w * MARK_SCALE) : 108;
+    return '<p class="proj__client" style="--markw:' + w + 'px">' +
       '<img src="' + p.clientLogo + '" alt="' + escapeHtml(p.client) +
       '" loading="lazy" decoding="async"></p>';
   }

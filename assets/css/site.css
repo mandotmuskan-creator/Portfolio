@@ -169,19 +169,19 @@
 }
 .proj__no .ca { width: clamp(18px, 2vw, 26px); }
 
-/* The client's mark, sized by height so a wide wordmark and a square
-   lockup carry the same weight above the title. */
-.proj__client { margin-top: var(--s-3); }
+/* The client's mark. Width, not height, is the knob: matching heights
+   made the wide TDK wordmark read as twice the size of the Disney one.
+   --markw comes from the roster's optical widths, set per row by home.js.
+   Room below it too, so it is not sitting on the title. */
+.proj__client { margin-top: var(--s-3); margin-bottom: var(--s-4); }
 .proj__client img {
-  height: clamp(20px, 2.1vw, 27px);
-  width: auto;
-  max-width: 60%;
-  object-fit: contain;
-  object-position: left center;
+  width: var(--markw, 108px);
+  max-width: 55%;
+  height: auto;
 }
 
 .proj__title {
-  margin-top: .22em;
+  margin-top: 0;
   font-size: var(--t-3);
   font-weight: 700;
   letter-spacing: -.03em;
@@ -896,6 +896,15 @@ a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px 
   line-height: 1.6;
   color: var(--ink-soft);
 }
+.stickers__soonKicker {
+  margin-top: var(--s-3);
+  font-family: var(--f-display);
+  font-size: var(--t--1);
+  color: var(--red-ink);
+}
+
+/* the aside under the lede, in the display face like every other aside */
+.stickers__aside { margin-top: var(--s-4); }
 
 @media (prefers-reduced-motion: reduce) {
   .sticker__tile { transition: none; }
