@@ -31,23 +31,31 @@
 .hero__word { color: var(--red-ink); }
 .hero__stage .poster__star { right: -1.6em; top: -1.4em; }
 
-/* A slow sway on the face over the word: a few pixels of drift and about a
-   degree of tilt, on a nine second cycle. It runs on `translate` and
-   `rotate` rather than `transform`, which already carries the centring and
-   the resting angle, so the two compose instead of fighting. */
+/* A gentle nod on the artwork over the word. Two things matter here and
+   the first version got both wrong.
+
+   Speed: at nine seconds the movement sat below the rate at which an eye
+   reads motion as rhythm, so it kept trying to track it instead of
+   settling. Four seconds is slow enough to be calm and quick enough to be
+   legible, which is what makes it restful rather than nagging.
+
+   Path: it rises and falls on one axis with the tilt tied to the same
+   phase, rather than wandering a figure of eight. A predictable path is
+   one the eye can learn in a cycle and then ignore.
+
+   It runs on `translate` and `rotate` rather than `transform`, which
+   already carries the centring and the resting angle, so the two compose
+   instead of fighting. */
 @keyframes heroSway {
-  0%   { translate: 0 0;        rotate: 0deg; }
-  25%  { translate: -2px -4px;  rotate: -0.6deg; }
-  50%  { translate: 0 -7px;     rotate: 0deg; }
-  75%  { translate: 2px -4px;   rotate: 0.6deg; }
-  100% { translate: 0 0;        rotate: 0deg; }
+  0%, 100% { translate: 0 0;    rotate: -0.5deg; }
+  50%      { translate: 0 -9px; rotate: 0.5deg; }
 }
 .hero__stage .poster__face,
-.stkhero__stage .poster__face { animation: heroSway 9s ease-in-out infinite; }
+.stkhero__stage .poster__face { animation: heroSway 4s ease-in-out infinite; }
 
-/* the star is offset in the cycle, so the two heroes are not in lockstep
-   for anyone flipping between the pages */
-.stkhero__stage .poster__face { animation-delay: -3.4s; }
+/* the star runs a little quicker and offset, so the two heroes are not in
+   lockstep for anyone flipping between the pages */
+.stkhero__stage .poster__face { animation-duration: 3.6s; animation-delay: -1.3s; }
 
 @media (prefers-reduced-motion: reduce) {
   .hero__stage .poster__face,
