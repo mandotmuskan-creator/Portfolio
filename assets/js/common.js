@@ -86,7 +86,7 @@ function mountChrome() {
         '<div class="foot__meta">' +
           '<span>© ' + new Date().getFullYear() + ' ' + SITE.name + ' · ' + SITE.role + '</span>' +
           '<span>Pune, India</span>' +
-          '<span class="hand hand--ink">drawn by hand ✎</span>' +
+          '<span class="hand hand--ink">made on chai</span>' +
         '</div>' +
       '</div>';
   }

@@ -705,14 +705,94 @@ const PROJECTS = [
 /* =========================================================
    STICKERS, the collection on /stickers.
 
-   Drop cut-outs (PNG or WebP with a transparent ground) into
-   assets/img/stickers/ and add a line each. `name` is optional;
-   `alt` describes the drawing for anyone who cannot see it.
-   With the array empty the page shows a holding note instead.
+   Cut out one by one from the sheets Muskan supplied: each sheet was
+   labelled by connected component on the alpha channel and every piece
+   saved on its own, so the page can shuffle them rather than showing
+   sheets. `alt` is what the sticker says or shows, for anyone who cannot
+   see it.
    ========================================================= */
 
 const STICKERS = [
-  // { src: 'assets/img/stickers/example.webp', name: 'Chai cup', alt: 'A cutting chai glass with steam' }
+  { src: 'assets/img/stickers/s1_01.webp', alt: "Smiling" },
+  { src: 'assets/img/stickers/s1_02.webp', alt: "Surprised" },
+  { src: 'assets/img/stickers/s1_03.webp', alt: "Laughing" },
+  { src: 'assets/img/stickers/s1_04.webp', alt: "Yawning" },
+  { src: 'assets/img/stickers/s1_05.webp', alt: "Thinking" },
+  { src: 'assets/img/stickers/s1_06.webp', alt: "Content" },
+  { src: 'assets/img/stickers/s1_07.webp', alt: "Annoyed" },
+  { src: 'assets/img/stickers/s1_08.webp', alt: "Blushing" },
+  { src: 'assets/img/stickers/s1_09.webp', alt: "Fed up" },
+  { src: 'assets/img/stickers/s1_10.webp', alt: "Mujhe nahi karna kaam!" },
+  { src: 'assets/img/stickers/s1_11.webp', alt: "Overwhelmed" },
+  { src: 'assets/img/stickers/s1_12.webp', alt: "Star eyes" },
+  { src: 'assets/img/stickers/s2_01.webp', alt: "Sab theek ho jayega" },
+  { src: 'assets/img/stickers/s2_02.webp', alt: "Life is great" },
+  { src: 'assets/img/stickers/s2_03.webp', alt: "Mujhe nahi karna kaam" },
+  { src: 'assets/img/stickers/s2_04.webp', alt: "One step at a time" },
+  { src: 'assets/img/stickers/s2_05.webp', alt: "All good yaar" },
+  { src: 'assets/img/stickers/s2_06.webp', alt: "Thoda sa break?" },
+  { src: 'assets/img/stickers/s2_07.webp', alt: "Soft but strong" },
+  { src: 'assets/img/stickers/s2_08.webp', alt: "Let’s do this" },
+  { src: 'assets/img/stickers/s2_09.webp', alt: "Designing through it" },
+  { src: 'assets/img/stickers/s2_10.webp', alt: "Take it easy" },
+  { src: 'assets/img/stickers/s3_01.webp', alt: "Plant and flower" },
+  { src: 'assets/img/stickers/s3_02.webp', alt: "Smiling daisy" },
+  { src: 'assets/img/stickers/s3_03.webp', alt: "Red heart" },
+  { src: 'assets/img/stickers/s3_04.webp', alt: "Cup of chai" },
+  { src: 'assets/img/stickers/s3_05.webp', alt: "Smiling star" },
+  { src: 'assets/img/stickers/s3_06.webp', alt: "Sparkles" },
+  { src: 'assets/img/stickers/s3_07.webp', alt: "Laptop with a heart" },
+  { src: 'assets/img/stickers/s3_08.webp', alt: "Red marker" },
+  { src: 'assets/img/stickers/s3_09.webp', alt: "Pencil" },
+  { src: 'assets/img/stickers/s3_10.webp', alt: "Sketchbook" },
+  { src: 'assets/img/stickers/s3_11.webp', alt: "Sticky note" },
+  { src: 'assets/img/stickers/s3_12.webp', alt: "Curly arrow" },
+  { src: 'assets/img/stickers/s3_13.webp', alt: "Underline" },
+  { src: 'assets/img/stickers/s4_01.webp', alt: "Mujhe nahi kaam karna" },
+  { src: 'assets/img/stickers/s4_02.webp', alt: "Trust me" },
+  { src: 'assets/img/stickers/s4_03.webp', alt: "Sab theek ho jayega" },
+  { src: 'assets/img/stickers/s4_04.webp', alt: "Trust the process" },
+  { src: 'assets/img/stickers/s4_05.webp', alt: "All good yaar" },
+  { src: 'assets/img/stickers/s4_06.webp', alt: "Itne mein itna hi hoga" },
+  { src: 'assets/img/stickers/s4_07.webp', alt: "Take it easy" },
+  { src: 'assets/img/stickers/s4_08.webp', alt: "You got this" },
+  { src: 'assets/img/stickers/s4_09.webp', alt: "Let’s do this" },
+  { src: 'assets/img/stickers/s5_01.webp', alt: "Sab theek ho jayega" },
+  { src: 'assets/img/stickers/s5_02.webp', alt: "Mujhe nahi kaam karna" },
+  { src: 'assets/img/stickers/s5_03.webp', alt: "Trust me" },
+  { src: 'assets/img/stickers/s5_04.webp', alt: "Trust the process" },
+  { src: 'assets/img/stickers/s5_05.webp', alt: "\u092e\u0941\u091d\u0947 \u0930\u094b\u0928\u093e \u0906 \u0930\u0939\u093e \u0939\u0948" },
+  { src: 'assets/img/stickers/s5_06.webp', alt: "Itne mein itna hi hoga" },
+  { src: 'assets/img/stickers/s5_07.webp', alt: "Take it easy" },
+  { src: 'assets/img/stickers/s5_08.webp', alt: "Let’s do this" },
+  { src: 'assets/img/stickers/s5_09.webp', alt: "\u092e\u0941\u091d\u0938\u0947 \u0928\u0939\u0940\u0902 \u0939\u094b\u0917\u093e" },
+  { src: 'assets/img/stickers/s6_02.webp', alt: "Sab theek ho jayega" },
+  { src: 'assets/img/stickers/s6_03.webp', alt: "Itne mein itna hi hoga" },
+  { src: 'assets/img/stickers/s6_04.webp', alt: "Mujhse nahi hoga" },
+  { src: 'assets/img/stickers/s6_05.webp', alt: "Life is great (\u0915\u092d\u0940 \u0915\u092d\u0940)" },
+  { src: 'assets/img/stickers/s6_06.webp', alt: "Trust the process" },
+  { src: 'assets/img/stickers/s6_09.webp', alt: "UI Design = Problem Solving" },
+  { src: 'assets/img/stickers/s6_10.webp', alt: "Trust me" },
+  { src: 'assets/img/stickers/s6_11.webp', alt: "Small Steps Big Progress" },
+  { src: 'assets/img/stickers/s6_14.webp', alt: "Ctrl + Z (my life)" },
+  { src: 'assets/img/stickers/s6_15.webp', alt: "Still working\u2026" },
+  { src: 'assets/img/stickers/s7_02.webp', alt: "Main zindagi bhar tumhe chalta rahunga\u2026" },
+  { src: 'assets/img/stickers/s7_03.webp', alt: "Just one more iteration\u2026" },
+  { src: 'assets/img/stickers/s7_04.webp', alt: "Aapka kya lena dena?" },
+  { src: 'assets/img/stickers/s7_05.webp', alt: "Itne mein itna hi hoga" },
+  { src: 'assets/img/stickers/s7_06.webp', alt: "Chai > Meetings" },
+  { src: 'assets/img/stickers/s7_07.webp', alt: "Ideas happen everywhere" },
+  { src: 'assets/img/stickers/s7_08.webp', alt: "Trust the Process" },
+  { src: 'assets/img/stickers/s7_09.webp', alt: "It’s done bro." },
+  { src: 'assets/img/stickers/s7_10.webp', alt: "Muskaan in her main character era" },
+  { src: 'assets/img/stickers/s7_12.webp', alt: "Design, Prototype, Overthink, Repeat" },
+  { src: 'assets/img/stickers/s7_13.webp', alt: "UI Design kar rahi hu koi mazak thodi hai" },
+  { src: 'assets/img/stickers/s7_14.webp', alt: "Design Systems" },
+  { src: 'assets/img/stickers/s7_15.webp', alt: "Iced coffee for better ideas" },
+  { src: 'assets/img/stickers/s7_16.webp', alt: "Productivity can wait" },
+  { src: 'assets/img/stickers/s7_17.webp', alt: "Same but different" },
+  { src: 'assets/img/stickers/s7_19.webp', alt: "Muskaan is here!" },
+  { src: 'assets/img/stickers/s7_20.webp', alt: "Mujhse nahi hoga" }
 ];
 
 /* =========================================================
