@@ -22,26 +22,30 @@
 
 <main id="main">
 
-  <!-- ============ the title moment ============ -->
-  <section class="ptitle">
-    <div class="wrap ptitle__stage">
-      <div class="poster ptitle__lead">
-        <p class="eyebrow eyebrow--red reveal">Nobody asked. I made them anyway.</p>
-        <h1 class="ct poster__word ptitle__word reveal" style="--d:1">
-          <span class="ln">Stickers.</span>
-        </h1>
-      </div>
+  <!-- ============ 1 · HERO · the poster moment ============ -->
+  <section class="hero">
+    <div class="poster stkhero__stage">
+      <h1 class="ct poster__word stkhero__word">Stickers</h1>
 
-      <div class="ptitle__side reveal" style="--d:2">
-        <span class="ptitle__star" aria-hidden="true"
-              data-doodle="star-black" data-rot="-7"></span>
-        <img class="ptitle__face" src="assets/img/face/happy.webp"
-             alt="" aria-hidden="true" decoding="async" style="--face-rot:5deg">
+      <!-- the illustration over the word is one of the stickers themselves,
+           not the portrait the rest of the site uses -->
+      <img class="poster__face stkhero__art" src="assets/img/stickers/s1_12.webp"
+           alt="" aria-hidden="true"
+           fetchpriority="high" decoding="async" style="--face-rot:-7deg">
+
+      <div class="poster__id">
+        <span class="poster__star" aria-hidden="true"
+              data-doodle="star-black" data-rot="-8"></span>
+        <p class="poster__name">Nobody asked.</p>
+        <p class="poster__role">I made them anyway.</p>
+        <p class="poster__meta">
+          <span>60 stickers</span><span>free to take</span>
+        </p>
       </div>
     </div>
 
-    <div class="wrap">
-      <p class="lede reveal" style="--d:3">
+    <div class="wrap hero__base stkhero__base">
+      <p class="lede reveal">
         A little corner of the internet where my brain goes,
         “wait… what if I made a sticker for that?”
         Random thoughts. Weird ideas. Tiny obsessions.
@@ -49,22 +53,20 @@
         but now they do.
       </p>
 
-      <p class="hand stickers__aside reveal" style="--d:4">
-        Warning: you might want one.
-      </p>
-
-      <p class="stickers__grab reveal" style="--d:5">
+      <div class="stkhero__grab reveal" style="--d:1">
+        <p class="hand stickers__aside">Warning: you might want one.</p>
         <a class="btn btn--ghost" href="assets/downloads/muskan-stickers.zip"
            download="muskan-stickers.zip">Download the whole pack</a>
-        <span class="stickers__grabNote">80 stickers · 1.7&nbsp;MB · or take them one at a time below</span>
-      </p>
+        <p class="stickers__grabNote">or click any one below to take just that</p>
+      </div>
     </div>
   </section>
 
-  <!-- ============ the collection ============ -->
-  <!-- full bleed: the lanes run edge to edge, not inside the measure -->
+  <!-- ============ 2 · THE WALL · all of them, all at once ============ -->
   <section class="band band--wall">
-    <div class="stickers" id="stickers"><!-- built by stickers.js --></div>
+    <div class="wrap">
+      <div class="stickers" id="stickers"><!-- built by stickers.js --></div>
+    </div>
   </section>
 
 </main>

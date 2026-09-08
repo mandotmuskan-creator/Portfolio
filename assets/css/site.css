@@ -292,6 +292,8 @@
 
 .band--clients { padding-block: var(--s-5) var(--s-6); }
 .band--clients .shead { margin-bottom: var(--s-6); }
+/* a list of logos does not need the full section-heading size */
+.band--clients .shead__title { font-size: clamp(1.55rem, 1.2rem + 1.5vw, 2.6rem); }
 
 .marquee {
   position: relative;
@@ -857,54 +859,82 @@ a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px 
    9 · STICKERS, the collection page
    ========================================================= */
 
-/* Five lanes drifting past at different speeds, alternating direction.
-   Nothing is on a grid and no two neighbours are the same size, so it
-   reads as a sheet somebody has been picking from. */
+/* --- the sticker page's poster hero, on the home page's mechanics --- */
 
-/* The wall follows straight on from the intro; a full section's worth of
+.stkhero__stage {
+  --cap: 15rem;
+  /* Same arrangement as the home hero: artwork left of centre over the
+     word, the caption block clear of it on the right. */
+  --face-x: 31cqw;
+  --face-w: 21cqw;
+  --face-top: 2.2cqw;
+  --id-top: 13cqw;
+  width: calc(100% - var(--gutter) * 2);
+  max-width: none;
+  margin-inline: auto;
+  padding-bottom: 6cqw;
+}
+.stkhero__word { color: var(--red-ink); }
+.stkhero__stage .poster__star { right: -1.5em; top: -1.4em; }
+.stkhero__art { filter: drop-shadow(0 16px 24px rgba(25, 24, 22, .12)); }
+
+.stkhero__base { align-items: flex-start; }
+.stkhero__base .lede { flex: 1 1 30rem; margin: 0; }
+.stkhero__grab { flex: 0 1 21rem; }
+.stkhero__grab .btn { margin-top: var(--s-4); }
+.stkhero__grab .stickers__grabNote { display: block; margin-top: var(--s-3); }
+.stkhero__grab .stickers__aside { margin-top: 0; }
+
+@media (max-width: 900px) {
+  .stkhero__stage { padding-bottom: 0; }
+}
+
+/* The wall follows straight on from the hero; a full section's worth of
    air above it just left a hole. */
-.band--wall { padding-block: var(--s-5) var(--s-7); }
-.stickers { display: grid; gap: clamp(6px, 1vw, 18px); }
+.band--wall { padding-block: var(--s-4) var(--s-8); }
 
-.lane {
-  overflow: hidden;
-  /* the lane fades out rather than being chopped by the viewport edge */
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
-          mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
-}
-.lane__track {
+/* Every sticker is on the page at once, packed rather than gridded:
+   centred flex wrap with sizes and tilts that vary from one to the next,
+   so a row never lines up and the block reads like a sheet somebody has
+   been picking from. */
+
+.stickers {
   display: flex;
-  width: max-content;
-  animation: drift var(--dur, 52s) linear infinite;
-}
-.lane--rev .lane__track { animation-direction: reverse; }
-.lane__run { display: flex; align-items: center; }
-
-@keyframes drift {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(14px, 2vw, 30px);
+  max-width: 74rem;
+  margin-inline: auto;
 }
 
-/* Hovering anywhere on the wall holds everything still, so a sticker that
-   caught someone's eye can actually be looked at. */
-.stickers:hover .lane__track,
-.stickers:focus-within .lane__track { animation-play-state: paused; }
-
-/* Each sticker is a download link. Pointing at one straightens it, lifts
-   it, and shows the arrow, so what you can do with it is obvious without a
-   caption under every single one. */
+/* Each sticker is a download link. Pointing at one holds it still,
+   straightens it, lifts it and shows the arrow, so what you can do with it
+   is obvious without a caption under every single one. */
 .stk {
   position: relative;
   flex: none;
   display: block;
   width: var(--size, 120px);
-  margin-inline: clamp(6px, .8vw, 14px);
   transform: rotate(var(--tilt, 0deg));
-  transition: transform .3s var(--ease);
+  animation: bob var(--bob, 6s) ease-in-out var(--bob-delay, 0s) infinite;
+  transition: transform .28s var(--ease);
 }
 .stk img { width: 100%; height: auto; }
+
+/* The bob rides on the wrapper's own rotation, so a sticker floats without
+   ever losing the angle it was placed at. */
+@keyframes bob {
+  0%, 100% { translate: 0 0; }
+  50%      { translate: 0 -7px; }
+}
+
 .stk:hover,
-.stk:focus-visible { transform: rotate(0deg) scale(1.16); z-index: 2; }
+.stk:focus-visible {
+  transform: rotate(0deg) scale(1.22);
+  animation-play-state: paused;
+  z-index: 3;
+}
 .stk:focus-visible { outline: 2px solid var(--blue); outline-offset: 6px; border-radius: 8px; }
 
 .stk__get {
@@ -936,11 +966,7 @@ a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px 
 .stk:focus-visible .stk__get { opacity: 1; transform: scale(1); }
 
 @media (prefers-reduced-motion: reduce) {
-  /* the lanes stop and become ordinary scrolling strips, so every sticker
-     is still reachable */
-  .lane { overflow-x: auto; }
-  .lane__track { animation: none; }
-  .lane__run[aria-hidden="true"] { display: none; }
+  .stk { animation: none; }
   .stk, .stk:hover, .stk__get { transition: none; }
 }
 
