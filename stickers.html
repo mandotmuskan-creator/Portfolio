@@ -27,24 +27,21 @@
     <div class="poster stkhero__stage">
       <h1 class="ct poster__word stkhero__word">Stickers</h1>
 
-      <!-- the illustration over the word is one of the stickers themselves,
+      <!-- the artwork over the word is one of the stickers themselves,
            not the portrait the rest of the site uses -->
       <img class="poster__face stkhero__art" src="assets/img/stickers/s3_05.webp"
            alt="" aria-hidden="true"
            fetchpriority="high" decoding="async" style="--face-rot:-7deg">
-
-      <!-- no drawn star here: the artwork over the word is already one -->
-      <div class="poster__id stkhero__id">
-        <p class="poster__name">Nobody asked.</p>
-        <p class="poster__role">I made them anyway.</p>
-        <p class="poster__meta">
-          <span>60 stickers</span><span>free to take</span>
-        </p>
-      </div>
     </div>
 
-    <div class="wrap hero__base stkhero__base">
-      <p class="lede reveal">
+    <!-- One column, left aligned, everything under everything else. The
+         two-column arrangement the home page uses needs a right-hand
+         block heavy enough to hold that side; here there was only a
+         caption, and it read as floating. -->
+    <div class="stkhero__intro">
+      <p class="stkhero__kicker reveal">Nobody asked. I made them anyway.</p>
+
+      <p class="lede reveal" style="--d:1">
         A little corner of the internet where my brain goes,
         “wait… what if I made a sticker for that?”
         Random thoughts. Weird ideas. Tiny obsessions.
@@ -52,12 +49,16 @@
         but now they do.
       </p>
 
-      <div class="stkhero__grab reveal" style="--d:1">
-        <p class="hand stickers__aside">Warning: you might want one.</p>
+      <p class="hand stkhero__warn reveal" style="--d:2">Warning: you might want one.</p>
+
+      <p class="stkhero__act reveal" style="--d:3">
         <a class="btn btn--ghost" href="assets/downloads/muskan-stickers.zip"
            download="muskan-stickers.zip">Download the whole pack</a>
-        <p class="stickers__grabNote">or click any one below to take just that</p>
-      </div>
+      </p>
+
+      <p class="stkhero__note reveal" style="--d:4">
+        60 stickers, free to take. Or click any one below for just that.
+      </p>
     </div>
   </section>
 

@@ -861,47 +861,53 @@ a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px 
 
 /* --- the sticker page's poster hero, on the home page's mechanics --- */
 
-/* One width shared by the poster stage and the row under it. The stage is
-   full bleed and the base row was inside the measure, so their right edges
-   did not agree and nothing in the right-hand column lined up. */
-.stkhero__stage,
-.stkhero__base {
+.stkhero__stage {
+  --cap: 15rem;
+  --face-x: 30cqw;        /* the sticker sits over the word, left of centre */
+  --face-w: 15cqw;
+  --face-top: 3cqw;
   width: calc(100% - var(--gutter) * 2);
   max-width: none;
   margin-inline: auto;
-}
-
-.stkhero__stage {
-  --cap: 15rem;
-  /* Same arrangement as the home hero: artwork left of centre over the
-     word, the caption block clear of it on the right. */
-  --face-x: 30cqw;
-  --face-w: 15cqw;
-  --face-top: 3cqw;
-  --id-top: 15cqw;
-  --rail: min(23rem, 32vw);   /* the right-hand column, shared below */
-  padding-bottom: 7cqw;
+  padding-bottom: 4cqw;   /* just enough for the sticker to hang below */
 }
 .stkhero__word { color: var(--red-ink); }
 .stkhero__art { filter: drop-shadow(0 16px 24px rgba(25, 24, 22, .12)); }
-.stkhero__id { width: var(--rail); }
 
-/* The caption block and the download block are the same width, both hard
-   against the right edge, so they share a left edge too. */
-.stkhero__base { align-items: flex-start; }
-.stkhero__base .lede { flex: 1 1 28rem; margin: 0; }
-.stkhero__grab { flex: 0 0 min(23rem, 32vw); }
-.stkhero__grab .btn { margin-top: var(--s-4); }
-.stkhero__grab .stickers__grabNote { display: block; margin-top: var(--s-3); }
-.stkhero__grab .stickers__aside { margin-top: 0; }
+/* One column under the word, left aligned, each part under the last. The
+   home page's two-column hero works because the left side carries a table
+   of facts; here there was only a caption on the right, floating. */
+.stkhero__intro {
+  /* the same edges as the poster stage above it, so the copy starts under
+     the S of the word rather than indented from it */
+  width: calc(100% - var(--gutter) * 2);
+  max-width: none;
+  margin-inline: auto;
+  margin-top: clamp(20px, 3vw, 44px);
+  display: grid;
+  justify-items: start;
+}
+.stkhero__kicker {
+  max-width: 46rem;
+  font-size: clamp(1.15rem, 1.7vw, 1.7rem);
+  font-weight: 700;
+  letter-spacing: -.03em;
+  line-height: 1.15;
+}
+.stkhero__intro .lede { margin-top: var(--s-4); max-width: 46rem; }
+.stkhero__warn { margin-top: var(--s-5); }
+.stkhero__act  { margin-top: var(--s-5); }
+.stkhero__note {
+  margin-top: var(--s-3);
+  font-size: var(--t--1);
+  color: var(--ink-faint);
+}
 
 @media (max-width: 900px) {
   .stkhero__stage { padding-bottom: 0; }
-  .stkhero__grab { flex: 1 1 100%; }
   /* the star is one sticker, not a portrait: it does not need to fill the
-     screen, and the caption under it should not break mid-phrase */
+     screen */
   .stkhero__art { width: min(38vw, 190px); margin-top: -2vw; }
-  .stkhero__id { width: auto; max-width: none; }
 }
 
 /* The wall follows straight on from the hero; a full section's worth of
