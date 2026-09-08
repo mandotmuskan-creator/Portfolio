@@ -324,19 +324,7 @@
 .band--clients { padding-block: var(--s-5) var(--s-6); }
 .band--clients .shead { margin-bottom: var(--s-6); }
 /* a list of logos does not need the full section-heading size */
-.band--clients .shead__title { font-size: clamp(1.55rem, 1.2rem + 1.5vw, 2.6rem); }
-
-/* A section head in the text face rather than the display one: same size,
-   set the way every other piece of interface type on the site is set. */
-.shead__title--plain {
-  font-family: var(--f-body);
-  font-weight: 700;
-  letter-spacing: -.03em;
-  line-height: 1.1;
-  text-transform: none;
-  color: var(--brown);
-  margin-top: 0;
-}
+.band--clients .shead__title { font-size: clamp(1.2rem, 0.98rem + 1.05vw, 1.95rem); }
 
 .marquee {
   position: relative;
