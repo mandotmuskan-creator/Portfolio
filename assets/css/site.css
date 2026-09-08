@@ -621,6 +621,17 @@ a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px 
   text-wrap: balance;
 }
 
+/* One of her own stickers closes the line, tilted, sitting on the
+   baseline like something stuck there afterwards. */
+.pull__stk {
+  display: inline-block;
+  width: clamp(48px, 5vw, 72px);
+  height: auto;
+  margin-left: .3em;
+  vertical-align: -.42em;
+  transform: rotate(9deg);
+}
+
 /* a small drawn smiley, for the line that earns one */
 .smiley {
   display: inline-block;
@@ -879,16 +890,50 @@ a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px 
 .stickers:hover .lane__track,
 .stickers:focus-within .lane__track { animation-play-state: paused; }
 
+/* Each sticker is a download link. Pointing at one straightens it, lifts
+   it, and shows the arrow, so what you can do with it is obvious without a
+   caption under every single one. */
 .stk {
+  position: relative;
   flex: none;
+  display: block;
   width: var(--size, 120px);
   margin-inline: clamp(6px, .8vw, 14px);
   transform: rotate(var(--tilt, 0deg));
   transition: transform .3s var(--ease);
 }
 .stk img { width: 100%; height: auto; }
-/* straighten and lift the one under the cursor */
-.stk:hover { transform: rotate(0deg) scale(1.14); }
+.stk:hover,
+.stk:focus-visible { transform: rotate(0deg) scale(1.16); z-index: 2; }
+.stk:focus-visible { outline: 2px solid var(--blue); outline-offset: 6px; border-radius: 8px; }
+
+.stk__get {
+  position: absolute;
+  right: -6px;
+  bottom: -6px;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  opacity: 0;
+  transform: scale(.6);
+  transition: opacity .2s var(--ease), transform .2s var(--ease);
+  pointer-events: none;
+}
+.stk__get svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.stk:hover .stk__get,
+.stk:focus-visible .stk__get { opacity: 1; transform: scale(1); }
 
 @media (prefers-reduced-motion: reduce) {
   /* the lanes stop and become ordinary scrolling strips, so every sticker
@@ -896,7 +941,7 @@ a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px 
   .lane { overflow-x: auto; }
   .lane__track { animation: none; }
   .lane__run[aria-hidden="true"] { display: none; }
-  .stk, .stk:hover { transition: none; }
+  .stk, .stk:hover, .stk__get { transition: none; }
 }
 
 /* Nothing in the collection yet. */
@@ -922,3 +967,13 @@ a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px 
 
 /* the aside under the lede, in the display face like every other aside */
 .stickers__aside { margin-top: var(--s-4); }
+
+/* take the lot, or take one */
+.stickers__grab {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3) var(--s-4);
+  margin-top: var(--s-5);
+}
+.stickers__grabNote { font-size: var(--t--1); color: var(--ink-faint); }

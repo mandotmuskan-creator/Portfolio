@@ -26,15 +26,32 @@
     return a;
   }
 
-  function card(s, i) {
-    /* Sizes and tilts cycle through short sets of odd lengths, so the two
-       never line up and the repeat is not visible. */
+  /* A filename someone will recognise in their downloads folder, built
+     from what the sticker says rather than from its slot on the sheet. */
+  function fileName(s) {
+    var stem = (s.alt || 'sticker').toLowerCase()
+      .replace(/[^\p{L}\p{N}]+/gu, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 40) || 'sticker';
+    return 'muskan-' + stem + '.webp';
+  }
+
+  function card(s, i, dup) {
+    /* Sizes and tilts cycle through short sets of different lengths, so the
+       two never line up and the repeat is not visible. */
     var size = [104, 148, 118, 168, 92, 132][i % 6];
     var tilt = [-5, 3, -2, 6, -8, 4, -3][i % 7];
-    return '<figure class="stk" style="--size:' + size + 'px;--tilt:' + tilt + 'deg">' +
-      '<img src="' + s.src + '" alt="' + escapeHtml(s.alt || '') +
-        '" loading="lazy" decoding="async">' +
-    '</figure>';
+    /* Every sticker is its own download. The duplicate run is decoration,
+       so it is out of the tab order and hidden from assistive tech. */
+    return '<a class="stk" href="' + s.src + '" download="' + fileName(s) + '"' +
+        ' style="--size:' + size + 'px;--tilt:' + tilt + 'deg"' +
+        (dup ? ' tabindex="-1" aria-hidden="true"'
+             : ' aria-label="Download sticker: ' + escapeHtml(s.alt || '') + '"') + '>' +
+      '<img src="' + s.src + '" alt="" loading="lazy" decoding="async">' +
+      '<span class="stk__get" aria-hidden="true">' +
+        '<svg viewBox="0 0 24 24" focusable="false"><path d="M12 3v12m0 0 5-5m-5 5-5-5" />' +
+        '<path d="M4 19h16" /></svg></span>' +
+    '</a>';
   }
 
   document.addEventListener('DOMContentLoaded', function () {
@@ -61,15 +78,12 @@
 
     host.className = 'stickers';
     host.innerHTML = lanes.map(function (items, li) {
-      var cards = items.map(card).join('');
+      var cards = items.map(function (s, i) { return card(s, i, false); }).join('');
       /* Two identical runs per lane, so sliding the track exactly half its
          width lands the copy where the original started and the loop never
-         shows a seam. The second run is decoration; the first carries the
-         alt text. */
+         shows a seam. */
       var dup = '<div class="lane__run" aria-hidden="true">' +
-        items.map(function (s, i) {
-          return card({ src: s.src, alt: '' }, i);
-        }).join('') + '</div>';
+        items.map(function (s, i) { return card(s, i, true); }).join('') + '</div>';
       return '<div class="lane' + (li % 2 ? ' lane--rev' : '') + '"' +
           ' style="--dur:' + (46 + li * 9) + 's">' +
           '<div class="lane__track">' +

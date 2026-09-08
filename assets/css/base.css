@@ -145,6 +145,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .ct--blue   { color: var(--blue); }
 .ct--ink    { color: var(--ink); }
 .ct--orange { color: var(--orange); }
+/* the quieter display colour, for headings that should not shout */
+.ct--brown  { color: var(--brown); }
 
 .ct--xl { font-size: var(--t-6); }
 .ct--lg { font-size: var(--t-5); }

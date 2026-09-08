@@ -49,7 +49,10 @@ def asset_map():
     for root, _, files in os.walk(os.path.join(ROOT, "assets")):
         for f in files:
             rel = os.path.relpath(os.path.join(root, f), ROOT).replace(os.sep, "/")
-            if rel.endswith((".css", ".js")):
+            # stylesheets and scripts are folded in whole further down;
+            # the sticker pack is a download, and inlining 1.7 MB of zip as
+            # base64 would cost the bundle 2.2 MB to no purpose
+            if rel.endswith((".css", ".js", ".zip")):
                 continue
             out[rel] = data_uri(rel)
     return out
