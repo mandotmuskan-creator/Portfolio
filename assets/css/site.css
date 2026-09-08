@@ -323,8 +323,6 @@
 
 .band--clients { padding-block: var(--s-5) var(--s-6); }
 .band--clients .shead { margin-bottom: var(--s-6); }
-/* a list of logos does not need the full section-heading size */
-.band--clients .shead__title { font-size: clamp(1.2rem, 0.98rem + 1.05vw, 1.95rem); }
 
 .marquee {
   position: relative;
