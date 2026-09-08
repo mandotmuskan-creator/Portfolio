@@ -31,6 +31,23 @@
 .hero__word { color: var(--red-ink); }
 .hero__stage .poster__star { right: -1.6em; top: -1.4em; }
 
+/* A slow sway on the face over the word: a few pixels of drift and about a
+   degree of tilt, on a nine second cycle. It runs on `translate` and
+   `rotate` rather than `transform`, which already carries the centring and
+   the resting angle, so the two compose instead of fighting. */
+@keyframes heroSway {
+  0%   { translate: 0 0;        rotate: 0deg; }
+  25%  { translate: -2px -4px;  rotate: -0.6deg; }
+  50%  { translate: 0 -7px;     rotate: 0deg; }
+  75%  { translate: 2px -4px;   rotate: 0.6deg; }
+  100% { translate: 0 0;        rotate: 0deg; }
+}
+.hero__stage .poster__face { animation: heroSway 9s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__stage .poster__face { animation: none; }
+}
+
 .hero__base {
   display: flex;
   flex-wrap: wrap;
