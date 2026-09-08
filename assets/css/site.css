@@ -42,10 +42,16 @@
   75%  { translate: 2px -4px;   rotate: 0.6deg; }
   100% { translate: 0 0;        rotate: 0deg; }
 }
-.hero__stage .poster__face { animation: heroSway 9s ease-in-out infinite; }
+.hero__stage .poster__face,
+.stkhero__stage .poster__face { animation: heroSway 9s ease-in-out infinite; }
+
+/* the star is offset in the cycle, so the two heroes are not in lockstep
+   for anyone flipping between the pages */
+.stkhero__stage .poster__face { animation-delay: -3.4s; }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__stage .poster__face { animation: none; }
+  .hero__stage .poster__face,
+  .stkhero__stage .poster__face { animation: none; }
 }
 
 .hero__base {
