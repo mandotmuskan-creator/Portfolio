@@ -12,7 +12,8 @@ markup and CSS are the site's own.
 
 Run:  python3 scripts/build_preview.py <out.html>
 """
-import base64, json, mimetypes, os, re, subprocess, sys, tempfile
+import base64, contextlib, functools, json, mimetypes, os, re, socket, subprocess, sys, tempfile, threading
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE = "http://127.0.0.1:4321/"
@@ -21,6 +22,7 @@ PAGES = [
     ("home",    "index.html"),
     ("work",    "work.html"),
     ("about",   "about.html"),
+    ("stickers","stickers.html"),
     ("p/tdk-invensense", "project.html?p=tdk-invensense"),
     ("p/disney-store",   "project.html?p=disney-store"),
     ("p/pregnancy-app",  "project.html?p=pregnancy-app"),
@@ -109,7 +111,7 @@ def render():
 # --------------------------------------------------------------------------
 
 ROUTES = {"index.html": "#/home", "work.html": "#/work",
-          "about.html": "#/about"}
+          "about.html": "#/about", "stickers.html": "#/stickers"}
 
 
 def swap_assets(text, assets):
@@ -358,5 +360,32 @@ __FOOT__
 """
 
 
+@contextlib.contextmanager
+def serving():
+    """The renderer loads the real pages over HTTP, so something has to be
+    serving the repo. Reuse a server already on the port, otherwise run one
+    for the length of the build; depending on an external one meant the
+    build failed with a connection error whenever it was not running."""
+    port = int(BASE.rsplit(":", 1)[1].strip("/"))
+    with socket.socket() as probe:
+        if probe.connect_ex(("127.0.0.1", port)) == 0:
+            yield
+            return
+
+    class Quiet(SimpleHTTPRequestHandler):
+        def log_message(self, *a):
+            pass
+
+    handler = functools.partial(Quiet, directory=ROOT)
+    httpd = ThreadingHTTPServer(("127.0.0.1", port), handler)
+    thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+    thread.start()
+    try:
+        yield
+    finally:
+        httpd.shutdown()
+
+
 if __name__ == "__main__":
-    build(sys.argv[1] if len(sys.argv) > 1 else "preview.html")
+    with serving():
+        build(sys.argv[1] if len(sys.argv) > 1 else "preview.html")

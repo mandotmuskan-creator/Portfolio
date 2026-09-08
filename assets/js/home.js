@@ -21,6 +21,24 @@
     }).join('') + '</dl>';
   }
 
+  /* The client's own mark, where the work was for a brand with one. A
+     private client gets nothing here rather than a placeholder. */
+  function clientMark(p) {
+    if (!p.clientLogo) return '';
+    return '<p class="proj__client">' +
+      '<img src="' + p.clientLogo + '" alt="' + escapeHtml(p.client) +
+      '" loading="lazy" decoding="async"></p>';
+  }
+
+  /* The same chips the work grid uses, so a project reads the same way
+     wherever you meet it. */
+  function tagRow(p) {
+    if (!(p.tags || []).length) return '';
+    return '<p class="proj__tags">' + p.tags.map(function (t) {
+      return '<span class="tag-soft">' + escapeHtml(t) + '</span>';
+    }).join('') + '</p>';
+  }
+
   function row(p, i) {
     var n = String(i + 1).padStart(2, '0');
     return '<article class="proj reveal">' +
@@ -29,11 +47,13 @@
       '</div>' +
       '<div class="proj__body">' +
         '<p class="proj__no">PROJECT ' + n + '</p>' +
+        clientMark(p) +
         '<h3 class="proj__title">' + (p.wip
           ? escapeHtml(p.title)
           : '<a class="stretch" href="' + projectHref(p) + '">' + escapeHtml(p.title) + '</a>') +
         '</h3>' +
         '<p class="proj__line">' + escapeHtml(p.tagline) + '</p>' +
+        tagRow(p) +
         metaRow(p) +
         '<p class="proj__cta">' + (p.wip
           ? '<span class="tag-soft">Case study in progress</span>'
@@ -50,14 +70,23 @@
       mountReveals(host);
     }
 
+    /* The roster runs as a marquee. The list is rendered twice and the
+       track slides exactly half its width, so the loop has no seam. The
+       second copy is decoration for the eye only, so it is hidden from
+       assistive tech and the first copy carries the real names. */
     var clients = document.getElementById('clients');
     if (clients && window.CLIENTS) {
-      clients.innerHTML = CLIENTS.map(function (c) {
-        var w = c.w ? ' style="--w:' + c.w + 'px"' : '';
-        return '<li class="client"' + w + '>' + (c.logo
-          ? '<img src="' + c.logo + '" alt="' + escapeHtml(c.name) + '" loading="lazy" decoding="async">'
-          : '<span class="client__name">' + escapeHtml(c.name) + '</span>') + '</li>';
-      }).join('');
+      var lane = function (dup) {
+        return '<ul class="marquee__lane"' + (dup ? ' aria-hidden="true"' : '') + '>' +
+          CLIENTS.map(function (c) {
+            var w = c.w ? ' style="--w:' + c.w + 'px"' : '';
+            return '<li class="client"' + w + '>' + (c.logo
+              ? '<img src="' + c.logo + '" alt="' + (dup ? '' : escapeHtml(c.name)) +
+                '" loading="lazy" decoding="async">'
+              : '<span class="client__name">' + escapeHtml(c.name) + '</span>') + '</li>';
+          }).join('') + '</ul>';
+      };
+      clients.innerHTML = '<div class="marquee__track">' + lane(false) + lane(true) + '</div>';
     }
 
     var steps = document.getElementById('steps');

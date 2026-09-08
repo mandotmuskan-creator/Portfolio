@@ -169,6 +169,17 @@
 }
 .proj__no .ca { width: clamp(18px, 2vw, 26px); }
 
+/* The client's mark, sized by height so a wide wordmark and a square
+   lockup carry the same weight above the title. */
+.proj__client { margin-top: var(--s-3); }
+.proj__client img {
+  height: clamp(20px, 2.1vw, 27px);
+  width: auto;
+  max-width: 60%;
+  object-fit: contain;
+  object-position: left center;
+}
+
 .proj__title {
   margin-top: .22em;
   font-size: var(--t-3);
@@ -212,6 +223,16 @@
   letter-spacing: .01em;
 }
 .tile__tags .tag-soft { text-transform: none; letter-spacing: .01em; padding: 4px 10px; }
+
+/* The same chips as the work grid, so a project reads the same way in
+   both places. */
+.proj__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-top: var(--s-4);
+}
+.proj__tags .tag-soft { text-transform: none; letter-spacing: .01em; padding: 4px 10px; }
 
 .proj__cta { margin-top: var(--s-5); }
 
@@ -261,41 +282,65 @@
    4a · WORKED WITH, the client roster
    ========================================================= */
 
-/* A logo wall, not a table of boxes. Flex rather than grid so a ragged
-   last row stays centred at every width.
-
-   One rule separates this band from the work above it and that is the
-   whole set: rules around the logos as well would have fenced off a group
-   that white space already reads as a group.
+/* A marquee, not a wall. The roster sits between the line and the work,
+   so it has to read as a moving band rather than as a section of its own:
+   full bleed, one continuous lane, fading out at both edges.
 
    Every mark keeps its own colour. That puts ten palettes on one line, so
    the balance is carried by size instead: see the `w` numbers in data.js,
    which are tuned by optical weight rather than a shared cap height. */
 
-/* The roster belongs to the work above it, so it sits closer than a
-   standalone band would: half the air of a normal section, and the
-   heading held near the marks it introduces. */
 .band--clients { padding-block: var(--s-5) var(--s-6); }
-.band--clients .shead { margin-bottom: var(--s-7); }
+.band--clients .shead { margin-bottom: var(--s-6); }
 
-.clients {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: clamp(26px, 3.6vw, 44px) clamp(30px, 4.6vw, 66px);
-  max-width: 60rem;
-  margin-inline: auto;
+.marquee {
+  position: relative;
+  overflow: hidden;
+  /* the lane fades out rather than being cut off by the viewport edge */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
 }
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee 46s linear infinite;
+}
+.marquee:hover .marquee__track,
+.marquee:focus-within .marquee__track { animation-play-state: paused; }
+
+.marquee__lane {
+  display: flex;
+  align-items: center;
+  flex: none;
+  gap: clamp(48px, 6vw, 96px);
+  padding-inline: clamp(24px, 3vw, 48px);
+}
+
+/* Two identical lanes, so sliding the track exactly half its width lands
+   the copy where the original started and the loop never shows a seam. */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
 .client {
   display: grid;
   place-items: center;
-  width: var(--w, 120px);
+  /* larger than the static wall was: this one is moving past you */
+  width: calc(var(--w, 120px) * 1.45);
 }
 .client img {
   display: block;
   width: 100%;
   height: auto;
+}
+
+/* Motion off: the lane stops and becomes a normal scrolling strip, so the
+   whole roster is still reachable. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee { overflow-x: auto; }
+  .marquee__track { animation: none; }
+  .marquee__lane[aria-hidden="true"] { display: none; }
 }
 
 /* Fallback for any entry with no artwork yet. */
@@ -795,4 +840,63 @@ a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px 
   .close__art .close-arrow { display: none; }
   .close__art .close-flower { left: 2%; top: 5%; }
   .close__art .close-star { right: 3%; top: 4%; }
+}
+
+/* =========================================================
+   9 · STICKERS, the collection page
+   ========================================================= */
+
+/* Stickers are cut-outs on a transparent ground, so each one gets a soft
+   tile to sit on and a small tilt. Real stickers are never quite square
+   to the thing you stuck them on. */
+.stickers {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr));
+  gap: clamp(24px, 3.4vw, 48px);
+}
+.sticker { display: grid; justify-items: center; }
+.sticker__tile {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1;
+  padding: clamp(14px, 1.8vw, 24px);
+  border-radius: var(--r);
+  background: var(--paper-warm);
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform .35s var(--ease);
+}
+.sticker__tile img { width: 100%; height: 100%; object-fit: contain; }
+.sticker:hover .sticker__tile { transform: rotate(0deg) scale(1.04); }
+.sticker__name {
+  margin-top: var(--s-3);
+  font-size: var(--t--1);
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+/* Nothing in the collection yet. */
+.stickers--empty { grid-template-columns: 1fr; }
+.stickers__soon {
+  max-width: 34rem;
+  padding: var(--s-7) var(--s-5);
+  border: 1px dashed var(--rule);
+  border-radius: var(--r);
+  text-align: center;
+}
+.stickers__soonTitle {
+  font-family: var(--f-display);
+  font-size: var(--t-2);
+  color: var(--brown);
+}
+.stickers__soonBody {
+  margin-top: var(--s-3);
+  font-size: var(--t-0);
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticker__tile { transition: none; }
 }

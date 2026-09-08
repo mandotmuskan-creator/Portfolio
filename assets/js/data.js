@@ -187,6 +187,7 @@ const PROJECTS = [
     platform: 'Responsive web',
     tags: ['UX/UI', 'Web', 'Design System'],
     accent: 'navy',
+    clientLogo: 'assets/img/clients/tdk.svg',
     cover: 'assets/img/covers/tdk-invensense.webp',
     focus: [
       'Audit, IA and wireframes through to signed-off UI',
@@ -545,6 +546,7 @@ const PROJECTS = [
     platform: 'Responsive web',
     tags: ['UX/UI', 'Web', 'Research'],
     accent: 'blue',
+    clientLogo: 'assets/img/clients/disney-store.png',
     cover: 'assets/img/covers/disney-store.webp',
     focus: [
       'Research through to a signed-off membership flow',
@@ -701,6 +703,19 @@ const PROJECTS = [
 ];
 
 /* =========================================================
+   STICKERS, the collection on /stickers.
+
+   Drop cut-outs (PNG or WebP with a transparent ground) into
+   assets/img/stickers/ and add a line each. `name` is optional;
+   `alt` describes the drawing for anyone who cannot see it.
+   With the array empty the page shows a holding note instead.
+   ========================================================= */
+
+const STICKERS = [
+  // { src: 'assets/img/stickers/example.webp', name: 'Chai cup', alt: 'A cutting chai glass with steam' }
+];
+
+/* =========================================================
    CLIENTS, the brands the work was for.
 
    `w` is the one sizing knob: the width the mark is drawn at, in px.
@@ -798,6 +813,7 @@ const GALLERY = [
 if (typeof window !== 'undefined') {
   window.PROJECTS = PROJECTS;
   window.CLIENTS = CLIENTS;
+  window.STICKERS = STICKERS;
   window.PROCESS = PROCESS;
   window.TOOLKIT = TOOLKIT;
   window.TOOLS = TOOLS;
