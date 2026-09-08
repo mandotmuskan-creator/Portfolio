@@ -144,11 +144,16 @@ def swap_links(html):
     return html
 
 
+ATTR_RE = r'(src|href)="(data:image/[^"]+)"'
+
+
 def dedupe_images(doc):
-    """Each photo appears several times in the rolls. Inlining every copy as
-    its own data URI is what pushed the bundle past 15 MB, so emit each image
-    once into a lookup and let a line of script hand it back out."""
-    uris = re.findall(r'src="(data:image/[^"]+)"', doc)
+    """The same picture appears many times over: photos repeat across the
+    rolls, and every sticker is both an <img> and the <a download> around it,
+    twice per lane. Inlining each copy as its own data URI is what pushed the
+    bundle past 15 MB, so emit each image once into a lookup and let a line of
+    script hand it back out, to src and href alike."""
+    uris = [m[1] for m in re.findall(ATTR_RE, doc)]
     if not uris:
         return doc
     order, seen = [], {}
@@ -159,12 +164,13 @@ def dedupe_images(doc):
     if len(uris) == len(order):
         return doc                      # nothing repeats, leave it alone
 
-    doc = re.sub(r'src="(data:image/[^"]+)"',
-                 lambda m: 'data-img="%s"' % seen[m.group(1)], doc)
+    doc = re.sub(ATTR_RE,
+                 lambda m: 'data-%s="%s"' % (m.group(1), seen[m.group(2)]), doc)
     table = "{" + ",".join('"%s":"%s"' % (seen[u], u) for u in order) + "}"
     loader = ("<script>(function(){var M=" + table + ";"
-              "document.querySelectorAll('[data-img]').forEach(function(e){"
-              "e.src=M[e.getAttribute('data-img')];});})();</script>")
+              "['src','href'].forEach(function(a){"
+              "document.querySelectorAll('[data-'+a+']').forEach(function(e){"
+              "e.setAttribute(a, M[e.getAttribute('data-'+a)]);});});})();</script>")
     # at the very end, so the closing panel below </main> is parsed by then
     return doc + "\n" + loader
 
