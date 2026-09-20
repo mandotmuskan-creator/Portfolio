@@ -787,64 +787,71 @@ const LIFE = [
 
   { photo: 'assets/img/life/birthday-card.webp',
     caption: 'Make a wish. Drawn, cut and stuck down by hand.',
-    alt: 'A hand drawn birthday card held up outdoors, showing a snowman in a party hat holding a cupcake, with candles and a cake drawn below.' },
-
-  { photo: 'assets/img/life/mandalas.webp',
-    caption: 'Mandalas, one ring at a time.',
-    alt: 'A spread of hand drawn mandalas in black ink and watercolour, laid out across several sheets of paper.' },
+    alt: 'A hand drawn birthday card held up outdoors, showing a snowman in a party hat holding a cupcake.' },
+  { photo: 'assets/img/life/card-hugs.webp',
+    caption: 'Birthday hugs, delivered.',
+    alt: 'A hand drawn birthday card reading Poornima, Birthday Hugs, with a smiling face and hearts.' },
+  { photo: 'assets/img/life/sketchbook-pattern.webp',
+    caption: 'Filling a page, purely to fill it.',
+    alt: 'An open sketchbook covered edge to edge in a fine black ink pattern, with the pen resting beside it.' },
 
   { note: 'Packaging and wrapping',
     body: 'I have strong opinions about packaging. Every gift I give is hand wrapped, and I will happily spend longer on the wrapping than on choosing what goes inside.' },
 
   { photo: 'assets/img/life/favour-bags.webp',
     caption: 'A tray of favours, tagged “handmade with loveee”.',
-    alt: 'A gold tray filled with organza bags of sweets, each tied with ribbon, dried flowers and a small printed tag.' },
-
+    alt: 'A gold tray filled with organza bags of sweets, each tied with ribbon, dried flowers and a printed tag.' },
   { photo: 'assets/img/life/diwali-favours.webp',
     caption: 'Happy Diwali, nine times over.',
     alt: 'A silver tray of red organza pouches holding marigolds, each with a printed Happy Diwali tag.' },
 
-  { photo: 'assets/img/life/colouring-book.webp',
-    caption: 'Still filling in colouring books.',
-    alt: 'An open colouring book of small animal characters, coloured in, on a windowsill beside two potted plants.' },
-
   { note: 'Photography and short films',
     body: 'I take a lot of pictures and turn them into short films and reels. It has quietly taught me more about framing and pacing than any tutorial.' },
 
-  { photo: 'assets/img/life/sketchbook-pattern.webp',
-    caption: 'Filling a page, purely to fill it.',
-    alt: 'An open sketchbook covered edge to edge in a fine black ink pattern, with the pen resting beside it.' },
-
+  { photo: 'assets/img/life/colouring-book.webp',
+    caption: 'Still filling in colouring books.',
+    alt: 'An open colouring book of small animal characters, coloured in, on a windowsill beside two potted plants.' },
+  { photo: 'assets/img/life/digital-illustration.webp',
+    caption: 'Mid character, on the iPad.',
+    alt: 'An iPad showing a half finished illustration of a duck character in a bubble tea cup, with the stylus beside it.' },
   { photo: 'assets/img/life/wall-decor.webp',
     caption: 'Painted frames and flowers, up on the wall.',
     alt: 'A wall hung with carved wooden frames holding painted lotus flowers, beside strings of white flowers and pink pom poms.' },
-
   { photo: 'assets/img/life/painting-signage.webp',
     caption: 'Hand painting signage for an event.',
     alt: 'Muskan sitting cross legged on a mat, painting a large teal wooden sign reading We Came, We Gathered, We Vibed.' },
-
-  { note: 'Badminton',
-    body: 'Competitive enough to be fun, and the fastest way I know to stop thinking about work.' },
-
   { photo: 'assets/img/life/party-tassels.webp',
     caption: 'Paper, tassels and fairy lights, all of it made.',
     alt: 'A party corner with a red and pink tassel garland, paper bunting and a wooden bench dressed with flags.' },
-
-  { photo: 'assets/img/life/digital-illustration.webp',
-    caption: 'Mid character, on the iPad.',
-    alt: 'An iPad showing a half finished illustration of a duck character in a bubble tea cup, with the stylus resting beside it.' },
-
+  { photo: 'assets/img/life/party-bunting.webp',
+    caption: 'Bunting, balloons and a room turned around.',
+    alt: 'A room decorated with bunting, fairy lights and balloons around a navy covered table.' },
   { photo: 'assets/img/life/festive-hamper.webp',
     caption: 'Diwali, assembled.',
     alt: 'A festive tray of laddoos and marigolds beside printed cards and a box of sweets.' },
 
+  { note: 'Badminton',
+    body: 'Competitive enough to be fun, and the fastest way I know to stop thinking about work.' },
+
+  { photo: 'assets/img/life/badminton-court.webp',
+    caption: 'The regular five, mid match.',
+    alt: 'Muskan and four friends on a green badminton court, holding rackets and raising their fists.' },
+
   { note: 'Treks and travel',
     body: 'Long walks, hills, and any excuse to be somewhere with a view. I come back with sore legs and several hundred photographs.' },
 
+  { photo: 'assets/img/life/snow-trek.webp',
+    caption: 'Up there again.',
+    alt: 'Muskan standing on a snowy mountain slope in a yellow beanie, holding a walking stick.' },
   { photo: 'assets/img/life/stream-feet.webp',
     caption: 'Feet in the water, argument over.',
-    alt: 'Muskan sitting on a fallen log with her feet in a fast running mountain stream, surrounded by trees.' },
-
+    alt: 'Muskan sitting on a fallen log with her feet in a fast running mountain stream.' },
+  { photo: 'assets/img/life/mountains.webp',
+    caption: 'Somewhere with a view.',
+    alt: 'A wide green valley below forested mountains under a bright sky.' },
+  { photo: 'assets/img/life/meadow.webp',
+    caption: 'Sat down and stayed a while.',
+    alt: 'Muskan sitting in a green meadow with mountains and a village rising behind her.' },
   { photo: 'assets/img/life/sunset-valley.webp',
     caption: 'The sky doing the work.',
     alt: 'A valley and lake at dusk under a pink and blue sky, framed by overhanging leaves.' },
@@ -855,51 +862,45 @@ const LIFE = [
   { photo: 'assets/img/life/thali.webp',
     caption: 'Thali ordered, thumbs already up.',
     alt: 'Muskan grinning with both thumbs up behind a full thali of curries, breads and a tall drink.' },
-
+  { photo: 'assets/img/life/food-spread.webp',
+    caption: 'Ordered too much, regret nothing.',
+    alt: 'An overhead view of a shared table with a bowl of soup, a salad bowl and small dishes of sauces.' },
   { photo: 'assets/img/life/vacation-sign.webp',
     caption: 'Vacation calories do not count.',
-    alt: 'A hand painted red tomato shaped board reading Vacation Calories Do Not Count, against a fringed backdrop.' }
+    alt: 'A hand painted red tomato shaped board reading Vacation Calories Do Not Count.' }
 ];
 
 /* =========================================================
-   TRUES, the list under "Things that are also true about me",
-   and the photographs pinned beside it.
+   TRUES, the six things under "Things that are also true".
 
-   Deliberately not the collage treatment: these are snapshots laid on a
-   table, tilted, overlapping a little. The pictures are atmosphere rather
-   than one-to-one illustrations of the lines, because the lines are about
-   temperament and no photograph honestly illustrates "I notice
-   inconsistent spacing".
+   Each one carries its own photograph rather than sitting in a list
+   under a separate strip of pictures. That strip repeated itself: a
+   caption on every photo and then six more lines of text below it. One
+   picture, one line, and the section stops being something to read.
+
+   The pairings are real. No fact was given a photograph that does not
+   actually show it.
    ========================================================= */
 
 const TRUES = [
-  'I talk a lot, and I listen properly.',
-  'I travel whenever there is a reason to, and sometimes without one.',
-  'I notice inconsistent spacing everywhere, including places where it does not matter.',
-  'I like leading. Give me a team, a problem and something to build, and I am in my element.',
-  'Meeting new people is my favourite part of any project.',
-  'I am always the one who makes the plan.'
-];
-
-const TRUE_SNAPS = [
-  { src: 'assets/img/life/snow-trek.webp',
-    alt: 'Muskan standing on a snowy mountain slope in a yellow beanie, holding a walking stick.',
-    note: 'up there again' },
-  { src: 'assets/img/life/mountains.webp',
-    alt: 'A wide green valley below forested mountains under a bright sky.',
-    note: 'worth the legs' },
-  { src: 'assets/img/life/cards-and-prints.webp',
-    alt: 'Handmade cards and envelopes with pressed flowers, laid out with printed photographs of friends.',
-    note: 'everyone gets one' },
-  { src: 'assets/img/life/party-bunting.webp',
-    alt: 'A room decorated with bunting, fairy lights and balloons around a navy covered table.',
-    note: 'I made the plan' },
-  { src: 'assets/img/life/event-install.webp',
-    alt: 'An event space filled with hand painted signs, doors, dreamcatchers and a large painted game board.',
-    note: 'and the whole set' },
-  { src: 'assets/img/life/card-hugs.webp',
-    alt: 'A hand drawn birthday card reading Poornima, Birthday Hugs, with a smiling face and hearts.',
-    note: 'birthday hugs' }
+  { photo: 'assets/img/life/cooking-outdoors.webp',
+    fact: 'I talk a lot, and I listen properly.',
+    alt: 'Muskan serving from a large steel bowl at an outdoor table, mid conversation with someone across from her.' },
+  { photo: 'assets/img/life/summit-rock.webp',
+    fact: 'I travel whenever there is a reason to, and sometimes without one.',
+    alt: 'Muskan sitting on a rock at the top of a ridge, with forested mountains and a wide sky behind her.' },
+  { photo: 'assets/img/life/mandalas.webp',
+    fact: 'I notice inconsistent spacing everywhere, including places where it does not matter.',
+    alt: 'A spread of hand drawn mandalas in black ink and watercolour, every ring evenly divided.' },
+  { photo: 'assets/img/life/painting-board.webp',
+    fact: 'I like leading. Give me a team, a problem and something to build, and I am in my element.',
+    alt: 'Muskan kneeling on the floor painting a large white board, with the rest of the team working behind her.' },
+  { photo: 'assets/img/life/cards-and-prints.webp',
+    fact: 'Meeting new people is my favourite part of any project.',
+    alt: 'Handmade cards and envelopes with pressed flowers, laid out with printed photographs of friends.' },
+  { photo: 'assets/img/life/event-install.webp',
+    fact: 'I am always the one who makes the plan.',
+    alt: 'An event space filled with hand painted signs, doors, dreamcatchers and a large painted game board.' }
 ];
 
 if (typeof window !== 'undefined') {
@@ -910,5 +911,4 @@ if (typeof window !== 'undefined') {
   window.TOOLS = TOOLS;
   window.LIFE = LIFE;
   window.TRUES = TRUES;
-  window.TRUE_SNAPS = TRUE_SNAPS;
 }

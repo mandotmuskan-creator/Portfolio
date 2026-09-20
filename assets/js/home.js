@@ -144,29 +144,20 @@
       mountReveals(life);
     }
 
-    /* Things that are also true: a strip of snapshots, then the list. */
-    var snaps = document.getElementById('snaps');
-    if (snaps && window.TRUE_SNAPS) {
-      /* A repeating set of small angles, so the row looks laid down by
-         hand without any one photo being knocked far enough to look wrong. */
-      var rot = [-6, 4, -3, 7, -5];
-      snaps.innerHTML = TRUE_SNAPS.map(function (p, i) {
-        var d = (window.IMG_SIZES || {})[p.src] || [];
-        return '<figure class="snap" style="--rot:' + rot[i % rot.length] + 'deg">' +
-          '<img src="' + p.src + '"' +
-          (d.length ? ' width="' + d[0] + '" height="' + d[1] + '"' : '') +
-          ' alt="' + escapeHtml(p.alt || '') + '" loading="lazy" decoding="async">' +
-          (p.note ? '<figcaption>' + escapeHtml(p.note) + '</figcaption>' : '') +
-        '</figure>';
-      }).join('');
-    }
-
+    /* Things that are also true: one photograph per fact. */
     var trues = document.getElementById('trues');
     if (trues && window.TRUES) {
       trues.innerHTML = TRUES.map(function (t, i) {
-        return '<li class="reveal" style="--d:' + (i % 4) + '">' +
-          '<span data-doodle="check" data-size="xs"></span>' +
-          '<span>' + escapeHtml(t) + '</span></li>';
+        var d = (window.IMG_SIZES || {})[t.photo] || [];
+        return '<li class="true reveal" style="--d:' + (i % 3) + '">' +
+          '<img src="' + t.photo + '"' +
+          (d.length ? ' width="' + d[0] + '" height="' + d[1] + '"' : '') +
+          ' alt="' + escapeHtml(t.alt || '') + '" loading="lazy" decoding="async">' +
+          '<p class="true__line">' +
+            '<span data-doodle="check" data-size="xs"></span>' +
+            '<span>' + escapeHtml(t.fact) + '</span>' +
+          '</p>' +
+        '</li>';
       }).join('');
       Crayon.paint(trues);
       mountReveals(trues);

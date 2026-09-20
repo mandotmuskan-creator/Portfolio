@@ -690,81 +690,45 @@ a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px 
 
 /* --- the small true things --- */
 
-/* Snapshots above the list of true things.
+/* Things that are also true: one photograph per fact.
 
-   Deliberately not the collage treatment used for Life outside work:
-   these are photographs laid on a table, square cropped, tilted,
-   overlapping a little, each with a note under it. Pointing at one
-   straightens it and lifts it out of the pile. */
+   Not the collage treatment, and not a photographic pastiche either. The
+   polaroid version sat wrong against the rest of the site, which is flat,
+   square edged and quiet: white frames, drop shadows and tilts belonged
+   to a different page. These are plain pictures on a regular grid, every
+   cell the same, each with its one line under it.
 
-.snaps {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-start;
-  gap: clamp(10px, 1.4vw, 20px) 0;
-  margin-bottom: var(--s-7);
-}
-.snap {
-  flex: none;
-  width: clamp(132px, 15vw, 196px);
-  /* the pile: every photo after the first tucks under the one before it */
-  margin-left: -14px;
-  padding: 10px 10px 12px;
-  background: #FFFFFF;
-  box-shadow: 0 12px 26px -14px rgba(25, 24, 22, .45);
-  transform: rotate(var(--rot, 0deg));
-  transition: transform .28s var(--ease);
-}
-.snap:first-child { margin-left: 0; }
-.snap:hover { transform: rotate(0deg) scale(1.06); z-index: 2; }
-
-.snap img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
-  background: var(--card);
-}
-.snap figcaption {
-  margin-top: 9px;
-  font-family: var(--f-display);
-  font-size: clamp(.7rem, .66rem + .18vw, .82rem);
-  line-height: 1.2;
-  text-align: center;
-  color: var(--brown);
-}
-
-@media (max-width: 560px) {
-  .snap { margin-left: -8px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .snap { transition: none; }
-}
+   It also halves the reading. Before, each photograph carried a caption
+   and then six more lines of text followed underneath. Now the fact is
+   the caption. */
 
 .trues {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-  gap: var(--s-3) var(--s-6);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(22px, 2.8vw, 44px) clamp(18px, 2.4vw, 36px);
+  margin-top: var(--s-6);
 }
-.trues li {
+.true img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--r);
+  background: var(--card);
+}
+.true__line {
   display: flex;
   align-items: flex-start;
   gap: var(--s-3);
-  padding: var(--s-3) 0;
-  border-bottom: 1px solid var(--rule-soft);
+  margin-top: var(--s-3);
   font-size: var(--t-0);
-  color: var(--ink-soft);
   line-height: 1.55;
+  color: var(--ink-soft);
 }
 /* one fixed box for every tick, so a row of them reads as a set */
-.trues .ca {
-  width: 18px;
-  height: 20px;
-  object-fit: contain;
-  object-position: center top;
-  margin-top: .25em;
-}
+.true__line .ca { width: clamp(16px, 1.8vw, 22px); margin-top: .18em; }
+
+@media (max-width: 900px) { .trues { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .trues { grid-template-columns: 1fr; } }
 
 .growing {
   margin-top: var(--s-7);
