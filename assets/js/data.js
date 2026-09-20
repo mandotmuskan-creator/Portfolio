@@ -837,7 +837,7 @@ const LIFE = [
 
   { photo: 'assets/img/life/badminton-court.webp',
     caption: 'The regular five, mid match.',
-    alt: 'Muskan and three friends on a green badminton court, rackets in hand, fists raised.' },
+    alt: 'Muskan and four friends on a green badminton court, rackets in hand, fists raised.' },
 
   { note: 'Treks and travel',
     body: 'Long walks, hills, and any excuse to be somewhere with a view. I come back with sore legs and several hundred photographs.' },
