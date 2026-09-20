@@ -12,7 +12,25 @@
   var q = new URLSearchParams(location.search).get('p');
   var idx = PROJECTS.findIndex(function (p) { return p.slug === q; });
   var P = PROJECTS[idx > -1 ? idx : 0];
-  var NEXT = PROJECTS[((idx > -1 ? idx : 0) + 1) % PROJECTS.length];
+
+  /* A project whose write-up is not finished is not linked to from
+     anywhere, so the only way here is by typing the URL. Send those back
+     to the index rather than showing a half written case study. */
+  if (P && P.wip) {
+    location.replace('work.html');
+    return;
+  }
+
+  /* The next-project link skips the unfinished ones too, or it would be
+     the one door left open to them. */
+  var NEXT = (function () {
+    var start = idx > -1 ? idx : 0;
+    for (var i = 1; i <= PROJECTS.length; i++) {
+      var c = PROJECTS[(start + i) % PROJECTS.length];
+      if (c && !c.wip && c !== P) return c;
+    }
+    return null;
+  })();
 
   var E = escapeHtml;
 
@@ -406,6 +424,7 @@
   }
 
   function nextup() {
+    if (!NEXT) return '';
     return '<section class="nextup">' +
       '<div class="wrap">' +
         '<p class="eyebrow">Next project</p>' +

@@ -889,3 +889,43 @@ a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px 
   .close__art .close-flower { left: 2%; top: 5%; }
   .close__art .close-star { right: 3%; top: 4%; }
 }
+
+/* =========================================================
+   9 · RESUME
+   ========================================================= */
+
+.cv__intro .lede { max-width: 46rem; }
+.cv__grab {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3) var(--s-4);
+  margin-top: var(--s-5);
+}
+.cv__note { font-size: var(--t--1); color: var(--ink-faint); }
+
+.band--cv { padding-block: var(--s-6) var(--s-8); }
+
+/* The two pages, at a readable width and no wider. A4 held at full
+   browser width is larger than anyone wants to read on screen. */
+.cv { display: grid; gap: clamp(20px, 2.6vw, 40px); max-width: 52rem; margin-inline: auto; }
+.cv__page a { display: block; border-radius: var(--r); }
+.cv__page img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--r);
+  border: 1px solid var(--rule);
+  background: #FFFFFF;
+}
+
+/* A4 shrunk to a phone is too small to read, so the pages open full
+   size on tap. The hint only earns its place where the type is tiny. */
+.cv__tap {
+  display: none;
+  margin-top: var(--s-4);
+  text-align: center;
+  font-size: var(--t--1);
+  color: var(--ink-faint);
+}
+@media (max-width: 720px) { .cv__tap { display: block; } }

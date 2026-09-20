@@ -548,6 +548,8 @@ const PROJECTS = [
     accent: 'blue',
     clientLogo: 'assets/img/clients/disney-store.png',
     cover: 'assets/img/covers/disney-store.webp',
+    /* the write-up is not finished, so nothing links through to it yet */
+    wip: true,
     focus: [
       'Research through to a signed-off membership flow',
       'Personalisation that costs the member one question',
