@@ -202,6 +202,16 @@ const PROJECTS = [
     introNote: 'Three audiences. One front door. That was the whole problem.',
     sections: [
 
+      /* ---------- it shipped: the first thing worth knowing ---------- */
+      {
+        kind: 'live',
+        eyebrow: 'This one shipped',
+        title: 'It is live. Go and use it.',
+        body: 'Everything below is running in production right now. The case study shows a handful of templates out of more than thirty screens, so the site itself is the only place to see all of it: the structure, the component library and the responsive behaviour, in the hands of the engineers it was built for.',
+        label: 'Open invensense.tdk.com',
+        href: 'https://www.invensense.tdk.com/en-us'
+      },
+
       /* ---------- brand ---------- */
       {
         kind: 'text',
@@ -516,16 +526,7 @@ const PROJECTS = [
         ]
       },
 
-      { kind: 'quote', text: 'Consistency is not a coat of paint you add at the end. It is the thing you build first, and then get to keep.' },
-
-      {
-        kind: 'live',
-        eyebrow: 'It shipped',
-        title: 'See it in the wild',
-        body: 'The redesign is live, and it is the only place to see all of it. This case study shows a handful of templates out of more than thirty screens; the structure, the component library and the responsive behaviour described above are all running in production.',
-        label: 'Open invensense.tdk.com',
-        href: 'https://www.invensense.tdk.com/en-us'
-      }
+      { kind: 'quote', text: 'Consistency is not a coat of paint you add at the end. It is the thing you build first, and then get to keep.' }
     ]
   },
 
