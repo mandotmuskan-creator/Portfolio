@@ -203,39 +203,150 @@ function lifeTile(t, i) {
   '</div>';
 }
 
-/* Can the run be laid out in `cols` columns with none taller than `cap`?
-   Walks in order, so the tiles keep the sequence they were written in. */
-function lifeFits(heights, cols, gap, cap) {
-  var used = 1, run = 0;
-  for (var i = 0; i < heights.length; i++) {
-    if (heights[i] > cap) return null;
-    var add = run ? gap + heights[i] : heights[i];
-    if (run + add > cap) { used++; run = heights[i]; if (used > cols) return null; }
-    else run += add;
-  }
-  return true;
+/* The split.
+
+   Two things are being balanced. Columns have to finish on the same
+   line, and a note must not sit shoulder to shoulder with a note in the
+   column beside it: two beige boxes at the same height read as a band
+   of text running through the middle of the collage, which is not what
+   this is. Notes belong against photographs.
+
+   Cut points alone cannot always manage both, so a note is also allowed
+   to move a slot or two along the run. It still sits among the same
+   pictures, just on the other side of one of them.
+   --------------------------------------------------------- */
+
+function lifeRanges(cuts, n) {
+  var out = [], prev = 0, i;
+  for (i = 0; i < cuts.length; i++) { out.push([prev, cuts[i]]); prev = cuts[i]; }
+  out.push([prev, n]);
+  return out;
 }
 
-function lifeSplit(heights, cols, gap) {
-  var lo = 0, hi = 0, i;
-  for (i = 0; i < heights.length; i++) { hi += heights[i] + gap; lo = Math.max(lo, heights[i]); }
-  while (lo < hi) {                                   /* smallest workable cap */
-    var mid = Math.floor((lo + hi) / 2);
-    if (lifeFits(heights, cols, gap, mid)) hi = mid; else lo = mid + 1;
+/* For one arrangement and one set of cuts: how tall the tallest column
+   has to be, how far the other columns' gaps must open to match it, and
+   how many notes end up alongside a note in the next column. */
+function lifeScore(heights, isNote, cuts, gap) {
+  var n = heights.length, spans = lifeRanges(cuts, n), tall = 0, i, k;
+
+  var cols = spans.map(function (sp) {
+    var h = 0;
+    for (i = sp[0]; i < sp[1]; i++) h += heights[i];
+    h += gap * Math.max(0, sp[1] - sp[0] - 1);
+    if (h > tall) tall = h;
+    return { span: sp, h: h };
+  });
+
+  var open = 0, stack = 0;
+  var notes = cols.map(function (c) {
+    var count = c.span[1] - c.span[0];
+    var extra = count > 1 ? (tall - c.h) / (count - 1) : (tall - c.h);
+    open = Math.max(open, extra);
+    var y = 0, band = [];
+    for (i = c.span[0]; i < c.span[1]; i++) {
+      if (isNote[i]) {
+        band.push([y, y + heights[i]]);
+        if (i > c.span[0] && isNote[i - 1]) stack++;   /* two notes in a row */
+      }
+      y += heights[i] + gap + extra;
+    }
+    return band;
+  });
+
+  var clash = 0, TOL = 28;      /* a sliver of overlap is not a collision */
+  for (k = 0; k + 1 < notes.length; k++) {
+    for (i = 0; i < notes[k].length; i++) {
+      for (var j = 0; j < notes[k + 1].length; j++) {
+        var a = notes[k][i], b = notes[k + 1][j];
+        if (Math.min(a[1], b[1]) - Math.max(a[0], b[0]) > TOL) clash += 2;
+      }
+    }
+  }
+  return { tall: tall, open: open, clash: clash + stack };
+}
+
+function lifeRank(a, b) {
+  return (a.clash - b.clash) || (a.open - b.open) || (a.tall - b.tall);
+}
+
+/* Best cuts for one arrangement, with a ceiling on how far the gaps may
+   open. Null when nothing comes in under the ceiling: an arrangement
+   that can only be laid out with a column drifting apart is not one
+   worth having, whatever it does for the notes. */
+function lifeBestCuts(heights, isNote, cols, gap, cap) {
+  var n = heights.length, tries = [], i, j;
+  if (cols === 2) { for (i = 1; i < n; i++) tries.push([i]); }
+  else { for (i = 1; i < n - 1; i++) for (j = i + 1; j < n; j++) tries.push([i, j]); }
+
+  var best = null;
+  for (i = 0; i < tries.length; i++) {
+    var sc = lifeScore(heights, isNote, tries[i], gap);
+    if (sc.open > cap) continue;
+    if (!best || lifeRank(sc, best.s) < 0) best = { cuts: tries[i], s: sc };
+  }
+  return best;
+}
+
+/* Every way one note could move up to two slots along the run. */
+function lifeNudges(order, isNote) {
+  var out = [], shifts = [-2, -1, 1, 2], p, k, q, o, moved;
+  for (p = 0; p < order.length; p++) {
+    if (!isNote[order[p]]) continue;
+    for (k = 0; k < shifts.length; k++) {
+      q = p + shifts[k];
+      if (q < 0 || q >= order.length) continue;
+      o = order.slice();
+      moved = o.splice(p, 1)[0];
+      o.splice(q, 0, moved);
+      out.push(o);
+    }
+  }
+  return out;
+}
+
+function lifeSplit(heights, isNote, cols, gap) {
+  var n = heights.length, i;
+  if (cols <= 1 || n <= cols) {
+    var flat = [];
+    for (i = 0; i < Math.max(cols, 1); i++) flat.push([]);
+    for (i = 0; i < n; i++) flat[Math.min(i, flat.length - 1)].push(i);
+    return flat;
   }
 
-  var buckets = [[]], run = 0;
-  for (i = 0; i < heights.length; i++) {
-    var add = run ? gap + heights[i] : heights[i];
-    var left = heights.length - i;
-    /* break early if this tile would overflow, but never strand a column */
-    if ((run + add > lo || left <= cols - buckets.length) && buckets.length < cols) {
-      buckets.push([]); run = heights[i];
-    } else run += add;
-    buckets[buckets.length - 1].push(i);
+  var order = [];
+  for (i = 0; i < n; i++) order.push(i);
+
+  var OPEN_MAX = 46;                 /* how far a gap may open, in pixels */
+  var weigh = function (o, cap) {
+    var r = lifeBestCuts(o.map(function (x) { return heights[x]; }),
+                         o.map(function (x) { return isNote[x]; }), cols, gap, cap);
+    if (r) r.order = o;
+    return r;
+  };
+
+  /* the authored order, laid out as tightly as it can be */
+  var best = weigh(order, OPEN_MAX) || weigh(order, 90) || weigh(order, Infinity);
+  /* two rounds of single nudges: enough to clear the collisions the
+     authored order leaves behind, and it stops the moment it is clean */
+  /* Nudge while there is still something to fix: notes touching, or a
+     column whose gaps had to open further than they should. */
+  for (var round = 0;
+       round < 4 && (best.s.clash > 0 || best.s.open > OPEN_MAX);
+       round++) {
+    var pool = lifeNudges(best.order, isNote), moved = best;
+    for (i = 0; i < pool.length; i++) {
+      var cand = weigh(pool[i], OPEN_MAX);
+      if (cand && lifeRank(cand.s, moved.s) < 0) moved = cand;
+    }
+    if (moved === best) break;                 /* nothing left to gain */
+    best = moved;
   }
-  while (buckets.length < cols) buckets.push([]);
-  return buckets;
+
+  return lifeRanges(best.cuts, n).map(function (sp) {
+    var out = [];
+    for (var x = sp[0]; x < sp[1]; x++) out.push(best.order[x]);
+    return out;
+  });
 }
 
 function paintLife(host) {
@@ -252,8 +363,9 @@ function paintLife(host) {
   var heights = [].map.call(host.firstChild.children, function (el) {
     return el.getBoundingClientRect().height;
   });
+  var isNote = items.map(function (t) { return !t.photo; });
 
-  var buckets = lifeSplit(heights, cols, gap);
+  var buckets = lifeSplit(heights, isNote, cols, gap);
   host.innerHTML = buckets.map(function (bucket) {
     return '<div class="life__col">' +
       bucket.map(function (idx) { return lifeTile(items[idx], idx); }).join('') +

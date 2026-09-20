@@ -780,13 +780,13 @@ a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px 
 .life__shot,
 .life__note { margin: 0; }
 
-/* Whatever a column is short by is shared out across its photographs,
-   a few pixels of extra crop each, rather than landed on one tile.
-   Each figure carries its own aspect ratio, so that share is growth on
-   top of its true proportions. Notes keep the height their text needs. */
-.life__col > .life__shot { flex: 1 1 auto; display: flex; min-height: 0; }
+/* Whatever a column is short by goes into the spaces between its tiles,
+   not into the tiles themselves. Nothing is cropped to make the grid
+   line up; the gaps in one column simply open a little wider than in
+   the next, which is the cheaper thing to give away. */
+.life__col { justify-content: space-between; }
+.life__col > .life__shot { flex: 0 0 auto; display: flex; min-height: 0; }
 .life__col > .life__note { flex: 0 0 auto; }
-.life__col > .life__note:last-child { flex: 1 1 auto; }
 
 .life__shot img {
   width: 100%;

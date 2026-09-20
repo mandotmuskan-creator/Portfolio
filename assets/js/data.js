@@ -822,6 +822,9 @@ const LIFE = [
   { photo: 'assets/img/life/mandalas.webp',
     caption: 'Mandalas, one ring at a time.',
     alt: 'A spread of hand drawn mandalas in black ink and watercolour, laid across several sheets of paper.' },
+  { note: 'Any excuse to celebrate',
+    body: 'Birthdays, Diwali, someone finishing something they found hard. I will decorate the room, make the cards and send everyone home with a favour.' },
+
   { photo: 'assets/img/life/party-tassels.webp',
     caption: 'Paper, tassels and fairy lights, all of it made.',
     alt: 'A party corner with a red and pink tassel garland, paper bunting and a wooden bench dressed with flags.' },
@@ -857,9 +860,6 @@ const LIFE = [
   { photo: 'assets/img/life/sunset-valley.webp',
     caption: 'The sky doing the work.',
     alt: 'A valley and lake at dusk under a pink and blue sky, framed by overhanging leaves.' },
-
-  { note: 'Any excuse to celebrate',
-    body: 'Birthdays, Diwali, someone finishing something they found hard. I will decorate the room, make the cards and send everyone home with a favour.' },
 
   { note: 'Eating my way through a city',
     body: 'I am a serious foodie. New places, new cuisines, and the restaurant nobody has heard of yet. I plan trips around meals more than I should admit, and I have never once regretted ordering the thing I could not pronounce.' },
