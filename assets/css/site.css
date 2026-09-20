@@ -767,7 +767,12 @@ a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px 
 
    Columns rather than a grid, because the photographs mix portrait,
    landscape and square: multicol lets each keep its own shape instead of
-   being cropped into a cell. */
+   being cropped into a cell.
+
+   The photographs carry no caption. The note tiles beside them already
+   say what the section has to say, and a line under every picture as
+   well was the text weight coming back in by another door. What each
+   one shows still lives in its alt text. */
 
 .life {
   columns: 3;
@@ -788,12 +793,6 @@ a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px 
   border-radius: var(--r);
   background: var(--card);
 }
-.life__shot figcaption {
-  margin-top: var(--s-2);
-  font-size: var(--t--1);
-  color: var(--ink-faint);
-}
-
 /* A note is a tile in its own right, on the warm ground, so the two kinds
    read as one set rather than as text that lost its picture. */
 .life__note {

@@ -132,7 +132,6 @@
             '<img src="' + t.photo + '"' +
             (d.length ? ' width="' + d[0] + '" height="' + d[1] + '"' : '') +
             ' alt="' + escapeHtml(t.alt || '') + '" loading="lazy" decoding="async">' +
-            (t.caption ? '<figcaption>' + escapeHtml(t.caption) + '</figcaption>' : '') +
           '</figure>';
         }
         return '<div class="life__note reveal" style="--d:' + (i % 4) + '">' +
