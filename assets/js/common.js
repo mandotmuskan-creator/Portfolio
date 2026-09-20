@@ -29,7 +29,39 @@ function coverMarkup(p, alt, cls) {
 
 /* ---------------------------------------------------------
    nav + closing panel
+
+   Every page ends on an invitation, but not the same one. Reading the
+   identical sign-off four times over makes the whole site feel like a
+   template, so each page closes on the thought it actually arrived at.
    --------------------------------------------------------- */
+
+var CLOSERS = {
+  home: {
+    word: ['Let’s make', 'something', 'good.'],
+    lede: 'Open to product design and UI work, freelance or full time. ' +
+          'If any of this looked like the thing you need, tell me about it.',
+    links: [['work.html', 'See the work'], ['about.html', 'About me']]
+  },
+  work: {
+    word: ['Your', 'project,', 'next.'],
+    lede: 'That is the work, and the thinking under it. If you have something ' +
+          'that needs the same kind of attention, I would like to hear about it.',
+    links: [['about.html', 'About me'], ['resume.html', 'My resume']]
+  },
+  about: {
+    word: ['Now tell me', 'about you.'],
+    lede: 'That is a great deal about me. Your turn: what are you building, ' +
+          'who is it for, and what keeps getting in the way?',
+    links: [['work.html', 'See the work'], ['resume.html', 'My resume']]
+  },
+  resume: {
+    word: ['Paper only', 'says so much.'],
+    lede: 'Two pages cover where I have been. A conversation covers whether ' +
+          'I am the right person for where you are going.',
+    links: [['work.html', 'See the work'], ['about.html', 'About me']]
+  }
+};
+
 
 function mountChrome() {
   var here = document.body.dataset.page || '';
@@ -60,6 +92,7 @@ function mountChrome() {
 
   var footHost = document.querySelector('[data-foot]');
   if (footHost) {
+    var sign = CLOSERS[here] || CLOSERS.home;
     footHost.className = 'close';
     footHost.innerHTML =
       '<div class="wrap close__inner">' +
@@ -68,20 +101,18 @@ function mountChrome() {
         '</div>' +
         '<div class="poster close__stage">' +
           '<h2 class="ct poster__word close__word reveal" style="--d:1">' +
-            '<span class="ln">Let’s make</span>' +
-            '<span class="ln">something</span>' +
-            '<span class="ln">good.</span>' +
+            sign.word.map(function (ln) { return '<span class="ln">' + ln + '</span>'; }).join('') +
           '</h2>' +
         '</div>' +
-        '<p class="lede reveal" style="--d:2">Open to product design and UI work, freelance or full time. ' +
-          'If any of this looked like the thing you need, tell me about it.</p>' +
+        '<p class="lede reveal" style="--d:2">' + sign.lede + '</p>' +
         '<div class="close__row reveal" style="--d:3">' +
           '<a class="close__mail" href="mailto:' + SITE.mail + '">' +
             escapeHtml(SITE.mail) + '</a>' +
         '</div>' +
         '<div class="close__row reveal" style="--d:4">' +
-          '<a class="btn" href="work.html">See the work</a>' +
-          '<a class="btn btn--ghost" href="about.html">About me</a>' +
+          sign.links.map(function (l, i) {
+            return '<a class="btn' + (i ? ' btn--ghost' : '') + '" href="' + l[0] + '">' + l[1] + '</a>';
+          }).join('') +
         '</div>' +
         '<div class="foot__meta">' +
           '<span>© ' + new Date().getFullYear() + ' ' + SITE.name + ' · ' + SITE.role + '</span>' +

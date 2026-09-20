@@ -471,30 +471,16 @@
 }
 
 .ptitle__side { position: relative; min-width: 0; }
-.ptitle__face {
-  display: block;
-  width: min(46%, 176px);
-  margin-left: 0;
-  transform: rotate(var(--face-rot, 0deg));
-  filter: drop-shadow(0 14px 20px rgba(25, 24, 22, .07));
-}
 .ptitle__side .lede {
-  margin-top: var(--s-4);
   font-size: var(--t-0);
   max-width: 40ch;
 }
-.ptitle__star {
-  position: absolute;
-  left: min(46%, 176px);
-  top: -2%;
-  z-index: 2;
-  width: clamp(18px, 1.9vw, 26px);
-}
+
+/* A title with nothing beside it takes the whole measure. */
+.ptitle__stage--solo { grid-template-columns: minmax(0, 1fr); }
 
 @media (max-width: 860px) {
   .ptitle__stage { grid-template-columns: 1fr; gap: var(--s-4); }
-  .ptitle__face { width: min(38%, 140px); }
-  .ptitle__star { display: none; }
 }
 
 .filters {
@@ -774,22 +760,38 @@ a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px 
    well was the text weight coming back in by another door. What each
    one shows still lives in its alt text. */
 
+/* Columns are built in JS rather than by multicol, because multicol
+   balances by content and leaves the last column short. Here every
+   column stretches to the tallest, and the final tile in each takes up
+   the slack, so the collage ends on one straight line. */
 .life {
-  columns: 3;
-  column-gap: clamp(16px, 2vw, 28px);
+  display: flex;
+  align-items: stretch;
+  gap: clamp(16px, 2vw, 28px);
   margin-top: var(--s-6);
 }
-.life__shot,
-.life__note {
-  break-inside: avoid;
-  display: inline-block;   /* multicol keeps a block child whole */
-  width: 100%;
-  margin: 0 0 clamp(16px, 2vw, 28px);
+.life__col {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2vw, 28px);
 }
+.life__shot,
+.life__note { margin: 0; }
+
+/* Whatever a column is short by is shared out across its photographs,
+   a few pixels of extra crop each, rather than landed on one tile.
+   Each figure carries its own aspect ratio, so that share is growth on
+   top of its true proportions. Notes keep the height their text needs. */
+.life__col > .life__shot { flex: 1 1 auto; display: flex; min-height: 0; }
+.life__col > .life__note { flex: 0 0 auto; }
+.life__col > .life__note:last-child { flex: 1 1 auto; }
 
 .life__shot img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
   border-radius: var(--r);
   background: var(--card);
 }
@@ -812,8 +814,7 @@ a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px 
   color: var(--ink-soft);
 }
 
-@media (max-width: 900px) { .life { columns: 2; } }
-@media (max-width: 560px) { .life { columns: 1; } }
+/* the column count itself is chosen in JS, so there is nothing to switch here */
 
 @media (max-width: 900px) { .gallery { columns: 2; } }
 @media (max-width: 560px) { .gallery { columns: 1; } }
@@ -855,7 +856,7 @@ a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px 
   width: calc(100% - var(--gutter) * 2);
   margin-inline: auto;
 }
-.close__word { color: var(--red-ink); }
+.close__word { color: var(--red-ink); --fit: .975; }
 .close__stamp { display: grid; place-items: center; margin-bottom: clamp(8px, 1.4vw, 22px); }
 .close .lede { margin: var(--s-5) auto 0; text-align: center; }
 .close__row {

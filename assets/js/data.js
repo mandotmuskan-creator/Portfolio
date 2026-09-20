@@ -858,6 +858,9 @@ const LIFE = [
     caption: 'The sky doing the work.',
     alt: 'A valley and lake at dusk under a pink and blue sky, framed by overhanging leaves.' },
 
+  { note: 'Any excuse to celebrate',
+    body: 'Birthdays, Diwali, someone finishing something they found hard. I will decorate the room, make the cards and send everyone home with a favour.' },
+
   { note: 'Eating my way through a city',
     body: 'I am a serious foodie. New places, new cuisines, and the restaurant nobody has heard of yet. I plan trips around meals more than I should admit, and I have never once regretted ordering the thing I could not pronounce.' },
 

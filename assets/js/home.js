@@ -125,22 +125,19 @@
        in the order data.js lists them. Skipped entirely while empty. */
     var life = document.getElementById('life');
     if (life && window.LIFE && LIFE.length) {
-      life.innerHTML = LIFE.map(function (t, i) {
-        var d = (window.IMG_SIZES || {})[t.photo] || [];
-        if (t.photo) {
-          return '<figure class="life__shot reveal" style="--d:' + (i % 4) + '">' +
-            '<img src="' + t.photo + '"' +
-            (d.length ? ' width="' + d[0] + '" height="' + d[1] + '"' : '') +
-            ' alt="' + escapeHtml(t.alt || '') + '" loading="lazy" decoding="async">' +
-          '</figure>';
-        }
-        return '<div class="life__note reveal" style="--d:' + (i % 4) + '">' +
-          '<h3>' + escapeHtml(t.note) + '</h3>' +
-          '<p>' + escapeHtml(t.body || '') + '</p>' +
-        '</div>';
-      }).join('');
+      /* unhide before painting: the collage measures its tiles, and a
+         hidden section has no width to measure them against */
       life.closest('[data-life]').hidden = false;
-      mountReveals(life);
+      paintLife(life);
+
+      /* the column count changes with the breakpoint, so rebuild on resize */
+      var lifeW = window.innerWidth, lifeT;
+      window.addEventListener('resize', function () {
+        if (Math.abs(window.innerWidth - lifeW) < 40) return;
+        lifeW = window.innerWidth;
+        clearTimeout(lifeT);
+        lifeT = setTimeout(function () { paintLife(life); }, 160);
+      }, { passive: true });
     }
 
     /* Things that are also true: one photograph per fact. */
@@ -170,3 +167,107 @@
     }
   });
 })();
+
+/* ---------------------------------------------------------
+   the Life collage
+
+   Tiles are dealt into real columns rather than left to CSS multicol.
+   Multicol balances on content and routinely left the last column
+   short, which is what made the right of the grid trail off into
+   nothing. Here the tiles are measured first, then split so that the
+   tallest column is as short as it can be, and the CSS lets the last
+   tile in each column absorb whatever slack is left. Because the split
+   is already close to even, that slack is small, and all three columns
+   finish on one line.
+   --------------------------------------------------------- */
+
+function lifeColumns() {
+  var w = window.innerWidth;
+  return w <= 560 ? 1 : w <= 900 ? 2 : 3;
+}
+
+function lifeTile(t, i) {
+  var d = (window.IMG_SIZES || {})[t.photo] || [];
+  if (t.photo) {
+    /* the ratio on the figure is what the column grows from */
+    return '<figure class="life__shot reveal" style="--d:' + (i % 4) +
+      (d.length ? ';aspect-ratio:' + d[0] + '/' + d[1] : '') + '">' +
+      '<img src="' + t.photo + '"' +
+      (d.length ? ' width="' + d[0] + '" height="' + d[1] + '"' : '') +
+      ' alt="' + escapeHtml(t.alt || '') + '" loading="lazy" decoding="async">' +
+    '</figure>';
+  }
+  return '<div class="life__note reveal" style="--d:' + (i % 4) + '">' +
+    '<h3>' + escapeHtml(t.note) + '</h3>' +
+    '<p>' + escapeHtml(t.body || '') + '</p>' +
+  '</div>';
+}
+
+/* Can the run be laid out in `cols` columns with none taller than `cap`?
+   Walks in order, so the tiles keep the sequence they were written in. */
+function lifeFits(heights, cols, gap, cap) {
+  var used = 1, run = 0;
+  for (var i = 0; i < heights.length; i++) {
+    if (heights[i] > cap) return null;
+    var add = run ? gap + heights[i] : heights[i];
+    if (run + add > cap) { used++; run = heights[i]; if (used > cols) return null; }
+    else run += add;
+  }
+  return true;
+}
+
+function lifeSplit(heights, cols, gap) {
+  var lo = 0, hi = 0, i;
+  for (i = 0; i < heights.length; i++) { hi += heights[i] + gap; lo = Math.max(lo, heights[i]); }
+  while (lo < hi) {                                   /* smallest workable cap */
+    var mid = Math.floor((lo + hi) / 2);
+    if (lifeFits(heights, cols, gap, mid)) hi = mid; else lo = mid + 1;
+  }
+
+  var buckets = [[]], run = 0;
+  for (i = 0; i < heights.length; i++) {
+    var add = run ? gap + heights[i] : heights[i];
+    var left = heights.length - i;
+    /* break early if this tile would overflow, but never strand a column */
+    if ((run + add > lo || left <= cols - buckets.length) && buckets.length < cols) {
+      buckets.push([]); run = heights[i];
+    } else run += add;
+    buckets[buckets.length - 1].push(i);
+  }
+  while (buckets.length < cols) buckets.push([]);
+  return buckets;
+}
+
+function paintLife(host) {
+  var items = window.LIFE || [];
+  if (!items.length) return;
+  var cols = lifeColumns();
+  var gap = parseFloat(getComputedStyle(host).gap) || 28;
+  var colW = (host.clientWidth - gap * (cols - 1)) / cols;
+
+  /* measure first: every image carries its own dimensions, so the tiles
+     lay out at their true heights without waiting for the bytes */
+  host.innerHTML = '<div class="life__col" style="flex:0 0 auto;width:' + colW + 'px">' +
+    items.map(lifeTile).join('') + '</div>';
+  var heights = [].map.call(host.firstChild.children, function (el) {
+    return el.getBoundingClientRect().height;
+  });
+
+  var buckets = lifeSplit(heights, cols, gap);
+  host.innerHTML = buckets.map(function (bucket) {
+    return '<div class="life__col">' +
+      bucket.map(function (idx) { return lifeTile(items[idx], idx); }).join('') +
+    '</div>';
+  }).join('');
+
+  /* Reveal on the first build only. A rebuild after a resize is the same
+     tiles in new places, and replaying the entrance there reads as a flash. */
+  if (host.dataset.painted) {
+    [].forEach.call(host.querySelectorAll('.reveal'), function (el) {
+      el.classList.add('is-in');
+    });
+  } else {
+    host.dataset.painted = '1';
+    mountReveals(host);
+  }
+}
