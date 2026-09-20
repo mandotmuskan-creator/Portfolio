@@ -50,16 +50,10 @@
   0%, 100% { translate: 0 0;    rotate: -0.5deg; }
   50%      { translate: 0 -9px; rotate: 0.5deg; }
 }
-.hero__stage .poster__face,
-.stkhero__stage .poster__face { animation: heroSway 4s ease-in-out infinite; }
-
-/* the star runs a little quicker and offset, so the two heroes are not in
-   lockstep for anyone flipping between the pages */
-.stkhero__stage .poster__face { animation-duration: 3.6s; animation-delay: -1.3s; }
+.hero__stage .poster__face { animation: heroSway 4s ease-in-out infinite; }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__stage .poster__face,
-  .stkhero__stage .poster__face { animation: none; }
+  .hero__stage .poster__face { animation: none; }
 }
 
 .hero__base {
@@ -748,55 +742,63 @@ a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px 
 
 /* --- life outside work --- */
 
-.outside {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
-  gap: 0 clamp(32px, 5vw, 88px);
-  border-top: 1px solid var(--rule);
+/* Life outside work, as one collage.
+
+   It used to be two blocks: every written note first, as a grid of text,
+   then every photograph below it. Read together they were a wall of
+   words followed by a wall of pictures. Interleaved, the photographs
+   carry the section and the notes read as captions between them.
+
+   Columns rather than a grid, because the photographs mix portrait,
+   landscape and square: multicol lets each keep its own shape instead of
+   being cropped into a cell. */
+
+.life {
+  columns: 3;
+  column-gap: clamp(16px, 2vw, 28px);
+  margin-top: var(--s-6);
 }
-.outside > div {
-  padding: var(--s-4) 0;
-  border-bottom: 1px solid var(--rule-soft);
-}
-.outside dt {
-  font-size: var(--t-1);
-  font-weight: 700;
-  letter-spacing: -.02em;
-}
-.outside dd {
-  margin: 5px 0 0;
-  font-size: var(--t-0);
-  line-height: 1.6;
-  color: var(--ink-soft);
-  max-width: 46ch;
+.life__shot,
+.life__note {
+  break-inside: avoid;
+  display: inline-block;   /* multicol keeps a block child whole */
+  width: 100%;
+  margin: 0 0 clamp(16px, 2vw, 28px);
 }
 
-/* The photographs. Columns rather than a grid, because the set mixes
-   portrait, landscape and one phone screenshot: masonry lets every photo
-   keep its own shape instead of being cropped to fit a cell. */
-.gallery {
-  columns: 3;
-  column-gap: var(--s-4);
-  margin-top: var(--s-7);
-}
-.shotcard {
-  break-inside: avoid;
-  display: inline-block;
-  width: 100%;
-  margin: 0 0 var(--s-5);
-}
-.shotcard img {
+.life__shot img {
   width: 100%;
   height: auto;
   border-radius: var(--r);
-  border: 1px solid var(--rule);
-  background: var(--paper-warm);
+  background: var(--card);
 }
-.shotcard figcaption {
+.life__shot figcaption {
   margin-top: var(--s-2);
   font-size: var(--t--1);
   color: var(--ink-faint);
 }
+
+/* A note is a tile in its own right, on the warm ground, so the two kinds
+   read as one set rather than as text that lost its picture. */
+.life__note {
+  padding: var(--s-5);
+  border-radius: var(--r);
+  background: var(--paper-warm);
+}
+.life__note h3 {
+  font-size: var(--t-1);
+  font-weight: 700;
+  letter-spacing: -.02em;
+}
+.life__note p {
+  margin-top: .5em;
+  font-size: var(--t-0);
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 900px) { .life { columns: 2; } }
+@media (max-width: 560px) { .life { columns: 1; } }
 
 @media (max-width: 900px) { .gallery { columns: 2; } }
 @media (max-width: 560px) { .gallery { columns: 1; } }
@@ -872,173 +874,3 @@ a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px 
   .close__art .close-flower { left: 2%; top: 5%; }
   .close__art .close-star { right: 3%; top: 4%; }
 }
-
-/* =========================================================
-   9 · STICKERS, the collection page
-   ========================================================= */
-
-/* --- the sticker page's poster hero, on the home page's mechanics --- */
-
-.stkhero__stage {
-  --cap: 15rem;
-  --face-x: 30cqw;        /* the sticker sits over the word, left of centre */
-  --face-w: 15cqw;
-  --face-top: 3cqw;
-  width: calc(100% - var(--gutter) * 2);
-  max-width: none;
-  margin-inline: auto;
-  padding-bottom: 4cqw;   /* just enough for the sticker to hang below */
-}
-.stkhero__word { color: var(--red-ink); }
-.stkhero__art { filter: drop-shadow(0 16px 24px rgba(25, 24, 22, .12)); }
-
-/* One column under the word, left aligned, each part under the last. The
-   home page's two-column hero works because the left side carries a table
-   of facts; here there was only a caption on the right, floating. */
-.stkhero__intro {
-  /* the same edges as the poster stage above it, so the copy starts under
-     the S of the word rather than indented from it */
-  width: calc(100% - var(--gutter) * 2);
-  max-width: none;
-  margin-inline: auto;
-  margin-top: clamp(20px, 3vw, 44px);
-  display: grid;
-  justify-items: start;
-}
-.stkhero__kicker {
-  max-width: 46rem;
-  font-size: clamp(1.15rem, 1.7vw, 1.7rem);
-  font-weight: 700;
-  letter-spacing: -.03em;
-  line-height: 1.15;
-}
-.stkhero__intro .lede { margin-top: var(--s-4); max-width: 46rem; }
-.stkhero__warn { margin-top: var(--s-5); }
-.stkhero__act  { margin-top: var(--s-5); }
-.stkhero__note {
-  margin-top: var(--s-3);
-  font-size: var(--t--1);
-  color: var(--ink-faint);
-}
-
-@media (max-width: 900px) {
-  .stkhero__stage { padding-bottom: 0; }
-  /* the star is one sticker, not a portrait: it does not need to fill the
-     screen */
-  .stkhero__art { width: min(38vw, 190px); margin-top: -2vw; }
-}
-
-/* The wall follows straight on from the hero; a full section's worth of
-   air above it just left a hole. */
-.band--wall { padding-block: var(--s-4) var(--s-8); }
-
-/* Every sticker is on the page at once, packed rather than gridded:
-   centred flex wrap with sizes and tilts that vary from one to the next,
-   so a row never lines up and the block reads like a sheet somebody has
-   been picking from. */
-
-.stickers {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: clamp(14px, 2vw, 30px);
-  max-width: 74rem;
-  margin-inline: auto;
-}
-
-/* Each sticker is a download link. Pointing at one holds it still,
-   straightens it, lifts it and shows the arrow, so what you can do with it
-   is obvious without a caption under every single one. */
-.stk {
-  position: relative;
-  flex: none;
-  display: block;
-  width: var(--size, 120px);
-  transform: rotate(var(--tilt, 0deg));
-  animation: bob var(--bob, 6s) ease-in-out var(--bob-delay, 0s) infinite;
-  transition: transform .28s var(--ease);
-}
-.stk img { width: 100%; height: auto; }
-
-/* The bob rides on the wrapper's own rotation, so a sticker floats without
-   ever losing the angle it was placed at. */
-@keyframes bob {
-  0%, 100% { translate: 0 0; }
-  50%      { translate: 0 -7px; }
-}
-
-.stk:hover,
-.stk:focus-visible {
-  transform: rotate(0deg) scale(1.22);
-  animation-play-state: paused;
-  z-index: 3;
-}
-.stk:focus-visible { outline: 2px solid var(--blue); outline-offset: 6px; border-radius: 8px; }
-
-.stk__get {
-  position: absolute;
-  right: -6px;
-  bottom: -6px;
-  display: grid;
-  place-items: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 999px;
-  background: var(--ink);
-  color: var(--paper);
-  opacity: 0;
-  transform: scale(.6);
-  transition: opacity .2s var(--ease), transform .2s var(--ease);
-  pointer-events: none;
-}
-.stk__get svg {
-  width: 14px;
-  height: 14px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2.1;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.stk:hover .stk__get,
-.stk:focus-visible .stk__get { opacity: 1; transform: scale(1); }
-
-@media (prefers-reduced-motion: reduce) {
-  .stk { animation: none; }
-  .stk, .stk:hover, .stk__get { transition: none; }
-}
-
-/* Nothing in the collection yet. */
-.stickers--empty { grid-template-columns: 1fr; }
-.stickers__soon {
-  max-width: 34rem;
-  padding: var(--s-7) var(--s-5);
-  border: 1px dashed var(--rule);
-  border-radius: var(--r);
-  text-align: center;
-}
-.stickers__soonTitle {
-  font-family: var(--f-display);
-  font-size: var(--t-2);
-  color: var(--brown);
-}
-.stickers__soonBody {
-  margin-top: var(--s-3);
-  font-size: var(--t-0);
-  line-height: 1.6;
-  color: var(--ink-soft);
-}
-
-/* the aside under the lede, in the display face like every other aside */
-.stickers__aside { margin-top: var(--s-4); }
-
-/* take the lot, or take one */
-.stickers__grab {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--s-3) var(--s-4);
-  margin-top: var(--s-5);
-}
-.stickers__grabNote { font-size: var(--t--1); color: var(--ink-faint); }

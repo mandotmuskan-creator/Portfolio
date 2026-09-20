@@ -22,7 +22,6 @@ PAGES = [
     ("home",    "index.html"),
     ("work",    "work.html"),
     ("about",   "about.html"),
-    ("stickers","stickers.html"),
     ("p/tdk-invensense", "project.html?p=tdk-invensense"),
     ("p/disney-store",   "project.html?p=disney-store"),
     ("p/pregnancy-app",  "project.html?p=pregnancy-app"),
@@ -49,9 +48,7 @@ def asset_map():
     for root, _, files in os.walk(os.path.join(ROOT, "assets")):
         for f in files:
             rel = os.path.relpath(os.path.join(root, f), ROOT).replace(os.sep, "/")
-            # stylesheets and scripts are folded in whole further down;
-            # the sticker pack is a download, and inlining 1.7 MB of zip as
-            # base64 would cost the bundle 2.2 MB to no purpose
+            # stylesheets and scripts are folded in whole further down
             if rel.endswith((".css", ".js", ".zip")):
                 continue
             out[rel] = data_uri(rel)
@@ -114,7 +111,7 @@ def render():
 # --------------------------------------------------------------------------
 
 ROUTES = {"index.html": "#/home", "work.html": "#/work",
-          "about.html": "#/about", "stickers.html": "#/stickers"}
+          "about.html": "#/about"}
 
 
 def swap_assets(text, assets):
@@ -148,11 +145,10 @@ ATTR_RE = r'(src|href)="(data:image/[^"]+)"'
 
 
 def dedupe_images(doc):
-    """The same picture appears many times over: photos repeat across the
-    rolls, and every sticker is both an <img> and the <a download> around it,
-    twice per lane. Inlining each copy as its own data URI is what pushed the
-    bundle past 15 MB, so emit each image once into a lookup and let a line of
-    script hand it back out, to src and href alike."""
+    """The same picture can appear many times over. Inlining each copy as its
+    own data URI is what once pushed the bundle past 15 MB, so emit each image
+    once into a lookup and let a line of script hand it back out, to src and
+    href alike."""
     uris = [m[1] for m in re.findall(ATTR_RE, doc)]
     if not uris:
         return doc

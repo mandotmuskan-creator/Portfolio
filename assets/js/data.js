@@ -703,79 +703,6 @@ const PROJECTS = [
 ];
 
 /* =========================================================
-   STICKERS, the collection on /stickers.
-
-   Cut out one by one from the sheets Muskan supplied: each sheet was
-   labelled by connected component on the alpha channel and every piece
-   saved on its own, so the page can shuffle them rather than showing
-   sheets. `alt` is what the sticker says or shows, for anyone who cannot
-   see it.
-   ========================================================= */
-
-const STICKERS = [
-  { src: 'assets/img/stickers/s1_01.webp', alt: "Smiling" },
-  { src: 'assets/img/stickers/s1_02.webp', alt: "Surprised" },
-  { src: 'assets/img/stickers/s1_03.webp', alt: "Laughing" },
-  { src: 'assets/img/stickers/s1_04.webp', alt: "Yawning" },
-  { src: 'assets/img/stickers/s1_05.webp', alt: "Thinking" },
-  { src: 'assets/img/stickers/s1_06.webp', alt: "Content" },
-  { src: 'assets/img/stickers/s1_07.webp', alt: "Annoyed" },
-  { src: 'assets/img/stickers/s1_08.webp', alt: "Blushing" },
-  { src: 'assets/img/stickers/s1_09.webp', alt: "Fed up" },
-  { src: 'assets/img/stickers/s1_11.webp', alt: "Overwhelmed" },
-  { src: 'assets/img/stickers/s1_12.webp', alt: "Star eyes" },
-  { src: 'assets/img/stickers/s2_01.webp', alt: "Sab theek ho jayega" },
-  { src: 'assets/img/stickers/s2_02.webp', alt: "Life is great" },
-  { src: 'assets/img/stickers/s2_03.webp', alt: "Mujhe nahi karna kaam" },
-  { src: 'assets/img/stickers/s2_04.webp', alt: "One step at a time" },
-  { src: 'assets/img/stickers/s2_05.webp', alt: "All good yaar" },
-  { src: 'assets/img/stickers/s2_06.webp', alt: "Thoda sa break?" },
-  { src: 'assets/img/stickers/s2_07.webp', alt: "Soft but strong" },
-  { src: 'assets/img/stickers/s2_08.webp', alt: "Let’s do this" },
-  { src: 'assets/img/stickers/s2_09.webp', alt: "Designing through it" },
-  { src: 'assets/img/stickers/s2_10.webp', alt: "Take it easy" },
-  { src: 'assets/img/stickers/s3_01.webp', alt: "Plant and flower" },
-  { src: 'assets/img/stickers/s3_02.webp', alt: "Smiling daisy" },
-  { src: 'assets/img/stickers/s3_03.webp', alt: "Red heart" },
-  { src: 'assets/img/stickers/s3_04.webp', alt: "Cup of chai" },
-  { src: 'assets/img/stickers/s3_05.webp', alt: "Smiling star" },
-  { src: 'assets/img/stickers/s3_06.webp', alt: "Sparkles" },
-  { src: 'assets/img/stickers/s3_07.webp', alt: "Laptop with a heart" },
-  { src: 'assets/img/stickers/s3_08.webp', alt: "Red marker" },
-  { src: 'assets/img/stickers/s3_09.webp', alt: "Pencil" },
-  { src: 'assets/img/stickers/s3_10.webp', alt: "Sketchbook" },
-  { src: 'assets/img/stickers/s3_11.webp', alt: "Sticky note" },
-  { src: 'assets/img/stickers/s3_12.webp', alt: "Curly arrow" },
-  { src: 'assets/img/stickers/s3_13.webp', alt: "Underline" },
-  { src: 'assets/img/stickers/s4_01.webp', alt: "Mujhe nahi kaam karna" },
-  { src: 'assets/img/stickers/s4_02.webp', alt: "Trust me" },
-  { src: 'assets/img/stickers/s4_04.webp', alt: "Trust the process" },
-  { src: 'assets/img/stickers/s4_06.webp', alt: "Itne mein itna hi hoga" },
-  { src: 'assets/img/stickers/s4_08.webp', alt: "You got this" },
-  { src: 'assets/img/stickers/s5_05.webp', alt: "\u092e\u0941\u091d\u0947 \u0930\u094b\u0928\u093e \u0906 \u0930\u0939\u093e \u0939\u0948" },
-  { src: 'assets/img/stickers/s5_09.webp', alt: "\u092e\u0941\u091d\u0938\u0947 \u0928\u0939\u0940\u0902 \u0939\u094b\u0917\u093e" },
-  { src: 'assets/img/stickers/s6_05.webp', alt: "Life is great (\u0915\u092d\u0940 \u0915\u092d\u0940)" },
-  { src: 'assets/img/stickers/s6_09.webp', alt: "UI Design = Problem Solving" },
-  { src: 'assets/img/stickers/s6_11.webp', alt: "Small Steps Big Progress" },
-  { src: 'assets/img/stickers/s6_14.webp', alt: "Ctrl + Z (my life)" },
-  { src: 'assets/img/stickers/s6_15.webp', alt: "Still working\u2026" },
-  { src: 'assets/img/stickers/s7_03.webp', alt: "Just one more iteration\u2026" },
-  { src: 'assets/img/stickers/s7_04.webp', alt: "Aapka kya lena dena?" },
-  { src: 'assets/img/stickers/s7_06.webp', alt: "Chai > Meetings" },
-  { src: 'assets/img/stickers/s7_07.webp', alt: "Ideas happen everywhere" },
-  { src: 'assets/img/stickers/s7_09.webp', alt: "It’s done bro." },
-  { src: 'assets/img/stickers/s7_10.webp', alt: "Muskaan in her main character era" },
-  { src: 'assets/img/stickers/s7_12.webp', alt: "Design, Prototype, Overthink, Repeat" },
-  { src: 'assets/img/stickers/s7_13.webp', alt: "UI Design kar rahi hu koi mazak thodi hai" },
-  { src: 'assets/img/stickers/s7_14.webp', alt: "Design Systems" },
-  { src: 'assets/img/stickers/s7_15.webp', alt: "Iced coffee for better ideas" },
-  { src: 'assets/img/stickers/s7_16.webp', alt: "Productivity can wait" },
-  { src: 'assets/img/stickers/s7_17.webp', alt: "Same but different" },
-  { src: 'assets/img/stickers/s7_19.webp', alt: "Muskaan is here!" },
-  { src: 'assets/img/stickers/s7_20.webp', alt: "Mujhse nahi hoga" }
-];
-
-/* =========================================================
    CLIENTS, the brands the work was for.
 
    `w` is the one sizing knob: the width the mark is drawn at, in px.
@@ -839,43 +766,70 @@ const TOOLKIT = [
 const TOOLS = ['Figma', 'FigJam', 'Adobe Creative Cloud', 'SAP MDK', 'AI tools'];
 
 /* =========================================================
-   GALLERY, the photographs on the About page.
+   LIFE, the collage under "Life outside work".
 
-   Drop files in assets/img/life/, run scripts/image_sizes.py, and list
-   them here. An empty array simply hides the gallery. The portrait beside
-   the introduction is set directly in about.html.
+   One ordered list holding two kinds of tile, photographs and written
+   notes, alternating. They used to be two separate blocks: every note
+   first as a wall of text, then every photograph below it. Interleaved,
+   the pictures carry the section and the words become captions to them.
+
+   Drop photos in assets/img/life/, run scripts/image_sizes.py, and add a
+   line here in the position you want it to sit.
    ========================================================= */
 
-const GALLERY = [
-  { src: 'assets/img/life/framed-portraits.webp',
+const LIFE = [
+  { photo: 'assets/img/life/framed-portraits.webp',
     caption: 'Line portraits, drawn and framed as gifts.',
     alt: 'Four framed black and white line drawings of couples and families, held in one hand.' },
-  { src: 'assets/img/life/colouring-book.webp',
+
+  { note: 'Making by hand',
+    body: 'I make things for the people I love. Craft projects, small handmade objects, the kind of gift that takes four evenings and is worth every one of them.' },
+
+  { photo: 'assets/img/life/colouring-book.webp',
     caption: 'Still filling in colouring books.',
     alt: 'An open colouring book of small animal characters, coloured in, on a windowsill beside two potted plants.' },
-  { src: 'assets/img/life/digital-illustration.webp',
-    caption: 'Mid character, on the iPad.',
-    alt: 'An iPad showing a half finished illustration of a duck character in a bubble tea cup, with the stylus resting beside it.' },
-  { src: 'assets/img/life/painting-signage.webp',
+
+  { note: 'Packaging and wrapping',
+    body: 'I have strong opinions about packaging. Every gift I give is hand wrapped, and I will happily spend longer on the wrapping than on choosing what goes inside.' },
+
+  { photo: 'assets/img/life/painting-signage.webp',
     caption: 'Hand painting signage for an event.',
     alt: 'Muskan sitting cross legged on a mat, painting a large teal wooden sign reading We Came, We Gathered, We Vibed.' },
-  { src: 'assets/img/life/vacation-sign.webp',
-    caption: 'Vacation calories do not count.',
-    alt: 'A hand painted red tomato shaped board reading Vacation Calories Do Not Count, against a fringed backdrop.' },
-  { src: 'assets/img/life/event-install.webp',
+
+  { note: 'Photography and short films',
+    body: 'I take a lot of pictures and turn them into short films and reels. It has quietly taught me more about framing and pacing than any tutorial.' },
+
+  { photo: 'assets/img/life/digital-illustration.webp',
+    caption: 'Mid character, on the iPad.',
+    alt: 'An iPad showing a half finished illustration of a duck character in a bubble tea cup, with the stylus resting beside it.' },
+
+  { note: 'Badminton',
+    body: 'Competitive enough to be fun, and the fastest way I know to stop thinking about work.' },
+
+  { photo: 'assets/img/life/event-install.webp',
     caption: 'The whole set, installed.',
     alt: 'An event space filled with hand painted signs, doors, dreamcatchers and a large painted game board.' },
-  { src: 'assets/img/life/mountains.webp',
+
+  { note: 'Treks and travel',
+    body: 'Long walks, hills, and any excuse to be somewhere with a view. I come back with sore legs and several hundred photographs.' },
+
+  { photo: 'assets/img/life/mountains.webp',
     caption: 'Somewhere with a view.',
-    alt: 'A wide green valley below forested mountains under a bright sky with scattered cloud.' }
+    alt: 'A wide green valley below forested mountains under a bright sky with scattered cloud.' },
+
+  { note: 'Eating my way through a city',
+    body: 'I am a serious foodie. New places, new cuisines, and the restaurant nobody has heard of yet. I plan trips around meals more than I should admit, and I have never once regretted ordering the thing I could not pronounce.' },
+
+  { photo: 'assets/img/life/vacation-sign.webp',
+    caption: 'Vacation calories do not count.',
+    alt: 'A hand painted red tomato shaped board reading Vacation Calories Do Not Count, against a fringed backdrop.' }
 ];
 
 if (typeof window !== 'undefined') {
   window.PROJECTS = PROJECTS;
   window.CLIENTS = CLIENTS;
-  window.STICKERS = STICKERS;
   window.PROCESS = PROCESS;
   window.TOOLKIT = TOOLKIT;
   window.TOOLS = TOOLS;
-  window.GALLERY = GALLERY;
+  window.LIFE = LIFE;
 }

@@ -47,9 +47,8 @@ function mountChrome() {
         '<span class="sr">, home</span>' +
       '</a>' +
       '<nav class="nav__links" aria-label="Primary">' +
-        link('work.html',     'Work',     'work') +
-        link('about.html',    'About',    'about') +
-        link('stickers.html', 'Stickers', 'stickers') +
+        link('work.html',  'Work',  'work') +
+        link('about.html', 'About', 'about') +
         link('mailto:' + SITE.mail, 'Contact', 'contact') +
       '</nav>';
 
