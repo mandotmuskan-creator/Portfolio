@@ -785,44 +785,94 @@ const LIFE = [
   { note: 'Making by hand',
     body: 'I make things for the people I love. Craft projects, small handmade objects, the kind of gift that takes four evenings and is worth every one of them.' },
 
+  { photo: 'assets/img/life/birthday-card.webp',
+    caption: 'Make a wish. Drawn, cut and stuck down by hand.',
+    alt: 'A hand drawn birthday card held up outdoors, showing a snowman in a party hat holding a cupcake, with candles and a cake drawn below.' },
+
+  { photo: 'assets/img/life/favour-bags.webp',
+    caption: 'A tray of favours, tagged “handmade with loveee”.',
+    alt: 'A gold tray filled with organza bags of sweets, each tied with ribbon, dried flowers and a small printed tag.' },
+
+  { note: 'Packaging and wrapping',
+    body: 'I have strong opinions about packaging. Every gift I give is hand wrapped, and I will happily spend longer on the wrapping than on choosing what goes inside.' },
+
   { photo: 'assets/img/life/colouring-book.webp',
     caption: 'Still filling in colouring books.',
     alt: 'An open colouring book of small animal characters, coloured in, on a windowsill beside two potted plants.' },
 
-  { note: 'Packaging and wrapping',
-    body: 'I have strong opinions about packaging. Every gift I give is hand wrapped, and I will happily spend longer on the wrapping than on choosing what goes inside.' },
+  { photo: 'assets/img/life/wall-decor.webp',
+    caption: 'Painted frames and flowers, up on the wall.',
+    alt: 'A wall hung with carved wooden frames holding painted lotus flowers, beside strings of white flowers and pink pom poms.' },
+
+  { note: 'Photography and short films',
+    body: 'I take a lot of pictures and turn them into short films and reels. It has quietly taught me more about framing and pacing than any tutorial.' },
 
   { photo: 'assets/img/life/painting-signage.webp',
     caption: 'Hand painting signage for an event.',
     alt: 'Muskan sitting cross legged on a mat, painting a large teal wooden sign reading We Came, We Gathered, We Vibed.' },
 
-  { note: 'Photography and short films',
-    body: 'I take a lot of pictures and turn them into short films and reels. It has quietly taught me more about framing and pacing than any tutorial.' },
+  { photo: 'assets/img/life/party-tassels.webp',
+    caption: 'Paper, tassels and fairy lights, all of it made.',
+    alt: 'A party corner with a red and pink tassel garland, paper bunting and a wooden bench dressed with flags.' },
+
+  { note: 'Badminton',
+    body: 'Competitive enough to be fun, and the fastest way I know to stop thinking about work.' },
 
   { photo: 'assets/img/life/digital-illustration.webp',
     caption: 'Mid character, on the iPad.',
     alt: 'An iPad showing a half finished illustration of a duck character in a bubble tea cup, with the stylus resting beside it.' },
 
-  { note: 'Badminton',
-    body: 'Competitive enough to be fun, and the fastest way I know to stop thinking about work.' },
-
-  { photo: 'assets/img/life/event-install.webp',
-    caption: 'The whole set, installed.',
-    alt: 'An event space filled with hand painted signs, doors, dreamcatchers and a large painted game board.' },
+  { photo: 'assets/img/life/festive-hamper.webp',
+    caption: 'Diwali, assembled.',
+    alt: 'A festive tray of laddoos and marigolds beside printed cards and a box of sweets.' },
 
   { note: 'Treks and travel',
     body: 'Long walks, hills, and any excuse to be somewhere with a view. I come back with sore legs and several hundred photographs.' },
 
-  { photo: 'assets/img/life/mountains.webp',
-    caption: 'Somewhere with a view.',
-    alt: 'A wide green valley below forested mountains under a bright sky with scattered cloud.' },
-
-  { note: 'Eating my way through a city',
-    body: 'I am a serious foodie. New places, new cuisines, and the restaurant nobody has heard of yet. I plan trips around meals more than I should admit, and I have never once regretted ordering the thing I could not pronounce.' },
-
   { photo: 'assets/img/life/vacation-sign.webp',
     caption: 'Vacation calories do not count.',
-    alt: 'A hand painted red tomato shaped board reading Vacation Calories Do Not Count, against a fringed backdrop.' }
+    alt: 'A hand painted red tomato shaped board reading Vacation Calories Do Not Count, against a fringed backdrop.' },
+
+  { note: 'Eating my way through a city',
+    body: 'I am a serious foodie. New places, new cuisines, and the restaurant nobody has heard of yet. I plan trips around meals more than I should admit, and I have never once regretted ordering the thing I could not pronounce.' }
+];
+
+/* =========================================================
+   TRUES, the list under "Things that are also true about me",
+   and the photographs pinned beside it.
+
+   Deliberately not the collage treatment: these are snapshots laid on a
+   table, tilted, overlapping a little. The pictures are atmosphere rather
+   than one-to-one illustrations of the lines, because the lines are about
+   temperament and no photograph honestly illustrates "I notice
+   inconsistent spacing".
+   ========================================================= */
+
+const TRUES = [
+  'I talk a lot, and I listen properly.',
+  'I travel whenever there is a reason to, and sometimes without one.',
+  'I notice inconsistent spacing everywhere, including places where it does not matter.',
+  'I like leading. Give me a team, a problem and something to build, and I am in my element.',
+  'Meeting new people is my favourite part of any project.',
+  'I am always the one who makes the plan.'
+];
+
+const TRUE_SNAPS = [
+  { src: 'assets/img/life/mountains.webp',
+    alt: 'A wide green valley below forested mountains under a bright sky.',
+    note: 'worth the legs' },
+  { src: 'assets/img/life/cards-and-prints.webp',
+    alt: 'Handmade cards and envelopes with pressed flowers, laid out with printed photographs of friends.',
+    note: 'everyone gets one' },
+  { src: 'assets/img/life/party-bunting.webp',
+    alt: 'A room decorated with bunting, fairy lights and balloons around a navy covered table.',
+    note: 'I made the plan' },
+  { src: 'assets/img/life/event-install.webp',
+    alt: 'An event space filled with hand painted signs, doors, dreamcatchers and a large painted game board.',
+    note: 'and the whole set' },
+  { src: 'assets/img/life/card-hugs.webp',
+    alt: 'A hand drawn birthday card reading Poornima, Birthday Hugs, with a smiling face and hearts.',
+    note: 'birthday hugs' }
 ];
 
 if (typeof window !== 'undefined') {
@@ -832,4 +882,6 @@ if (typeof window !== 'undefined') {
   window.TOOLKIT = TOOLKIT;
   window.TOOLS = TOOLS;
   window.LIFE = LIFE;
+  window.TRUES = TRUES;
+  window.TRUE_SNAPS = TRUE_SNAPS;
 }

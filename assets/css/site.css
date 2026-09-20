@@ -690,6 +690,58 @@ a.tile:hover .tile__shot { transform: translateY(-4px); box-shadow: 0 16px 40px 
 
 /* --- the small true things --- */
 
+/* Snapshots above the list of true things.
+
+   Deliberately not the collage treatment used for Life outside work:
+   these are photographs laid on a table, square cropped, tilted,
+   overlapping a little, each with a note under it. Pointing at one
+   straightens it and lifts it out of the pile. */
+
+.snaps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp(10px, 1.4vw, 20px) 0;
+  margin-bottom: var(--s-7);
+}
+.snap {
+  flex: none;
+  width: clamp(132px, 15vw, 196px);
+  /* the pile: every photo after the first tucks under the one before it */
+  margin-left: -14px;
+  padding: 10px 10px 12px;
+  background: #FFFFFF;
+  box-shadow: 0 12px 26px -14px rgba(25, 24, 22, .45);
+  transform: rotate(var(--rot, 0deg));
+  transition: transform .28s var(--ease);
+}
+.snap:first-child { margin-left: 0; }
+.snap:hover { transform: rotate(0deg) scale(1.06); z-index: 2; }
+
+.snap img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  background: var(--card);
+}
+.snap figcaption {
+  margin-top: 9px;
+  font-family: var(--f-display);
+  font-size: clamp(.7rem, .66rem + .18vw, .82rem);
+  line-height: 1.2;
+  text-align: center;
+  color: var(--brown);
+}
+
+@media (max-width: 560px) {
+  .snap { margin-left: -8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .snap { transition: none; }
+}
+
 .trues {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
