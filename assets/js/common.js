@@ -28,6 +28,50 @@ function coverMarkup(p, alt, cls) {
 }
 
 /* ---------------------------------------------------------
+   Page titles: line the sentence up with the word.
+
+   The word on the left is display type at whatever size fits its
+   column, and the sentence on the right is body copy. Starting both at
+   the top of their grid row leaves the sentence sitting above the
+   word's capitals, by a different amount on every page, because every
+   page fits its word at a different size. So the ink is measured on
+   both and the sentence is pushed down by the difference.
+   --------------------------------------------------------- */
+
+/* Where the ink of the first line actually starts. A zero-sized inline
+   block sits on the baseline, and the canvas reports how far the tallest
+   letter reaches above it. */
+function inkTop(el, text) {
+  var probe = document.createElement('span');
+  probe.style.cssText = 'display:inline-block;width:0;height:0';
+  el.insertBefore(probe, el.firstChild);
+  var baseline = probe.getBoundingClientRect().top;
+  el.removeChild(probe);
+
+  var cs = getComputedStyle(el);
+  var ctx = inkTop.ctx ||
+    (inkTop.ctx = document.createElement('canvas').getContext('2d'));
+  ctx.font = cs.fontStyle + ' ' + cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily;
+  var m = ctx.measureText(text);
+  var rise = m.actualBoundingBoxAscent;
+  if (!rise) rise = parseFloat(cs.fontSize) * 0.72;   /* a sane cap height */
+  return baseline - rise;
+}
+
+function alignTitle() {
+  var side = document.querySelector('.ptitle__side');
+  var word = document.querySelector('.ptitle__word .ln');
+  var lede = side && side.querySelector('.lede');
+  if (!side || !word || !lede) return;
+
+  side.style.setProperty('--brow', '0px');
+  if (window.innerWidth <= 860) return;              /* stacked: nothing to line up */
+
+  var drop = inkTop(word, word.textContent) - inkTop(lede, lede.textContent.trim());
+  side.style.setProperty('--brow', Math.max(0, Math.round(drop)) + 'px');
+}
+
+/* ---------------------------------------------------------
    nav + closing panel
 
    Every page ends on an invitation, but not the same one. Reading the
@@ -125,6 +169,17 @@ function mountChrome() {
   Crayon.paint();
   Crayon.mountFilter();
   Crayon.fitWords();
+
+  alignTitle();
+  /* the word is fitted from font metrics, so redo it once the face is in */
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(alignTitle);
+  var titleW = window.innerWidth, titleT;
+  window.addEventListener('resize', function () {
+    if (Math.abs(window.innerWidth - titleW) < 24) return;
+    titleW = window.innerWidth;
+    clearTimeout(titleT);
+    titleT = setTimeout(alignTitle, 140);
+  }, { passive: true });
 }
 
 /* ---------------------------------------------------------

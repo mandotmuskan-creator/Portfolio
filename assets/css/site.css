@@ -329,10 +329,18 @@
   display: flex;
   width: max-content;
   animation: marquee 46s linear infinite;
+  /* Held at the start until the wall is actually on screen, so the roster
+     begins at its first name for whoever is reading rather than wherever
+     it happened to have drifted to. */
+  animation-play-state: paused;
 }
+.marquee.is-in .marquee__track { animation-play-state: running; }
 .marquee:hover .marquee__track,
 .marquee:focus-within .marquee__track { animation-play-state: paused; }
 
+.marquee {
+  --lead: clamp(0px, 5.5vw, 80px);
+}
 .marquee__lane {
   display: flex;
   align-items: center;
@@ -342,10 +350,13 @@
 }
 
 /* Two identical lanes, so sliding the track exactly half its width lands
-   the copy where the original started and the loop never shows a seam. */
+   the copy where the original started and the loop never shows a seam.
+   --lead holds the whole track a little to the right at the start, which
+   puts the first mark clear of the edge the mask fades out. The travel
+   is still exactly half, so the seam stays hidden. */
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from { transform: translateX(var(--lead, 0px)); }
+  to   { transform: translateX(calc(var(--lead, 0px) - 50%)); }
 }
 
 .client {
@@ -452,12 +463,18 @@
   padding-block: clamp(26px, 3.4vw, 54px) clamp(34px, 4.6vw, 68px);
   overflow: hidden;
 }
+/* One shape for every page title: the label across the top, the word on
+   the left, the sentence about the page on the right. The sentence and
+   the word start on the same line, whether the word runs to one line or
+   three, so the block reads the same from page to page. */
 .ptitle__stage {
   display: grid;
   grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
-  gap: clamp(16px, 3vw, 48px);
-  align-items: center;
+  column-gap: clamp(16px, 3vw, 48px);
+  row-gap: 0;
+  align-items: start;
 }
+.ptitle__brow { grid-column: 1 / -1; }
 
 /* the word is fitted to the left column, not to the page */
 .ptitle__lead { min-width: 0; }
@@ -470,17 +487,18 @@
   margin-top: .16em;
 }
 
-.ptitle__side { position: relative; min-width: 0; }
+/* --brow is the height of the label plus the word's own top margin, set
+   in JS from the real measurements: the sentence clears the same
+   distance so its first line lands level with the top of the word. */
+.ptitle__side { min-width: 0; padding-top: var(--brow, 0px); }
 .ptitle__side .lede {
   font-size: var(--t-0);
   max-width: 40ch;
 }
 
-/* A title with nothing beside it takes the whole measure. */
-.ptitle__stage--solo { grid-template-columns: minmax(0, 1fr); }
-
 @media (max-width: 860px) {
-  .ptitle__stage { grid-template-columns: 1fr; gap: var(--s-4); }
+  .ptitle__stage { grid-template-columns: 1fr; row-gap: var(--s-4); }
+  .ptitle__side { padding-top: 0; }
 }
 
 .filters {

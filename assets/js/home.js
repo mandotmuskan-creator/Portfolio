@@ -98,6 +98,13 @@
           }).join('') + '</ul>';
       };
       clients.innerHTML = '<div class="marquee__track">' + lane(false) + lane(true) + '</div>';
+
+      /* The roll starts on .is-in, which the shared reveal observer adds
+         when the wall comes into view, so the roster begins at its first
+         name for whoever is reading rather than wherever it had drifted
+         to while the page sat above the fold. Without .reveal there is
+         no observer watching, so start it straight away. */
+      if (!clients.classList.contains('reveal')) clients.classList.add('is-in');
     }
 
     var steps = document.getElementById('steps');
